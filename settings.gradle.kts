@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "inventory"
 include(":app")
- 
+include(":core")
+include(":core:ui")
