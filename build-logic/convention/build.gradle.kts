@@ -17,8 +17,8 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplicationCompose") {
-            id = "io.siffert.mobile.app.inventory.convention.application.compose"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
+            id = "io.siffert.mobile.app.inventory.convention.androidDefaultConfiguration"
+            implementationClass = "plugin.AndroidDefaultConfiguration"
         }
     }
 }
