@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
     id("io.siffert.mobile.app.inventory.convention.androidDefaultConfiguration")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -46,4 +47,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(project(":core:designsystem"))
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }
