@@ -1,4 +1,4 @@
-package io.siffert.mobile.app.inventory.ui.theme
+package theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

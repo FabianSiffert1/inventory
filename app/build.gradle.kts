@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.android.application)
     id("io.siffert.mobile.app.inventory.convention.androidDefaultConfiguration")
 }
 
@@ -43,4 +44,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(project(":core:designsystem"))
 }
