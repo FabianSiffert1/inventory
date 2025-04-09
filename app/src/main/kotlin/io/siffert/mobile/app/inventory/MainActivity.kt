@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,6 +19,7 @@ import androidx.navigation.toRoute
 import io.siffert.mobile.app.inventory.ui.AppLayout
 import io.siffert.mobile.app.inventory.ui.ScreenB
 import theme.InventoryTheme
+import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,20 @@ class MainActivity : ComponentActivity() {
                   }) { Text("Go to screen B") }
                 }
           }
+            composable<DogListRoute> {
+                DogListScreen(onDogClick = {
+                    dog, breedSize ->
+                    navController.navigate(DogDetailRoute(dog = dog, breedSize = breedSize))
+                })
+            }
+            composable<DogDetailRoute>(typeMap = mapOf(
+                typeOf<Dog>() to CustomNavType.DogType,
+                typeOf<BreedSize>() to NavType.EnumType(BreedSize::class.java)
+            ))
+            {
+                val args = it.toRoute<DogDetailRoute>()
+                DogDetailScreen(dog = args.dog, breedSize = args.breedSize)
+            }
             composable<ScreenB> {
                 val args = it.toRoute<ScreenB>()
                 Column(
@@ -47,6 +63,9 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("${args.name}, ${args.age} years old")
+                    Button(onClick = {
+                        navController.navigate(DogListRoute)
+                    }) { Text("Go to screen Dog") }
                 }
             }
         }
