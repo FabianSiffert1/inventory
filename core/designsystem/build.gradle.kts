@@ -22,6 +22,7 @@ dependencies {
   implementation(libs.material)
   implementation(libs.androidx.foundation.android)
   implementation(libs.androidx.material3.android)
+  implementation(libs.androidx.material3.adaptive.navigation.suite.android)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)

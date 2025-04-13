@@ -17,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import io.siffert.mobile.app.inventory.ui.AppLayout
 import io.siffert.mobile.app.inventory.ui.ScreenB
-import theme.InventoryTheme
+import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {

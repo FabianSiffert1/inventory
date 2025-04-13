@@ -1,14 +1,27 @@
 package io.siffert.mobile.app.inventory.ui
 
 import androidx.compose.runtime.Composable
+import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryNavigationSuiteScaffold
 import kotlinx.serialization.Serializable
-import theme.InventoryTheme
 
 @Serializable
-object AppLayout
+object InventoryApp
+
 
 @Composable
-fun AppLayout() =   {}
+fun InventoryApp(){
+    AppLayout()
+}
+
+
+
+@Composable
+internal fun AppLayout()   {
+    InventoryNavigationSuiteScaffold(
+        navigationSuiteItems = { -> },
+        content = { -> },
+    )
+}
 
 @Serializable
 data class ScreenB(

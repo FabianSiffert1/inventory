@@ -1,4 +1,4 @@
-package theme
+package io.siffert.mobile.app.inventory.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
