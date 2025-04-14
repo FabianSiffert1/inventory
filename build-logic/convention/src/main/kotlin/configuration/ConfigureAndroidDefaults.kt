@@ -9,14 +9,18 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
+const val TARGET_SDK = 35
+const val MIN_SDK  = 28
+val JAVA_VERSION = JavaVersion.VERSION_17
+
 internal fun Project.configureAndroidAndCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
     commonExtension.apply {
-        compileSdk = 35
+        compileSdk = TARGET_SDK
 
         defaultConfig {
-            minSdk = 28
+            minSdk = MIN_SDK
         }
 
         when (defaultConfig) {
@@ -29,8 +33,8 @@ internal fun Project.configureAndroidAndCompose(commonExtension: CommonExtension
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JAVA_VERSION
+            targetCompatibility = JAVA_VERSION
         }
 
         buildFeatures {
@@ -54,7 +58,7 @@ internal fun Project.configureAndroidAndCompose(commonExtension: CommonExtension
 }
 
 private fun ApplicationDefaultConfig.configureApplication() {
-    targetSdk = 35
+    targetSdk = TARGET_SDK
 }
 
 private fun LibraryDefaultConfig.configureLibrary() {
