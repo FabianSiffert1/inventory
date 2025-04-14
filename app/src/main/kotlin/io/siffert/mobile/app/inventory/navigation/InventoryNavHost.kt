@@ -1,0 +1,15 @@
+package io.siffert.mobile.app.inventory.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import io.siffert.mobile.app.inventory.ui.InventoryAppState
+
+@Composable
+fun InventoryNavHost(
+    appState: InventoryAppState,
+    modifier: Modifier,
+) {
+    val navController = appState.navController
+    NavHost(navController = navController, startDestination = "home", modifier = modifier) { }
+}

@@ -18,9 +18,9 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun InventoryNavigationSuiteScaffold(
     navigationSuiteItems: InventoryNavigationSuiteScope.() -> Unit,
-    content: @Composable () -> Unit,
     modifier :Modifier= Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
+    content: @Composable () -> Unit,
 ){
     val layoutType = NavigationSuiteScaffoldDefaults
         .calculateFromAdaptiveInfo(windowAdaptiveInfo)
