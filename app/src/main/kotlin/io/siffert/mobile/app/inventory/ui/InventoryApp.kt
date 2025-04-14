@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.inventory.ui
 
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryNavigationSuiteScaffold
 import kotlinx.serialization.Serializable
@@ -20,11 +21,6 @@ internal fun AppLayout()   {
     InventoryNavigationSuiteScaffold(
         navigationSuiteItems = { -> },
         content = { -> },
+        windowAdaptiveInfo = currentWindowAdaptiveInfo(),
     )
 }
-
-@Serializable
-data class ScreenB(
-    val name: String?,
-    val age: Int
-)
