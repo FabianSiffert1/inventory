@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.inventory.feature.balance.navigation
 
+import BalanceScreen
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -21,7 +22,7 @@ fun NavGraphBuilder.balanceSection(
 ){
     navigation<BalanceBaseRoute>(startDestination = BalanceRoute){
         composable<BalanceRoute>() {
-
+            BalanceScreen()
         }
     }
 }
