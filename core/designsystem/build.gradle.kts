@@ -2,7 +2,7 @@ plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.kotlin.compose)
-  id("io.siffert.mobile.app.inventory.convention.androidDefaultConfiguration")
+  id("io.siffert.mobile.app.inventory.convention.androidDefaultConventionPlugin")
 }
 
 android {
