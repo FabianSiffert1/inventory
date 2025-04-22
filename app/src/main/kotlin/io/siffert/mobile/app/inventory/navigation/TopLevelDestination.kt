@@ -21,7 +21,7 @@ enum class TopLevelDestination(
     BALANCE(
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
-        iconTextId = 123,
+        iconTextId = balanceResource.string.feature_balance_title,
         titleTextId = balanceResource.string.feature_balance_title,
         route = BalanceRoute::class,
         baseRoute = BalanceBaseRoute::class,
