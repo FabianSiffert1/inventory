@@ -1,6 +1,7 @@
 package plugin
 
 import com.android.build.gradle.LibraryExtension
+import configuration.configureAndroidAndCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -11,30 +12,16 @@ import io.siffert.mobile.app.inventory.libs
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            apply(plugin = "libs.plugins.android.library")
-            //apply(plugin = "nowinandroid.hilt")
+            apply(plugin = "com.android.library")
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
             extensions.configure<LibraryExtension> {
+                configureAndroidAndCompose(this)
                 testOptions.animationsDisabled = true
             }
 
             dependencies {
-               // "implementation"(project(":core:ui"))
-                "implementation"(project(":core:designsystem"))
-
-
-                //"implementation"(libs.findLibrary("androidx.hilt.navigation.compose").get())
-                "implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-                "implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-                "implementation"(libs.findLibrary("androidx.navigation.compose").get())
-                "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
-                "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
-
-                "testImplementation"(libs.findLibrary("androidx.navigation.testing").get())
-                "androidTestImplementation"(
-                    libs.findLibrary("androidx.lifecycle.runtimeTesting").get(),
-                )
+                "implementation"(libs.findLibrary("navigation.compose").get())
             }
         }
     }

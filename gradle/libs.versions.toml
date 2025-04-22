@@ -46,7 +46,7 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 
 #navigation
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 androidx-material3-adaptive-navigation-suite-android = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite-android", version.ref = "material3AdaptiveNavigationSuiteAndroid" }
 androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
 
@@ -60,4 +60,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 # Plugins defined by this project
 inventory-android-defaultConventionPlugin = { id = "inventory.android.defaultConventionPlugin" }
+inventory-android-feature = { id = "inventory.android.feature" }
 
