@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "io.siffert.mobile.app.inventory.convention" // Package name for the our plugins
+group = "io.siffert.mobile.app.inventory.buildlogic" // Package name for the our plugins
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
@@ -12,7 +12,7 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplicationCompose") {
-            id = "io.siffert.mobile.app.inventory.convention.androidDefaultConventionPlugin"
+            id = libs.plugins.inventory.android.defaultConventionPlugin.get().pluginId
             implementationClass = "plugin.AndroidDefaultConventionPlugin"
         }
     }
