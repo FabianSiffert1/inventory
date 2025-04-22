@@ -25,6 +25,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             dependencies {
                 "implementation"(libs.findLibrary("navigation.compose").get())
+                "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
             }
             pluginManager.apply(ConfigureKotlinDefaults::class.java)
         }
