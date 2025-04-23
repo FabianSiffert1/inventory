@@ -1,5 +1,4 @@
-package io.siffert.mobile.app.inventory
-
+package io.siffert.mobile.app.feature.assets
 
 import org.junit.Test
 
@@ -16,4 +15,3 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 }
-

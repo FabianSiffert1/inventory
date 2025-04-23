@@ -2,10 +2,15 @@ package io.siffert.mobile.app.inventory.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
+import io.siffert.mobile.app.feature.assets.navigation.AssetsBaseRoute
+import io.siffert.mobile.app.feature.assets.navigation.AssetsRoute
 import io.siffert.mobile.app.feature.balance.R as balanceResource
+import io.siffert.mobile.app.feature.assets.R as assetsResource
 import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceBaseRoute
 import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceRoute
 import kotlin.reflect.KClass
@@ -25,6 +30,14 @@ enum class TopLevelDestination(
         titleTextId = balanceResource.string.feature_balance_title,
         route = BalanceRoute::class,
         baseRoute = BalanceBaseRoute::class,
+    ),
+    ASSETS(
+        selectedIcon = Icons.Filled.Add,
+        unselectedIcon = Icons.Outlined.Add,
+        iconTextId = assetsResource.string.feature_assets_title,
+        titleTextId = assetsResource.string.feature_assets_title,
+        route = AssetsRoute::class,
+        baseRoute = AssetsBaseRoute::class,
     )
 
 }

@@ -24,3 +24,4 @@ rootProject.name = "inventory"
 include(":app")
 include(":core:designsystem")
 include(":feature:balance")
+include(":feature:assets")

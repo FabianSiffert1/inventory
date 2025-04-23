@@ -13,6 +13,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import io.siffert.mobile.app.feature.assets.navigation.navigateToAssets
 import io.siffert.mobile.app.inventory.feature.balance.navigation.navigateToBalance
 import io.siffert.mobile.app.inventory.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
@@ -66,13 +67,8 @@ class InventoryAppState(val navController: NavHostController, val coroutineScope
 
 
             when (topLevelDestination) {
-                /*
-                FOR_YOU -> navController.navigateToForYou(topLevelNavOptions)
-                BOOKMARKS -> navController.navigateToBookmarks(topLevelNavOptions)
-                INTERESTS -> navController.navigateToInterests(null, topLevelNavOptions)
-
-                 */
                 TopLevelDestination.BALANCE -> navController.navigateToBalance(topLevelNavOptions)
+                TopLevelDestination.ASSETS -> navController.navigateToAssets(topLevelNavOptions)
             }
 
 

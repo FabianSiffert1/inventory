@@ -1,6 +1,6 @@
 package io.siffert.mobile.app.inventory.feature.balance.navigation
 
-import BalanceScreen
+import io.siffert.mobile.app.inventory.feature.balance.BalanceScreen
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
