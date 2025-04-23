@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -22,7 +23,18 @@ fun NavController.navigateToAssets(navOptions: NavOptions) = navigate(route = As
 fun NavGraphBuilder.assetsSection(
 ){
     navigation<AssetsBaseRoute>(startDestination = AssetsRoute){
-        composable<AssetsRoute>() {
+        composable<AssetsRoute>(
+            enterTransition = {
+                return@composable slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                )
+            },
+            exitTransition = {
+                return@composable slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                )
+            }
+        ) {
             AssetsScreen()
         }
     }
