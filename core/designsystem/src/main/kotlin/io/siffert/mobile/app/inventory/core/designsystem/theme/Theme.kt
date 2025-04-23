@@ -1,6 +1,8 @@
 package io.siffert.mobile.app.inventory.core.designsystem.theme
 
+import android.graphics.Color.*
 import android.os.Build
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -15,13 +17,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+@VisibleForTesting
+val LightDefaultColorScheme = lightColorScheme(
+    primary = Purple40,
+    secondary = PurpleGrey40,
+    tertiary = Pink40
 )
 
-private val LightColorScheme = lightColorScheme(
+@VisibleForTesting
+val DarkDefaultColorScheme = darkColorScheme(
+    primary = Purple40,
+    secondary = PurpleGrey40,
+    tertiary = Pink40
+)
+
+
+@VisibleForTesting
+val LightAndroidColorScheme = lightColorScheme(
+    primary = Purple40,
+    secondary = PurpleGrey40,
+    tertiary = Pink40
+)
+
+@VisibleForTesting
+val DarkAndroidColorScheme = darkColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40
@@ -29,25 +48,21 @@ private val LightColorScheme = lightColorScheme(
 
 
 val LightAndroidGradientColors = GradientColors(container = DarkGreenGray95)
-
-
 val DarkAndroidGradientColors = GradientColors(container = Color.Black)
+
+val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
+val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
 
 @Composable
 fun InventoryTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     androidTheme: Boolean = false,
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+        androidTheme -> if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
     }
 
     // Gradient colors
@@ -62,7 +77,19 @@ fun InventoryTheme(
         androidTheme -> if (darkTheme) DarkAndroidGradientColors else LightAndroidGradientColors
         else -> defaultGradientColors
     }
-    CompositionLocalProvider(LocalGradientColors provides gradientColors) {
+
+    val defaultBackgroundTheme = BackgroundTheme(
+        color = colorScheme.surface,
+        tonalElevation = 2.dp,
+    )
+    val backgroundTheme = when {
+        androidTheme -> if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
+        else -> defaultBackgroundTheme
+    }
+
+    CompositionLocalProvider(
+        LocalBackgroundTheme provides backgroundTheme,
+        LocalGradientColors provides gradientColors) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
@@ -75,6 +102,6 @@ data class ThemeSettings(
     val darkTheme: Boolean,
 )
 
-val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
+val lightScrim = argb(0xe6, 0xFF, 0xFF, 0xFF)
 
-val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
+val darkScrim = argb(0x80, 0x1b, 0x1b, 0x1b)

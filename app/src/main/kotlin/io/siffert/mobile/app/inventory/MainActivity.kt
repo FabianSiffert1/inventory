@@ -1,6 +1,6 @@
 package io.siffert.mobile.app.inventory
 
-import android.graphics.Color.*
+import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -17,7 +17,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.inventory.core.designsystem.theme.ThemeSettings
 import io.siffert.mobile.app.inventory.core.designsystem.theme.lightScrim
 import io.siffert.mobile.app.inventory.core.designsystem.theme.darkScrim
-import io.siffert.mobile.app.inventory.ui.InventoryAppView
+import io.siffert.mobile.app.inventory.ui.InventoryApp
 import io.siffert.mobile.app.inventory.ui.rememberInventoryAppState
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -60,10 +60,9 @@ class MainActivity : ComponentActivity() {
             InventoryTheme(
                 darkTheme = themeSettings.darkTheme,
             ) {
-                        InventoryAppView(appState = appState)
+                        InventoryApp(appState = appState)
                     }
-                }
-
+        }
     }
 }
 
