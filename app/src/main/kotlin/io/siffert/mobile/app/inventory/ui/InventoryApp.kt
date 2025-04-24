@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -121,7 +122,7 @@ internal fun InventoryApp(
                         navigationIcon = Icons.Filled.Search,
                         navigationIconContentDescription =
                             stringResource(id = assetsResource.string.feature_assets_top_app_bar_search),
-                        actionIcon = Icons.Filled.Settings,
+                        actionIcon = Icons.Filled.Add,
                         actionIconContentDescription =
                             stringResource(id = assetsResource.string.feature_assets_top_app_bar_add_asset),
                         colors = TopAppBarDefaults.topAppBarColors(

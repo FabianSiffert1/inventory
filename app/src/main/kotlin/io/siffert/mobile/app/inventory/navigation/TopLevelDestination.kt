@@ -9,6 +9,9 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 import io.siffert.mobile.app.feature.assets.navigation.AssetsBaseRoute
 import io.siffert.mobile.app.feature.assets.navigation.AssetsRoute
+import io.siffert.mobile.app.inventory.core.designsystem.icons.Chart
+import io.siffert.mobile.app.inventory.core.designsystem.icons.PiggyBank
+import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.feature.balance.R as balanceResource
 import io.siffert.mobile.app.feature.assets.R as assetsResource
 import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceBaseRoute
@@ -25,16 +28,16 @@ enum class TopLevelDestination(
     val showTopAppBar: Boolean = false,
 ) {
     BALANCE(
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
+        selectedIcon = Cozy.icon.Chart,
+        unselectedIcon = Cozy.icon.Chart,
         iconTextId = balanceResource.string.feature_balance_title,
         titleTextId = balanceResource.string.feature_balance_title,
         route = BalanceRoute::class,
         baseRoute = BalanceBaseRoute::class,
     ),
     ASSETS(
-        selectedIcon = Icons.Filled.Add,
-        unselectedIcon = Icons.Outlined.Add,
+        selectedIcon = Cozy.icon.PiggyBank,
+        unselectedIcon = Cozy.icon.PiggyBank,
         iconTextId = assetsResource.string.feature_assets_title,
         titleTextId = assetsResource.string.feature_assets_title,
         route = AssetsRoute::class,

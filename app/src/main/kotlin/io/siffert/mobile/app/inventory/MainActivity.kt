@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.util.trace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +18,6 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.lightScrim
 import io.siffert.mobile.app.inventory.core.designsystem.theme.darkScrim
 import io.siffert.mobile.app.inventory.ui.InventoryApp
 import io.siffert.mobile.app.inventory.ui.rememberInventoryAppState
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import io.siffert.mobile.app.inventory.util.isSystemInDarkTheme
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -60,8 +58,8 @@ class MainActivity : ComponentActivity() {
             InventoryTheme(
                 darkTheme = themeSettings.darkTheme,
             ) {
-                        InventoryApp(appState = appState)
-                    }
+                InventoryApp(appState = appState)
+            }
         }
     }
 }
