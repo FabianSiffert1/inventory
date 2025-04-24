@@ -3,6 +3,7 @@ package io.siffert.mobile.app.inventory.core.designsystem.component
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.NavigationRailItemColors
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -18,10 +19,10 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun InventoryNavigationSuiteScaffold(
     navigationSuiteItems: InventoryNavigationSuiteScope.() -> Unit,
-    modifier :Modifier= Modifier,
+    modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
     content: @Composable () -> Unit,
-){
+) {
     val layoutType = NavigationSuiteScaffoldDefaults
         .calculateFromAdaptiveInfo(windowAdaptiveInfo)
     val navigationSuiteItemColors = NavigationSuiteItemColors(
@@ -46,6 +47,7 @@ fun InventoryNavigationSuiteScaffold(
             unselectedTextColor = InventoryNavigationColorDefaults.navigationContentColor(),
         ),
     )
+
     NavigationSuiteScaffold(
         navigationSuiteItems = {
             InventoryNavigationSuiteScope(
@@ -56,6 +58,8 @@ fun InventoryNavigationSuiteScaffold(
         layoutType = layoutType,
         containerColor = Color.Transparent,
         navigationSuiteColors = NavigationSuiteDefaults.colors(
+            // Navigation bar color
+            navigationBarContainerColor = Color.Transparent,
             navigationBarContentColor = InventoryNavigationColorDefaults.navigationContentColor(),
             navigationRailContainerColor = Color.Transparent,
         ),
@@ -96,7 +100,7 @@ class InventoryNavigationSuiteScope internal constructor(
 }
 
 /**
- * Inventory navigation default values.
+ * Inventory navigation default color values.
  */
 object InventoryNavigationColorDefaults {
     @Composable
