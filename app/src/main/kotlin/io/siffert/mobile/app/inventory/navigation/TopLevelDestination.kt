@@ -21,7 +21,8 @@ enum class TopLevelDestination(
     @StringRes val iconTextId: Int,
     @StringRes val titleTextId: Int,
     val route: KClass<*>,
-    val baseRoute: KClass<*> = route
+    val baseRoute: KClass<*> = route,
+    val showTopAppBar: Boolean = false,
 ) {
     BALANCE(
         selectedIcon = Icons.Filled.Home,
@@ -38,6 +39,6 @@ enum class TopLevelDestination(
         titleTextId = assetsResource.string.feature_assets_title,
         route = AssetsRoute::class,
         baseRoute = AssetsBaseRoute::class,
+        showTopAppBar = true,
     )
-
 }

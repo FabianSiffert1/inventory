@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feature_assets_title">Assets</string>
+    <string name="feature_assets_top_app_bar_search">Search</string>
+    <string name="feature_assets_top_app_bar_add_asset">Add Asset</string>
 </resources>

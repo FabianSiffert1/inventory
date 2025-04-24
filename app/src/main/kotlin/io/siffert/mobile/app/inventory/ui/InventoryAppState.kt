@@ -31,11 +31,11 @@ fun rememberInventoryAppState(
 
 @Stable
 class InventoryAppState(val navController: NavHostController, val coroutineScope: CoroutineScope) {
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
     private val previousDestination = mutableStateOf<NavDestination?>(null)
 
     val currentDestination: NavDestination?
         @Composable get() {
-            // Collect the currentBackStackEntryFlow as a state
             val currentEntry = navController.currentBackStackEntryFlow
                 .collectAsState(initial = null)
 
@@ -46,15 +46,10 @@ class InventoryAppState(val navController: NavHostController, val coroutineScope
             } ?: previousDestination.value
         }
 
-    private val currentTopLevelDestination: TopLevelDestination?
+    val currentTopLevelDestination: TopLevelDestination?
         get() = TopLevelDestination.entries.firstOrNull { topLevelDestination ->
             navController.currentDestination?.hasRoute(topLevelDestination.route) == true
         }
-
-
-
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
-
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         if (topLevelDestination.route == currentTopLevelDestination?.route) {
@@ -78,5 +73,10 @@ class InventoryAppState(val navController: NavHostController, val coroutineScope
 
 
         }
+    }
+
+    // fun navigateToSearch() = navController.navigateToSearch()
+    fun navigateToSearch() {
+        println("todo: implement")
     }
 }
