@@ -1,6 +1,14 @@
 package io.siffert.mobile.app.inventory.core.designsystem.theme
 
+import android.graphics.Color.argb
+import androidx.annotation.VisibleForTesting
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
+
+
+val lightScrim = argb(0xe6, 0xFF, 0xFF, 0xFF)
+val darkScrim = argb(0x80, 0x1b, 0x1b, 0x1b)
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

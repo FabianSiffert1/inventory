@@ -109,27 +109,6 @@ fun InventoryGradientBackground(
     }
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme")
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
-annotation class ThemePreviews
-
-
-@ThemePreviews
-@Composable
-fun BackgroundAndroid() {
-    InventoryTheme(androidTheme = true) {
-        InventoryBackground(Modifier.size(100.dp), content = {})
-    }
-}
-
-@ThemePreviews
-@Composable
-fun GradientBackgroundAndroid() {
-    InventoryTheme(androidTheme = true) {
-        InventoryGradientBackground(Modifier.size(100.dp), content = {})
-    }
-}
-
 @Composable
 fun PreviewGradientBackgroundWrapper(content: @Composable () -> Unit) = InventoryTheme {
     InventoryGradientBackground() {
@@ -137,3 +116,22 @@ fun PreviewGradientBackgroundWrapper(content: @Composable () -> Unit) = Inventor
     }
 }
 
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Light theme")
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark theme")
+annotation class ThemePreviews
+
+@ThemePreviews
+@Composable
+fun BackgroundAndroidPreview() {
+    InventoryTheme() {
+        InventoryBackground(Modifier.size(100.dp), content = {})
+    }
+}
+
+@ThemePreviews
+@Composable
+fun GradientBackgroundAndroidPreview() {
+    InventoryTheme() {
+        InventoryGradientBackground(Modifier.size(100.dp), content = {})
+    }
+}
