@@ -28,7 +28,19 @@ fun AssetList(modifier: Modifier = Modifier) {
             state = scrollableState,
         ) {
             item {
-                Asset()
+                Asset(
+                    assetName = "asset1", assetInfo = "total pnl, assetGroup, age",
+                )
+            }
+            item {
+                Asset(
+                    assetName = "asset2", assetInfo = "total pnl, assetGroup, age",
+                )
+            }
+            item {
+                Asset(
+                    assetName = "asset3", assetInfo = "total pnl, assetGroup, age",
+                )
             }
         }
     }

@@ -55,7 +55,7 @@ fun InventoryTopAppBar(
             }
         },
         colors = colors,
-        modifier = modifier.testTag("niaTopAppBar"),
+        modifier = modifier.testTag("inventoryTopAppBar"),
     )
 }
 
