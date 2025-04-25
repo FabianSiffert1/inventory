@@ -19,8 +19,7 @@ fun Asset(modifier: Modifier = Modifier) {
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = Color.Black),
+            .clip(shape = RoundedCornerShape(8.dp)),
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent,
         ),

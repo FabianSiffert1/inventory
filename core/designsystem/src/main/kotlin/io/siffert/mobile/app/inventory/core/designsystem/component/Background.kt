@@ -130,3 +130,10 @@ fun GradientBackgroundAndroid() {
     }
 }
 
+@Composable
+fun PreviewGradientBackgroundWrapper(content: @Composable () -> Unit) = InventoryTheme {
+    InventoryGradientBackground() {
+        content()
+    }
+}
+

@@ -10,12 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
+import io.siffert.mobile.app.inventory.core.designsystem.component.PreviewGradientBackgroundWrapper
 import io.siffert.mobile.app.inventory.core.designsystem.component.ThemePreviews
-import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @Composable
-fun AssetsList(modifier: Modifier = Modifier) {
+fun AssetList(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth(),
@@ -24,7 +23,7 @@ fun AssetsList(modifier: Modifier = Modifier) {
         LazyColumn(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
-                .testTag("assets:itemlist"),
+                .testTag("assets:assetlist"),
             contentPadding = PaddingValues(vertical = 16.dp),
             state = scrollableState,
         ) {
@@ -38,9 +37,6 @@ fun AssetsList(modifier: Modifier = Modifier) {
 
 @ThemePreviews
 @Composable
-fun AssetsListPreview() =
-    InventoryTheme  {
-        InventoryGradientBackground {
-        AssetsList()
-        }
-    }
+fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
+    AssetList()
+}

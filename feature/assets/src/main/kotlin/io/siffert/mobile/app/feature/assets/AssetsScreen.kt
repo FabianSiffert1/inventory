@@ -4,9 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
+import io.siffert.mobile.app.inventory.core.designsystem.component.PreviewGradientBackgroundWrapper
 import io.siffert.mobile.app.inventory.core.designsystem.component.ThemePreviews
-import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @Composable
 internal fun AssetsScreen(modifier: Modifier = Modifier) {
@@ -19,14 +18,11 @@ internal fun Assets(modifier: Modifier = Modifier) =
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        AssetsList()
+        AssetList()
     }
 
 
 @ThemePreviews
 @Composable
 fun AssetsScreenPreview() =
-    InventoryTheme {
-        InventoryGradientBackground { AssetsList() }
-    }
-
+    PreviewGradientBackgroundWrapper { AssetList() }
