@@ -1,0 +1,37 @@
+package io.siffert.mobile.app.feature.assets
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+
+
+@Composable
+fun Asset(modifier: Modifier = Modifier) {
+    ListItem(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(8.dp))
+            .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = Color.Black),
+        colors = ListItemDefaults.colors(
+            containerColor = Color.Transparent,
+        ),
+        headlineContent = { Text("Asset") }
+    )
+}
+
+
+@Composable
+@Preview
+fun AssetPreview() {
+    Asset()
+}
+
