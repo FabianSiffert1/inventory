@@ -29,17 +29,17 @@ fun AssetList(modifier: Modifier = Modifier) {
         ) {
             item {
                 Asset(
-                    assetName = "asset1", assetInfo = "total pnl, assetGroup, age",
+                    assetName = "asset1", assetInfo = "total pnl, assetGroup, age", trend = Trend.UP
                 )
             }
             item {
                 Asset(
-                    assetName = "asset2", assetInfo = "total pnl, assetGroup, age",
+                    assetName = "asset2", assetInfo = "total pnl, assetGroup, age", trend = Trend.FLAT
                 )
             }
             item {
                 Asset(
-                    assetName = "asset3", assetInfo = "total pnl, assetGroup, age",
+                    assetName = "asset3", assetInfo = "total pnl, assetGroup, age", trend = Trend.DOWN
                 )
             }
         }
