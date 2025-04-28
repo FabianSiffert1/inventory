@@ -59,8 +59,9 @@ private fun AssetIcon(modifier: Modifier = Modifier){
 @Composable
 private fun TrendIcon(
     trend : Trend,
+    modifier: Modifier = Modifier,
     showTrendColors : Boolean = false,
-    modifier: Modifier = Modifier){
+) {
     Icon(
         modifier = modifier
             .padding(4.dp),
