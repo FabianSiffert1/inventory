@@ -52,7 +52,7 @@ private fun AssetIcon(modifier: Modifier = Modifier){
         modifier = modifier
             .padding(4.dp),
         imageVector = Cozy.icon.ShowChart,
-        contentDescription = "placeholderContentDescription",
+        contentDescription = "assetIcon",
     )
 }
 
@@ -69,7 +69,7 @@ private fun TrendIcon(
             Trend.DOWN -> Cozy.icon.TrendingDown
             Trend.FLAT -> Cozy.icon.TrendingFlat
         },
-        contentDescription = "placeholderContentDescription",
+        contentDescription = "trendIcon",
         tint = when (trend ) {
             Trend.UP -> if(showTrendColors){Color.Green} else {MaterialTheme.colorScheme.onSurface}
             Trend.DOWN -> if(showTrendColors){Color.Red } else MaterialTheme.colorScheme.onSurface
