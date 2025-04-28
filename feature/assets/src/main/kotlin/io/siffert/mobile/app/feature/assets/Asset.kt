@@ -58,7 +58,8 @@ private fun AssetIcon(modifier: Modifier = Modifier){
 
 @Composable
 private fun TrendIcon(
-    trend :Trend,
+    trend : Trend,
+    showTrendColors : Boolean = false,
     modifier: Modifier = Modifier){
     Icon(
         modifier = modifier
@@ -69,9 +70,9 @@ private fun TrendIcon(
             Trend.FLAT -> Cozy.icon.TrendingFlat
         },
         contentDescription = "placeholderContentDescription",
-        tint = when (trend) {
-            Trend.UP -> Color.Green
-            Trend.DOWN -> Color.Red
+        tint = when (trend ) {
+            Trend.UP -> if(showTrendColors){Color.Green} else {MaterialTheme.colorScheme.onSurface}
+            Trend.DOWN -> if(showTrendColors){Color.Red } else MaterialTheme.colorScheme.onSurface
             Trend.FLAT -> MaterialTheme.colorScheme.onSurface
         }
     )

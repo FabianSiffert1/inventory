@@ -20,6 +20,7 @@ fun AssetList(modifier: Modifier = Modifier) {
             .fillMaxWidth(),
     ) {
         val scrollableState = rememberLazyListState()
+        var i = 0
         LazyColumn(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -27,19 +28,22 @@ fun AssetList(modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(vertical = 16.dp),
             state = scrollableState,
         ) {
+            while ( i < 10 ){
             item {
                 Asset(
-                    assetName = "asset1", assetInfo = "total pnl, assetGroup, age", trend = Trend.UP
+                    assetName = "asset1", assetInfo = "currentValue and PnL", trend = Trend.UP
+                )
+            }
+                i++
+            }
+            item {
+                Asset(
+                    assetName = "asset2", assetInfo = "currentValue and PnL", trend = Trend.FLAT
                 )
             }
             item {
                 Asset(
-                    assetName = "asset2", assetInfo = "total pnl, assetGroup, age", trend = Trend.FLAT
-                )
-            }
-            item {
-                Asset(
-                    assetName = "asset3", assetInfo = "total pnl, assetGroup, age", trend = Trend.DOWN
+                    assetName = "asset3", assetInfo = "currentValue and PnL", trend = Trend.DOWN
                 )
             }
         }
