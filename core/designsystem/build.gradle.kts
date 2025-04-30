@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "io.siffert.mobile.app.designsystem"
+  namespace = "io.siffert.mobile.app.core.designsystem"
 
   buildTypes {
     release {
@@ -23,8 +23,8 @@ dependencies {
   implementation(libs.androidx.foundation.android)
   implementation(libs.androidx.material3.android)
   implementation(libs.androidx.material3.adaptive.navigation.suite.android)
-    implementation(libs.androidx.ui.tooling.preview.android)
-    testImplementation(libs.junit)
+  implementation(libs.androidx.ui.tooling.preview.android)
+  testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
   debugImplementation(libs.androidx.ui.tooling)
