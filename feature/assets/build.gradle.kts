@@ -11,7 +11,7 @@ dependencies {
     implementation(project(":core:designsystem"))
 
     implementation(libs.androidx.material3.android)
-    implementation(libs.ui.tooling.preview.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 
