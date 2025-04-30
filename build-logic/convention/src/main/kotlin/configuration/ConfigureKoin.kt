@@ -1,13 +1,11 @@
 package configuration
 
+import io.siffert.mobile.app.inventory.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.dependencies
-import io.siffert.mobile.app.inventory.libs
-import org.gradle.kotlin.dsl.getByType
 
 class ConfigureKoin : Plugin<Project> {
     override fun apply(target: Project) {
