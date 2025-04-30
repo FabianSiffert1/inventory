@@ -19,5 +19,9 @@ gradlePlugin {
             id = libs.plugins.inventory.android.feature.get().pluginId
             implementationClass = "plugin.AndroidFeatureConventionPlugin"
         }
+        register("androidLibraryConventionPlugin"){
+            id = libs.plugins.inventory.android.library.get().pluginId
+            implementationClass = "plugin.AndroidLibraryConventionPlugin"
+        }
     }
 }
