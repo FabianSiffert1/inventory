@@ -1,6 +1,7 @@
 package plugin
 
 import com.android.build.gradle.LibraryExtension
+import configuration.ConfigureKoin
 import configuration.ConfigureKotlinDefaults
 import configuration.configureAndroidAndCompose
 import org.gradle.api.Plugin
@@ -28,6 +29,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
             }
             pluginManager.apply(ConfigureKotlinDefaults::class.java)
+            pluginManager.apply(ConfigureKoin::class.java)
         }
     }
 }

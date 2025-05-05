@@ -20,13 +20,21 @@ import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingFlat
 import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingUp
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 
+// todo: create core: model submodule and move asset and trend there
+data class Asset(
+    val name: String,
+    val info: String,
+    val trend: Trend,
+)
+
+enum class Trend {
+    UP, DOWN, FLAT
+}
 
 @Composable
-fun Asset(
-    assetName: String,
-    assetInfo: String,
+fun AssetListItem(
+    asset: Asset,
     modifier: Modifier = Modifier,
-    trend: Trend = Trend.FLAT,
 ) {
     ListItem(
         modifier = modifier
@@ -38,10 +46,10 @@ fun Asset(
         leadingContent = {
             AssetIcon()
         },
-        headlineContent = { Text(text = assetName) },
-        supportingContent = { Text(text = assetInfo) },
+        headlineContent = { Text(text = asset.name) },
+        supportingContent = { Text(text = asset.info) },
         trailingContent = {
-            TrendIcon(trend = trend)
+            TrendIcon(trend = asset.trend)
         }
     )
 }
@@ -79,14 +87,10 @@ private fun TrendIcon(
     )
 }
 
-enum class Trend {
-    UP, DOWN, FLAT
-}
-
 
 @Composable
 @Preview
 fun AssetPreview() {
-    Asset(assetName = "assetName", assetInfo = "total pnl: +100%")
+    AssetListItem(Asset(name = "assetName", info = "total pnl: +100%", trend = Trend.UP))
 }
 

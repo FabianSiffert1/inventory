@@ -17,6 +17,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.koin.androidx.compose)
     implementation(libs.material)
     androidTestImplementation(libs.androidx.espresso.core)
 }
