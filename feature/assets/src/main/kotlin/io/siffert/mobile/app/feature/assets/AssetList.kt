@@ -10,10 +10,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.inventory.core.designsystem.component.PreviewGradientBackgroundWrapper
 import io.siffert.mobile.app.inventory.core.designsystem.component.ThemePreviews
+import io.siffert.mobile.app.model.data.Asset
+import io.siffert.mobile.app.model.data.Trend
 
 @Composable
 fun AssetList(
@@ -25,7 +26,6 @@ fun AssetList(
             .fillMaxWidth(),
     ) {
         val scrollableState = rememberLazyListState()
-        var i = 0
         LazyColumn(
             modifier = Modifier
                 .navigationBarsPadding()
@@ -37,7 +37,7 @@ fun AssetList(
             assetList.forEach { asset ->
                 item {
                     AssetListItem(
-                        asset =  asset
+                        asset = asset
                     )
                 }
             }
@@ -60,5 +60,5 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             name = "asset3", info = "currentValue and PnL", trend = Trend.DOWN
         )
     )
-    AssetList(assetList =  exampleAssetList)
+    AssetList(assetList = exampleAssetList)
 }

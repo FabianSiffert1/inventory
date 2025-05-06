@@ -19,17 +19,9 @@ import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingDown
 import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingFlat
 import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingUp
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
+import io.siffert.mobile.app.model.data.Asset
+import io.siffert.mobile.app.model.data.Trend
 
-// todo: create core: model submodule and move asset and trend there
-data class Asset(
-    val name: String,
-    val info: String,
-    val trend: Trend,
-)
-
-enum class Trend {
-    UP, DOWN, FLAT
-}
 
 @Composable
 fun AssetListItem(
@@ -55,7 +47,7 @@ fun AssetListItem(
 }
 
 @Composable
-private fun AssetIcon(modifier: Modifier = Modifier){
+private fun AssetIcon(modifier: Modifier = Modifier) {
     Icon(
         modifier = modifier
             .padding(4.dp),
@@ -66,9 +58,9 @@ private fun AssetIcon(modifier: Modifier = Modifier){
 
 @Composable
 private fun TrendIcon(
-    trend : Trend,
+    trend: Trend,
     modifier: Modifier = Modifier,
-    showTrendColors : Boolean = false,
+    showTrendColors: Boolean = false,
 ) {
     Icon(
         modifier = modifier
@@ -79,9 +71,17 @@ private fun TrendIcon(
             Trend.FLAT -> Cozy.icon.TrendingFlat
         },
         contentDescription = "trendIcon",
-        tint = when (trend ) {
-            Trend.UP -> if(showTrendColors){Color.Green} else {MaterialTheme.colorScheme.onSurface}
-            Trend.DOWN -> if(showTrendColors){Color.Red } else MaterialTheme.colorScheme.onSurface
+        tint = when (trend) {
+            Trend.UP -> if (showTrendColors) {
+                Color.Green
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            }
+
+            Trend.DOWN -> if (showTrendColors) {
+                Color.Red
+            } else MaterialTheme.colorScheme.onSurface
+
             Trend.FLAT -> MaterialTheme.colorScheme.onSurface
         }
     )

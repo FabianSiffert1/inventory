@@ -2,6 +2,8 @@ package io.siffert.mobile.app.feature.assets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.siffert.mobile.app.model.data.Asset
+import io.siffert.mobile.app.model.data.Trend
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
