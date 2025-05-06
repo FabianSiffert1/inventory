@@ -2,13 +2,26 @@ package io.siffert.mobile.app.core.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import java.util.Date
 
-@Entity
+@Entity(
+    tableName = "assets",
+    foreignKeys = [
+        ForeignKey(
+            entity = AssetGroupEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["asset_group_id"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ],
+    indices = [Index(value = ["asset_group_id"])]
+)
 data class AssetEntity(
     @PrimaryKey val uid: String,
     @ColumnInfo(name = "name") val name: String,

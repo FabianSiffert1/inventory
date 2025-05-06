@@ -23,8 +23,8 @@ dependencyResolutionManagement {
 rootProject.name = "inventory"
 include(":app")
 include(":core:common")
-include(":core:designsystem")
-include(":feature:balance")
-include(":feature:assets")
-include(":core:model")
 include(":core:database")
+include(":core:designsystem")
+include(":core:model")
+include(":feature:assets")
+include(":feature:balance")

@@ -1,0 +1,16 @@
+package io.siffert.mobile.app.core.database
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import io.siffert.mobile.app.core.database.model.AssetEntity
+import io.siffert.mobile.app.core.database.model.AssetGroupEntity
+
+@Database(
+    entities = [AssetEntity::class, AssetGroupEntity::class],
+    version = 1,
+    exportSchema = false
+)
+abstract class AppDatabase : RoomDatabase() {
+    //abstract fun assetDao(): AssetDao
+    //abstract fun assetGroupDao(): AssetGroupDao
+}
