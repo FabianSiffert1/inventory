@@ -1,19 +1,20 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.inventory.android.library)
     alias(libs.plugins.inventory.android.defaultConventionPlugin)
+    alias(libs.plugins.inventory.android.room)
 }
 
 android {
-    namespace = "io.siffert.mobile.app.core.model.data"
+    namespace = "io.siffert.mobile.app.core.database"
 }
 
 dependencies {
+
+    compileOnly(libs.room.gradlePlugin)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+
     testImplementation(libs.junit)
-    implementation(libs.androidx.foundation.android)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

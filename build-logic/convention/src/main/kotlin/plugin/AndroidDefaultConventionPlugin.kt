@@ -10,24 +10,28 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 class AndroidDefaultConventionPlugin : Plugin<Project> {
-  override fun apply(target: Project) {
-    with(target) {
-      with(pluginManager) { apply("org.jetbrains.kotlin.android") }
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) { apply("org.jetbrains.kotlin.android") }
+            with(pluginManager) { apply("org.jetbrains.kotlin.plugin.compose") }
 
-      when {
-        pluginManager.hasPlugin("com.android.application") ->
-            extensions.configure<ApplicationExtension> { configureAndroidAndCompose(this) }
-        pluginManager.hasPlugin("com.android.library") ->
-            extensions.configure<LibraryExtension> { configureAndroidAndCompose(this) }
-        pluginManager.hasPlugin("com.android.test") ->
-            configure<TestExtension> { configureAndroidAndCompose(this) }
-        else -> {
-          with(pluginManager) { apply("com.android.library") }
-          extensions.configure<LibraryExtension> { configureAndroidAndCompose(this) }
+            when {
+                pluginManager.hasPlugin("com.android.application") ->
+                    extensions.configure<ApplicationExtension> { configureAndroidAndCompose(this) }
+
+                pluginManager.hasPlugin("com.android.library") ->
+                    extensions.configure<LibraryExtension> { configureAndroidAndCompose(this) }
+
+                pluginManager.hasPlugin("com.android.test") ->
+                    configure<TestExtension> { configureAndroidAndCompose(this) }
+
+                else -> {
+                    with(pluginManager) { apply("com.android.library") }
+                    extensions.configure<LibraryExtension> { configureAndroidAndCompose(this) }
+                }
+            }
+
+            pluginManager.apply(ConfigureKotlinDefaults::class.java)
         }
-      }
-
-      pluginManager.apply(ConfigureKotlinDefaults::class.java)
     }
-  }
 }
