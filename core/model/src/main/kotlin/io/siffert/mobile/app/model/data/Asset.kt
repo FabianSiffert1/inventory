@@ -6,21 +6,18 @@ data class Asset(
     val id: String,
     val name: String,
     val assetClass: AssetClass,
-    //todo: create impl that allows users to create and assign groups
     val assetGroupId: String?,
     val acquisitionPrice: Double,
     val acquisitionDate: Date,
     val fees: Double,
-    val currentValue: Pair<Double, Date>,
-    val formerValues: List<Pair<Double, Date>>,
+    val currentValue: HistoricalValueDate,
+    val formerValues: List<HistoricalValueDate>,
     val sellPrice: Double?,
     val sellDate: Date?,
     val realizedGain: Double?,
     val currency: Currency,
     val url: String?,
-    // todo: let user set info for assets
-    val userNotes: String?,
-    // todo: calculate automatically
+    val userNotes: String?
 )
 
 enum class AssetClass {
@@ -32,4 +29,9 @@ enum class AssetClass {
 data class AssetGroup(
     val id: String,
     val name: String,
+)
+
+data class HistoricalValueDate(
+    val value: Double,
+    val timestamp: Date,
 )
