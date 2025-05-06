@@ -3,12 +3,14 @@ package io.siffert.mobile.app.feature.assets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.model.data.Asset
-import io.siffert.mobile.app.model.data.Trend
+import io.siffert.mobile.app.model.data.AssetClass
+import io.siffert.mobile.app.model.data.Currency
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import java.util.Date
 import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -27,21 +29,54 @@ class AssetsScreenViewModel : ViewModel() {
         Asset(
             id = Uuid.random().toString(),
             name = "asset1",
-            notes = "currentValue and PnL",
-            trend = Trend.UP
+            assetGroupId = Uuid.random().toString(),
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "userNotes1",
         ),
         Asset(
             id = Uuid.random().toString(),
             name = "asset2",
-            notes = "200$ and +20%",
-            trend = Trend.FLAT
+            assetGroupId = Uuid.random().toString(),
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "userNotes2",
         ),
         Asset(
             id = Uuid.random().toString(),
             name = "asset3",
-            notes = "300$ and -30%",
-            trend = Trend.DOWN
-        )
+            assetGroupId = Uuid.random().toString(),
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "userNotes3",
+        ),
     )
 
     val uiState: StateFlow<AssetsScreenUiState> =

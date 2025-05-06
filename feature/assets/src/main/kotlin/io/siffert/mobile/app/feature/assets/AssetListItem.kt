@@ -20,7 +20,10 @@ import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingFlat
 import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingUp
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.model.data.Asset
+import io.siffert.mobile.app.model.data.AssetClass
+import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.Trend
+import java.util.Date
 
 
 @Composable
@@ -39,9 +42,10 @@ fun AssetListItem(
             AssetIcon()
         },
         headlineContent = { Text(text = asset.name) },
-        supportingContent = { Text(text = asset.notes) },
+        supportingContent = { Text(text = "placeholder") },
         trailingContent = {
-            TrendIcon(trend = asset.trend)
+            //todo: implement
+            TrendIcon(trend = Trend.FLAT)
         }
     )
 }
@@ -93,11 +97,22 @@ private fun TrendIcon(
 fun AssetPreview() {
     AssetListItem(
         Asset(
-            id = "uuid",
-            name = "assetName",
-            notes = "total pnl: +100%",
-            trend = Trend.UP
-        )
+            id = "uuid1",
+            name = "asset1",
+            assetGroupId = "groupId1",
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "notes1",
+        ),
     )
 }
 

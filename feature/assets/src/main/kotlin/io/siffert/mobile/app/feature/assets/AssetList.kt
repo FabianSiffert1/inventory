@@ -14,7 +14,9 @@ import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.inventory.core.designsystem.component.PreviewGradientBackgroundWrapper
 import io.siffert.mobile.app.inventory.core.designsystem.component.ThemePreviews
 import io.siffert.mobile.app.model.data.Asset
-import io.siffert.mobile.app.model.data.Trend
+import io.siffert.mobile.app.model.data.AssetClass
+import io.siffert.mobile.app.model.data.Currency
+import java.util.Date
 
 @Composable
 fun AssetList(
@@ -53,21 +55,54 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
         Asset(
             id = "uuid1",
             name = "asset1",
-            notes = "currentValue and PnL",
-            trend = Trend.UP
+            assetGroupId = "groupId1",
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "currentValue and PnL",
         ),
         Asset(
             id = "uuid2",
             name = "asset2",
-            notes = "currentValue and PnL",
-            trend = Trend.FLAT
+            assetGroupId = "groupId2",
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "currentValue and PnL",
         ),
         Asset(
-            id = "uuid3",
-            name = "asset3",
-            notes = "currentValue and PnL",
-            trend = Trend.DOWN
-        )
+            id = "uuid1",
+            name = "asset1",
+            assetGroupId = "groupId3",
+            assetClass = AssetClass.REAL_ASSET,
+            acquisitionPrice = 1.00,
+            acquisitionDate = Date(),
+            fees = 0.10,
+            currentValue = Pair(1.20, Date()),
+            formerValues = listOf(Pair(1.20, Date())),
+            sellPrice = null,
+            sellDate = null,
+            realizedGain = null,
+            currency = Currency.EUR,
+            url = null,
+            userNotes = "currentValue and PnL",
+        ),
     )
     AssetList(assetList = exampleAssetList)
 }

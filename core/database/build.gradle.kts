@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.inventory.android.room)
     alias(libs.plugins.inventory.android.library)
     alias(libs.plugins.inventory.android.defaultConventionPlugin)
-    alias(libs.plugins.inventory.android.room)
 }
 
 android {
@@ -10,12 +11,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:model"))
-
-
     compileOnly(libs.room.gradlePlugin)
-    implementation(libs.androidx.core.ktx)
 
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
