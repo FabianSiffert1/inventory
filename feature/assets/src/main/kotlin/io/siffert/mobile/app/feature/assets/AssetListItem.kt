@@ -91,6 +91,13 @@ private fun TrendIcon(
 @Composable
 @Preview
 fun AssetPreview() {
-    AssetListItem(Asset(name = "assetName", info = "total pnl: +100%", trend = Trend.UP))
+    AssetListItem(
+        Asset(
+            id = "uuid",
+            name = "assetName",
+            info = "total pnl: +100%",
+            trend = Trend.UP
+        )
+    )
 }
 

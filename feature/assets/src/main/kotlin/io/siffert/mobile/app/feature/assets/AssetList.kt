@@ -51,13 +51,22 @@ fun AssetList(
 fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
     val exampleAssetList = mutableListOf(
         Asset(
-            name = "asset1", info = "currentValue and PnL", trend = Trend.UP
+            id = "uuid1",
+            name = "asset1",
+            info = "currentValue and PnL",
+            trend = Trend.UP
         ),
         Asset(
-            name = "asset2", info = "currentValue and PnL", trend = Trend.FLAT
+            id = "uuid2",
+            name = "asset2",
+            info = "currentValue and PnL",
+            trend = Trend.FLAT
         ),
         Asset(
-            name = "asset3", info = "currentValue and PnL", trend = Trend.DOWN
+            id = "uuid3",
+            name = "asset3",
+            info = "currentValue and PnL",
+            trend = Trend.DOWN
         )
     )
     AssetList(assetList = exampleAssetList)
