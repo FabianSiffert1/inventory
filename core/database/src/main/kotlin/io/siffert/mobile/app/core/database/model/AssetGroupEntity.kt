@@ -7,11 +7,11 @@ import io.siffert.mobile.app.model.data.AssetGroup
 
 @Entity(tableName = "asset_groups")
 data class AssetGroupEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val uid: String,
     @ColumnInfo(name = "name") val name: String
 )
 
 fun AssetGroupEntity.asExternalModel() = AssetGroup(
-    id = id,
+    id = uid,
     name = name
 )
