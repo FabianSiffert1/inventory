@@ -2,6 +2,9 @@ package io.siffert.mobile.app.feature.assets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.siffert.mobile.app.core.database.InventoryAppDatabase
+import io.siffert.mobile.app.core.database.model.AssetEntity
+import io.siffert.mobile.app.core.database.model.HistoricalValue
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
@@ -11,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.ExperimentalUuidApi
@@ -23,7 +27,39 @@ sealed interface AssetsScreenUiState {
 }
 
 
-class AssetsScreenViewModel : ViewModel() {
+@OptIn(ExperimentalUuidApi::class)
+class AssetsScreenViewModel(private val inventoryAppDatabase: InventoryAppDatabase) : ViewModel() {
+
+    val assetDao = inventoryAppDatabase.assetDao()
+
+    init {
+        viewModelScope.launch {
+            assetDao.upsertAssets(
+                listOf(
+                    AssetEntity(
+                        uid = Uuid.random().toString(),
+                        name = "asset1",
+                        assetClass = AssetClass.REAL_ASSET,
+                        assetGroupId = null,
+                        acquisitionPrice = 1.00,
+                        acquisitionDate = 230123,
+                        fees = 0.0,
+                        currentValue = HistoricalValue(1.2, 230124),
+                        sellPrice = null,
+                        sellDate = null,
+                        realizedGain = null,
+                        currency = Currency.EUR,
+                        url = null,
+                        userNotes = null,
+                    )
+                )
+            )
+            val allAssets = assetDao.getAssetsList()
+            allAssets.forEach { asset ->
+                println("*** ${asset.name}")
+            }
+        }
+    }
 
     @OptIn(ExperimentalUuidApi::class)
     private val exampleAssetList = mutableListOf(

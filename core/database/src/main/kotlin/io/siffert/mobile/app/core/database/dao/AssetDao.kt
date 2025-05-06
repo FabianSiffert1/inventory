@@ -12,15 +12,6 @@ import io.siffert.mobile.app.core.database.model.AssetEntity
 import io.siffert.mobile.app.core.database.model.HistoricalPriceEntity
 import kotlinx.coroutines.flow.Flow
 
-data class AssetWithHistoricalPrices(
-    @Embedded val asset: AssetEntity,
-    @Relation(
-        parentColumn = "uid",
-        entityColumn = "assetId"
-    )
-    val historicalPrices: List<HistoricalPriceEntity>
-)
-
 @Dao
 interface AssetDao {
     @Query(
@@ -73,3 +64,12 @@ interface AssetDao {
     suspend fun deleteAssets(ids: List<String>)
 
 }
+
+data class AssetWithHistoricalPrices(
+    @Embedded val asset: AssetEntity,
+    @Relation(
+        parentColumn = "uid",
+        entityColumn = "assetId"
+    )
+    val historicalPrices: List<HistoricalPriceEntity>
+)
