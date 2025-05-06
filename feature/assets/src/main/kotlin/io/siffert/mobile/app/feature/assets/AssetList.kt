@@ -53,19 +53,19 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
         Asset(
             id = "uuid1",
             name = "asset1",
-            info = "currentValue and PnL",
+            notes = "currentValue and PnL",
             trend = Trend.UP
         ),
         Asset(
             id = "uuid2",
             name = "asset2",
-            info = "currentValue and PnL",
+            notes = "currentValue and PnL",
             trend = Trend.FLAT
         ),
         Asset(
             id = "uuid3",
             name = "asset3",
-            info = "currentValue and PnL",
+            notes = "currentValue and PnL",
             trend = Trend.DOWN
         )
     )

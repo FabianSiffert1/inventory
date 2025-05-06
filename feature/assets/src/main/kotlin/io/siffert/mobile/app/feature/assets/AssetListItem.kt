@@ -39,7 +39,7 @@ fun AssetListItem(
             AssetIcon()
         },
         headlineContent = { Text(text = asset.name) },
-        supportingContent = { Text(text = asset.info) },
+        supportingContent = { Text(text = asset.notes) },
         trailingContent = {
             TrendIcon(trend = asset.trend)
         }
@@ -95,7 +95,7 @@ fun AssetPreview() {
         Asset(
             id = "uuid",
             name = "assetName",
-            info = "total pnl: +100%",
+            notes = "total pnl: +100%",
             trend = Trend.UP
         )
     )

@@ -10,6 +10,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
+
 
     compileOnly(libs.room.gradlePlugin)
     implementation(libs.androidx.core.ktx)

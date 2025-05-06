@@ -27,19 +27,19 @@ class AssetsScreenViewModel : ViewModel() {
         Asset(
             id = Uuid.random().toString(),
             name = "asset1",
-            info = "currentValue and PnL",
+            notes = "currentValue and PnL",
             trend = Trend.UP
         ),
         Asset(
             id = Uuid.random().toString(),
             name = "asset2",
-            info = "200$ and +20%",
+            notes = "200$ and +20%",
             trend = Trend.FLAT
         ),
         Asset(
             id = Uuid.random().toString(),
             name = "asset3",
-            info = "300$ and -30%",
+            notes = "300$ and -30%",
             trend = Trend.DOWN
         )
     )
