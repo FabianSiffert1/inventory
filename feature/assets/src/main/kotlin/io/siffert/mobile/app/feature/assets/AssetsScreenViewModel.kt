@@ -6,8 +6,12 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Trend
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlin.time.Duration.Companion.seconds
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 sealed interface AssetsScreenUiState {
     data object Loading : AssetsScreenUiState
@@ -18,15 +22,25 @@ sealed interface AssetsScreenUiState {
 
 class AssetsScreenViewModel : ViewModel() {
 
+    @OptIn(ExperimentalUuidApi::class)
     private val exampleAssetList = mutableListOf(
         Asset(
-            name = "asset1", info = "currentValue and PnL", trend = Trend.UP
+            id = Uuid.random().toString(),
+            name = "asset1",
+            info = "currentValue and PnL",
+            trend = Trend.UP
         ),
         Asset(
-            name = "asset2", info = "200$ and +20%", trend = Trend.FLAT
+            id = Uuid.random().toString(),
+            name = "asset2",
+            info = "200$ and +20%",
+            trend = Trend.FLAT
         ),
         Asset(
-            name = "asset3", info = "300$ and -30%", trend = Trend.DOWN
+            id = Uuid.random().toString(),
+            name = "asset3",
+            info = "300$ and -30%",
+            trend = Trend.DOWN
         )
     )
 
@@ -35,7 +49,7 @@ class AssetsScreenViewModel : ViewModel() {
             emit(AssetsScreenUiState.Success(assetList = exampleAssetList))
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
+            started = SharingStarted.WhileSubscribed(5.seconds),
             initialValue = AssetsScreenUiState.Loading,
         )
 
