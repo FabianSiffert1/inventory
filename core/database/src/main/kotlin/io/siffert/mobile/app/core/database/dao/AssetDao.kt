@@ -47,10 +47,10 @@ interface AssetDao {
     suspend fun insertOrIgnoreAssets(assetEntities: List<AssetEntity>): List<Long>
 
     /**
-     * Inserts or updates [entities] in the db under the specified primary keys
+     * Inserts or updates [assets] in the db under the specified primary keys
      */
     @Upsert
-    suspend fun upsertAssets(entities: List<AssetEntity>)
+    suspend fun upsertAssets(assets: List<AssetEntity>)
 
     /**
      * Deletes rows in the db matching the specified [ids]

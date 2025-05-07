@@ -27,7 +27,7 @@ sealed interface AssetsScreenUiState {
 
 
 @OptIn(ExperimentalUuidApi::class)
-class AssetsScreenViewModel(private val inventoryAppDatabase: InventoryAppDatabase) : ViewModel() {
+class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewModel() {
 
     //todo move to core:data module and delete this and everything that belongs to it
     private val assetDao = inventoryAppDatabase.assetDao()
