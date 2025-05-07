@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface AssetRepository {
     fun getAssetsFlow(): Flow<List<Asset>>
 
-    fun getAssetsList(): List<Asset>
+    suspend fun getAssetsList(): List<Asset>
 
     fun getAssetById(assetId: String): Flow<Asset>
 

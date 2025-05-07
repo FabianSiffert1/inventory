@@ -5,7 +5,9 @@ import io.siffert.mobile.app.core.database.dao.HistoricalPriceDao
 import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class AssetRepositoryImpl(
     private val assetDao: AssetDao,
@@ -24,12 +26,23 @@ class AssetRepositoryImpl(
 
         }
 
-    override fun getAssetsList(): List<Asset> {
-        TODO("Not yet implemented")
+    override suspend fun getAssetsList(): List<Asset> {
+        val assetEntities = assetDao.getAssetsList()
+        return assetEntities.map { assetEntity ->
+            val historicalPrices =
+                historicalPricesDao.getHistoricalPricesForAsset(assetEntity.uid)
+            assetEntity.asExternalModel(historicalPrices)
+        }
     }
 
-    override fun getAssetById(assetId: String): Flow<Asset> {
-        TODO("Not yet implemented")
+
+    override fun getAssetById(assetId: String): Flow<Asset> = flow {
+        val assetEntityFlow = assetDao.getAssetById(assetId)
+        assetEntityFlow.map { assetEntity ->
+            val historicalPrices =
+                historicalPricesDao.getHistoricalPricesForAsset(assetEntityFlow.first().uid)
+            assetEntity.asExternalModel(historicalPrices)
+        }
     }
 
     override fun insertOrIgnoreAsset(assets: List<Asset>): List<Long> {
