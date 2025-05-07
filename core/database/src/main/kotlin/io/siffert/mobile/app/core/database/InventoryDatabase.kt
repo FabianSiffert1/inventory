@@ -15,8 +15,6 @@ interface InventoryAppDatabase {
     fun assetDao(): AssetDao
     fun assetGroupDao(): AssetGroupDao
     fun historicalPriceDao(): HistoricalPriceDao
-
-
 }
 
 @Database(

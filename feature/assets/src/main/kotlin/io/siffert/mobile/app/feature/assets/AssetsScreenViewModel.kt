@@ -22,7 +22,6 @@ import kotlin.uuid.Uuid
 
 sealed interface AssetsScreenUiState {
     data object Loading : AssetsScreenUiState
-
     data class Success(val assetList: List<Asset>) : AssetsScreenUiState
 }
 
@@ -30,7 +29,8 @@ sealed interface AssetsScreenUiState {
 @OptIn(ExperimentalUuidApi::class)
 class AssetsScreenViewModel(private val inventoryAppDatabase: InventoryAppDatabase) : ViewModel() {
 
-    val assetDao = inventoryAppDatabase.assetDao()
+    //todo move to core:data module and delete this and everything that belongs to it
+    private val assetDao = inventoryAppDatabase.assetDao()
 
     init {
         viewModelScope.launch {
