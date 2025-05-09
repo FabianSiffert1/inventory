@@ -10,8 +10,7 @@ data class Asset(
     val acquisitionPrice: Double,
     val acquisitionDate: Date,
     val fees: Double,
-    val currentValue: HistoricalValueDate,
-    val formerValues: List<HistoricalValueDate>,
+    val priceHistory: List<PriceHistoryDate>,
     val sellPrice: Double?,
     val sellDate: Date?,
     val realizedGain: Double?,
@@ -31,7 +30,7 @@ data class AssetGroup(
     val name: String,
 )
 
-data class HistoricalValueDate(
+data class PriceHistoryDate(
     val value: Double,
     val timestamp: Date,
 )

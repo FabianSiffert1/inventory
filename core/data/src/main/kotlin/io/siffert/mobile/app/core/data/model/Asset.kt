@@ -11,7 +11,6 @@ fun Asset.asEntity() = AssetEntity(
     acquisitionPrice = acquisitionPrice,
     acquisitionDate = acquisitionDate.time,
     fees = fees,
-    currentValue = currentValue,
     sellPrice = sellPrice,
     sellDate = sellDate?.time,
     realizedGain = realizedGain,

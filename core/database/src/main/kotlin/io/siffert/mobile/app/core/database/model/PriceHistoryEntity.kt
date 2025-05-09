@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "historical_price",
+    tableName = "price_history",
     foreignKeys = [
         ForeignKey(
             entity = AssetEntity::class,
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("assetId")]
 )
-data class HistoricalPriceEntity(
+data class PriceHistoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val assetId: String,
     val value: Double,

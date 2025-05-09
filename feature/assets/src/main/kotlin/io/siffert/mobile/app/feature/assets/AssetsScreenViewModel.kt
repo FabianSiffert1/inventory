@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.core.database.InventoryAppDatabase
 import io.siffert.mobile.app.core.database.model.AssetEntity
-import io.siffert.mobile.app.core.database.model.HistoricalValue
+import io.siffert.mobile.app.core.database.model.PriceHistory
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
-import io.siffert.mobile.app.model.data.HistoricalValueDate
+import io.siffert.mobile.app.model.data.PriceHistoryDate
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
@@ -44,7 +44,7 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
                         acquisitionPrice = 1.00,
                         acquisitionDate = 230123,
                         fees = 0.0,
-                        currentValue = HistoricalValue(1.2, 230124),
+                        priceHistory = PriceHistory(1.2, 230124),
                         sellPrice = null,
                         sellDate = null,
                         realizedGain = null,
@@ -71,8 +71,7 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.20, Date()),
-            formerValues = listOf(HistoricalValueDate(1.20, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -88,8 +87,7 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.20, Date()),
-            formerValues = listOf(HistoricalValueDate(1.20, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -105,8 +103,7 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.20, Date()),
-            formerValues = listOf(HistoricalValueDate(1.20, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,

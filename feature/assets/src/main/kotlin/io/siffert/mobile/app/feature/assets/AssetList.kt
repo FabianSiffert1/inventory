@@ -16,7 +16,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.component.ThemePreviews
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
-import io.siffert.mobile.app.model.data.HistoricalValueDate
+import io.siffert.mobile.app.model.data.PriceHistoryDate
 import java.util.Date
 
 @Composable
@@ -61,8 +61,7 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.20, Date()),
-            formerValues = listOf(HistoricalValueDate(1.20, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -78,8 +77,7 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.30, Date()),
-            formerValues = listOf(HistoricalValueDate(1.30, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.30, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -95,8 +93,7 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.40, Date()),
-            formerValues = listOf(HistoricalValueDate(1.40, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.40, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,

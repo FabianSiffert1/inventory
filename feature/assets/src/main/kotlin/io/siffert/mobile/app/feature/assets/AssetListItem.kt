@@ -22,7 +22,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
-import io.siffert.mobile.app.model.data.HistoricalValueDate
+import io.siffert.mobile.app.model.data.PriceHistoryDate
 import io.siffert.mobile.app.model.data.Trend
 import java.util.Date
 
@@ -105,8 +105,7 @@ fun AssetPreview() {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            currentValue = HistoricalValueDate(1.20, Date()),
-            formerValues = listOf(HistoricalValueDate(1.20, Date())),
+            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,

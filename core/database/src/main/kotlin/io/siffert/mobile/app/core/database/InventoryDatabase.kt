@@ -6,22 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.AssetGroupDao
-import io.siffert.mobile.app.core.database.dao.HistoricalPriceDao
+import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
 import io.siffert.mobile.app.core.database.model.AssetEntity
 import io.siffert.mobile.app.core.database.model.AssetGroupEntity
-import io.siffert.mobile.app.core.database.model.HistoricalPriceEntity
+import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 
 interface InventoryAppDatabase {
     fun assetDao(): AssetDao
     fun assetGroupDao(): AssetGroupDao
-    fun historicalPriceDao(): HistoricalPriceDao
+    fun historicalPriceDao(): PriceHistoryDao
 }
 
 @Database(
     entities = [
         AssetEntity::class,
         AssetGroupEntity::class,
-        HistoricalPriceEntity::class,
+        PriceHistoryEntity::class,
     ],
     version = 1,
     exportSchema = false
@@ -29,7 +29,7 @@ interface InventoryAppDatabase {
 abstract class InventoryAppDatabaseImpl : RoomDatabase(), InventoryAppDatabase {
     abstract override fun assetDao(): AssetDao
     abstract override fun assetGroupDao(): AssetGroupDao
-    abstract override fun historicalPriceDao(): HistoricalPriceDao
+    abstract override fun historicalPriceDao(): PriceHistoryDao
 
     companion object {
         internal fun initialize(applicationContext: Context): InventoryAppDatabase =

@@ -9,8 +9,18 @@ import androidx.room.Relation
 import androidx.room.Transaction
 import androidx.room.Upsert
 import io.siffert.mobile.app.core.database.model.AssetEntity
-import io.siffert.mobile.app.core.database.model.HistoricalPriceEntity
+import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 import kotlinx.coroutines.flow.Flow
+
+
+data class AssetWithPriceHistory(
+    @Embedded val asset: AssetEntity,
+    @Relation(
+        parentColumn = "uid",
+        entityColumn = "assetId"
+    )
+    val priceHistory: List<PriceHistoryEntity>
+)
 
 @Dao
 interface AssetDao {
@@ -24,7 +34,13 @@ interface AssetDao {
 
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
-    suspend fun getAssetWithHistoricalPrices(assetId: String): AssetWithHistoricalPrices
+    suspend fun getAssetWithHistoricalPrices(assetId: String): AssetWithPriceHistory
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAsset(asset: AssetEntity)
+
+    @Insert
+    suspend fun insertPriceHistory(history: PriceHistoryEntity)
 
     @Query(value = "SELECT * FROM assets")
     fun getAssetsFlow(): Flow<List<AssetEntity>>
@@ -64,12 +80,3 @@ interface AssetDao {
     suspend fun deleteAssets(ids: List<String>)
 
 }
-
-data class AssetWithHistoricalPrices(
-    @Embedded val asset: AssetEntity,
-    @Relation(
-        parentColumn = "uid",
-        entityColumn = "assetId"
-    )
-    val historicalPrices: List<HistoricalPriceEntity>
-)

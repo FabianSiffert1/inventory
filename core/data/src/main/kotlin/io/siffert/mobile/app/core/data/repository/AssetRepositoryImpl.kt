@@ -1,7 +1,7 @@
 package io.siffert.mobile.app.core.data.repository
 
 import io.siffert.mobile.app.core.database.dao.AssetDao
-import io.siffert.mobile.app.core.database.dao.HistoricalPriceDao
+import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
 import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 class AssetRepositoryImpl(
     private val assetDao: AssetDao,
-    private val historicalPricesDao: HistoricalPriceDao,
+    private val historicalPricesDao: PriceHistoryDao,
 ) : AssetRepository {
     override fun getAssetsFlow(): Flow<List<Asset>> =
         flow {
