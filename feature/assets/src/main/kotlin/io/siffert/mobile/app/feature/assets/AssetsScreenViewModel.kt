@@ -2,6 +2,7 @@ package io.siffert.mobile.app.feature.assets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
@@ -9,12 +10,12 @@ import io.siffert.mobile.app.model.data.PriceHistoryDate
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 sealed interface AssetsScreenUiState {
     data object Loading : AssetsScreenUiState
@@ -23,13 +24,13 @@ sealed interface AssetsScreenUiState {
 
 
 @OptIn(ExperimentalUuidApi::class)
-class AssetsScreenViewModel : ViewModel() {
-    
+class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
+
     private val exampleAssetList = mutableListOf(
         Asset(
-            id = Uuid.random().toString(),
-            name = "asset1",
-            assetGroupId = Uuid.random().toString(),
+            id = "assetId1",
+            name = "assetName1",
+            assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
@@ -43,16 +44,16 @@ class AssetsScreenViewModel : ViewModel() {
             priceHistory = listOf(
                 PriceHistoryDate(
                     id = 1,
-                    assetId = "assetId",
+                    assetId = "assetId1",
                     value = 1.10,
                     timestamp = Date()
                 )
             ),
         ),
         Asset(
-            id = Uuid.random().toString(),
-            name = "asset2",
-            assetGroupId = Uuid.random().toString(),
+            id = "assetId2",
+            name = "assetName2",
+            assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
@@ -60,7 +61,7 @@ class AssetsScreenViewModel : ViewModel() {
             priceHistory = listOf(
                 PriceHistoryDate(
                     id = 2,
-                    assetId = "assetId",
+                    assetId = "assetId2",
                     value = 1.20,
                     timestamp = Date()
                 )
@@ -73,9 +74,9 @@ class AssetsScreenViewModel : ViewModel() {
             userNotes = "userNotes2",
         ),
         Asset(
-            id = Uuid.random().toString(),
-            name = "asset3",
-            assetGroupId = Uuid.random().toString(),
+            id = "assetId3",
+            name = "assetName3",
+            assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
@@ -83,7 +84,7 @@ class AssetsScreenViewModel : ViewModel() {
             priceHistory = listOf(
                 PriceHistoryDate(
                     id = 3,
-                    assetId = "assetId",
+                    assetId = "assetId3",
                     value = 1.30,
                     timestamp = Date()
                 )
@@ -97,9 +98,15 @@ class AssetsScreenViewModel : ViewModel() {
         ),
     )
 
+    init {
+        viewModelScope.launch {
+            assetRepository.insertOrIgnoreAsset(exampleAssetList)
+        }
+    }
+
     val uiState: StateFlow<AssetsScreenUiState> =
-        flow {
-            emit(AssetsScreenUiState.Success(assetList = exampleAssetList))
+        assetRepository.getAssetsFlow().map {
+            AssetsScreenUiState.Success(assetList = it)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5.seconds),

@@ -9,7 +9,6 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryDate
-import kotlinx.serialization.Serializable
 import java.util.Date
 
 @Entity(
@@ -38,12 +37,6 @@ data class AssetEntity(
     @ColumnInfo(name = "currency") val currency: Currency,
     @ColumnInfo(name = "url") val url: String?,
     @ColumnInfo(name = "user_notes") val userNotes: String?
-)
-
-@Serializable
-data class PriceHistory(
-    @ColumnInfo(name = "value") val value: Double,
-    @ColumnInfo(name = "timestamp") val timestamp: Long
 )
 
 fun AssetEntity.asExternalModel(priceHistoryEntities: List<PriceHistoryEntity>) = Asset(

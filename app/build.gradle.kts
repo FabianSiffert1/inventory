@@ -33,6 +33,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:database"))
     implementation(project(":core:model"))
+    implementation(project(":core:data"))
     implementation(project(":feature:balance"))
     implementation(project(":feature:assets"))
 

@@ -4,6 +4,8 @@ import org.koin.dsl.module
 
 val assetKoinModule = module {
     single {
-        AssetsScreenViewModel()
+        AssetsScreenViewModel(
+            assetRepository = get()
+        )
     }
 }

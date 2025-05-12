@@ -1,6 +1,7 @@
 package io.siffert.mobile.app.inventory
 
 import android.app.Application
+import io.siffert.mobile.app.core.data.dataKoinModule
 import io.siffert.mobile.app.core.database.databaseCoreKoinModule
 import io.siffert.mobile.app.feature.assets.assetKoinModule
 import org.koin.android.ext.koin.androidContext
@@ -14,7 +15,8 @@ class MainApplication : Application() {
             modules(
                 listOf(
                     assetKoinModule,
-                    databaseCoreKoinModule
+                    databaseCoreKoinModule,
+                    dataKoinModule,
                 )
             )
         }
