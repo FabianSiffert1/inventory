@@ -22,6 +22,7 @@ import java.util.Date
 @Composable
 fun AssetList(
     assetList: List<Asset>,
+    onAssetClick: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -40,7 +41,8 @@ fun AssetList(
             assetList.forEach { asset ->
                 item {
                     AssetListItem(
-                        asset = asset
+                        asset = asset,
+                        onAssetClick = onAssetClick,
                     )
                 }
             }

@@ -1,9 +1,9 @@
 package io.siffert.mobile.app.core.data.repository
 
 import io.siffert.mobile.app.core.data.model.asEntity
+import io.siffert.mobile.app.core.data.model.toPriceHistoryEntities
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
-import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
@@ -56,17 +56,8 @@ class AssetRepositoryImpl(
         val assetEntities = assets.map { it.asEntity() }
         assetDao.upsertAssets(assetEntities)
         //todo: implement date sorting
-        val historicalPriceEntities = assets.flatMap { asset ->
-            asset.priceHistory.map { priceHistoryDate ->
-                PriceHistoryEntity(
-                    id = priceHistoryDate.id,
-                    assetId = asset.id,
-                    value = priceHistoryDate.value,
-                    timestamp = priceHistoryDate.timestamp.time
-                )
-            }
-        }
-
+        
+        val historicalPriceEntities = assets.flatMap { it.toPriceHistoryEntities() }
         historicalPricesDao.insertAll(historicalPriceEntities)
     }
 

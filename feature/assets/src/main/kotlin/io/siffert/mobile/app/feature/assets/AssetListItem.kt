@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,12 +31,14 @@ import java.util.Date
 @Composable
 fun AssetListItem(
     asset: Asset,
+    onAssetClick: (String) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     ListItem(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp)),
+            .clip(shape = RoundedCornerShape(8.dp))
+            .clickable(enabled = true, onClick = { onAssetClick(asset.id) }),
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent,
         ),

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import io.siffert.mobile.app.feature.assets.navigation.assetsSection
+import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetDetails
 import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceBaseRoute
 import io.siffert.mobile.app.inventory.feature.balance.navigation.balanceSection
 import io.siffert.mobile.app.inventory.ui.InventoryAppState
@@ -14,8 +15,14 @@ fun InventoryNavHost(
     modifier: Modifier = Modifier,
 ) {
     val navController = appState.navController
-    NavHost(navController = navController, startDestination = BalanceBaseRoute, modifier = modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = BalanceBaseRoute,
+        modifier = modifier
+    ) {
         balanceSection()
-        assetsSection()
+        assetsSection(
+            onAssetClick = navController::navigateToAssetDetails
+        )
     }
 }
