@@ -2,9 +2,6 @@ package io.siffert.mobile.app.feature.assets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.siffert.mobile.app.core.database.InventoryAppDatabase
-import io.siffert.mobile.app.core.database.model.AssetEntity
-import io.siffert.mobile.app.core.database.model.PriceHistory
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
@@ -14,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.ExperimentalUuidApi
@@ -27,41 +23,8 @@ sealed interface AssetsScreenUiState {
 
 
 @OptIn(ExperimentalUuidApi::class)
-class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewModel() {
-
-    //todo move to core:data module and delete this and everything that belongs to it
-    private val assetDao = inventoryAppDatabase.assetDao()
-
-    init {
-        viewModelScope.launch {
-            assetDao.upsertAssets(
-                listOf(
-                    AssetEntity(
-                        uid = Uuid.random().toString(),
-                        name = "asset1",
-                        assetClass = AssetClass.REAL_ASSET,
-                        assetGroupId = null,
-                        acquisitionPrice = 1.00,
-                        acquisitionDate = 230123,
-                        fees = 0.0,
-                        priceHistory = PriceHistory(1.2, 230124),
-                        sellPrice = null,
-                        sellDate = null,
-                        realizedGain = null,
-                        currency = Currency.EUR,
-                        url = null,
-                        userNotes = null,
-                    )
-                )
-            )
-            val allAssets = assetDao.getAssetsList()
-            allAssets.forEach { asset ->
-                println("*** ${asset.name}")
-            }
-        }
-    }
-
-    @OptIn(ExperimentalUuidApi::class)
+class AssetsScreenViewModel : ViewModel() {
+    
     private val exampleAssetList = mutableListOf(
         Asset(
             id = Uuid.random().toString(),
@@ -71,13 +34,20 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
             currency = Currency.EUR,
             url = null,
             userNotes = "userNotes1",
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 1,
+                    assetId = "assetId",
+                    value = 1.10,
+                    timestamp = Date()
+                )
+            ),
         ),
         Asset(
             id = Uuid.random().toString(),
@@ -87,7 +57,14 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 2,
+                    assetId = "assetId",
+                    value = 1.20,
+                    timestamp = Date()
+                )
+            ),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -103,7 +80,14 @@ class AssetsScreenViewModel(inventoryAppDatabase: InventoryAppDatabase) : ViewMo
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 3,
+                    assetId = "assetId",
+                    value = 1.30,
+                    timestamp = Date()
+                )
+            ),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,

@@ -61,7 +61,14 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 1,
+                    assetId = "assetId",
+                    value = 1.20,
+                    timestamp = Date()
+                )
+            ),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -77,7 +84,14 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.30, Date())),
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 2,
+                    assetId = "assetId",
+                    value = 1.30,
+                    timestamp = Date()
+                )
+            ),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -93,7 +107,14 @@ fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.40, Date())),
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 3,
+                    assetId = "assetId",
+                    value = 1.40,
+                    timestamp = Date()
+                )
+            ),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,

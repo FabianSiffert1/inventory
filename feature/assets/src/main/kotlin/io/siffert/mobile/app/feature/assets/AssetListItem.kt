@@ -105,7 +105,14 @@ fun AssetPreview() {
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
             fees = 0.10,
-            priceHistory = listOf(PriceHistoryDate(1.20, Date())),
+            priceHistory = listOf(
+                PriceHistoryDate(
+                    id = 2,
+                    assetId = "assetId",
+                    value = 1.30,
+                    timestamp = Date()
+                )
+            ),
             sellPrice = null,
             sellDate = null,
             realizedGain = null,

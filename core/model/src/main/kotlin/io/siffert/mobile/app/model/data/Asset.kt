@@ -31,6 +31,8 @@ data class AssetGroup(
 )
 
 data class PriceHistoryDate(
+    val id: Long,
+    val assetId: String,
     val value: Double,
     val timestamp: Date,
 )

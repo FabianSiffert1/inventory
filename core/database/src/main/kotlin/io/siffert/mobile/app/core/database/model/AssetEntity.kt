@@ -60,14 +60,13 @@ fun AssetEntity.asExternalModel(priceHistoryEntities: List<PriceHistoryEntity>) 
     currency = currency,
     url = url,
     userNotes = userNotes,
-    priceHistory = TODO()
+    priceHistory = priceHistoryEntities.map { it.toExternalModel() }
 )
 
-fun PriceHistoryEntity.toExternalModel() = PriceHistoryDate(
+fun PriceHistoryEntity.toExternalModel(): PriceHistoryDate = PriceHistoryDate(
+    id = id,
+    assetId = assetId,
     value = value,
     timestamp = Date(timestamp)
 )
-
-fun PriceHistory.toExternalModel(): PriceHistoryDate =
-    PriceHistoryDate(value = value, timestamp = Date(timestamp))
 
