@@ -55,6 +55,7 @@ class AssetRepositoryImpl(
     override suspend fun upsertAssets(assets: List<Asset>) {
         val assetEntities = assets.map { it.asEntity() }
         assetDao.upsertAssets(assetEntities)
+        //todo: implement date sorting
         val historicalPriceEntities = assets.flatMap { asset ->
             asset.priceHistory.map { priceHistoryDate ->
                 PriceHistoryEntity(

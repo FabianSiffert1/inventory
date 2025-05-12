@@ -81,6 +81,12 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
             fees = 0.10,
             priceHistory = listOf(
                 PriceHistoryDate(
+                    id = 4,
+                    assetId = "assetId3",
+                    value = 1.60,
+                    timestamp = Date()
+                ),
+                PriceHistoryDate(
                     id = 3,
                     assetId = "assetId3",
                     value = 1.30,

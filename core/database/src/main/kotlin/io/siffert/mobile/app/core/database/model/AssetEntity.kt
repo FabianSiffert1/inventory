@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
-import io.siffert.mobile.app.model.data.PriceHistoryDate
 import java.util.Date
 
 @Entity(
@@ -55,11 +54,3 @@ fun AssetEntity.asExternalModel(priceHistoryEntities: List<PriceHistoryEntity>) 
     userNotes = userNotes,
     priceHistory = priceHistoryEntities.map { it.toExternalModel() }
 )
-
-fun PriceHistoryEntity.toExternalModel(): PriceHistoryDate = PriceHistoryDate(
-    id = id,
-    assetId = assetId,
-    value = value,
-    timestamp = Date(timestamp)
-)
-

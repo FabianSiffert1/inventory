@@ -51,7 +51,7 @@ fun AssetList(
 
 @ThemePreviews
 @Composable
-fun AssetsListPreview() = PreviewGradientBackgroundWrapper {
+fun AssetListPreview() = PreviewGradientBackgroundWrapper {
     val exampleAssetList = mutableListOf(
         Asset(
             id = "uuid1",
