@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.time.Duration.Companion.seconds
-import kotlin.uuid.ExperimentalUuidApi
 
 sealed interface AssetsScreenUiState {
     data object Loading : AssetsScreenUiState
@@ -23,7 +22,6 @@ sealed interface AssetsScreenUiState {
 }
 
 
-@OptIn(ExperimentalUuidApi::class)
 class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
 
     private val exampleAssetList = mutableListOf(
@@ -34,7 +32,7 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
             assetClass = AssetClass.REAL_ASSET,
             acquisitionPrice = 1.00,
             acquisitionDate = Date(),
-            fees = 0.10,
+            fees = 0.20,
             sellPrice = null,
             sellDate = null,
             realizedGain = null,
@@ -100,7 +98,7 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            assetRepository.insertOrIgnoreAsset(exampleAssetList)
+            assetRepository.upsertAssets(exampleAssetList)
         }
     }
 

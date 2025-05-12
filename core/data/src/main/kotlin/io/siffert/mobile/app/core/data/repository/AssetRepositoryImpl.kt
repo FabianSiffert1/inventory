@@ -3,6 +3,7 @@ package io.siffert.mobile.app.core.data.repository
 import io.siffert.mobile.app.core.data.model.asEntity
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
+import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
@@ -54,6 +55,18 @@ class AssetRepositoryImpl(
     override suspend fun upsertAssets(assets: List<Asset>) {
         val assetEntities = assets.map { it.asEntity() }
         assetDao.upsertAssets(assetEntities)
+        val historicalPriceEntities = assets.flatMap { asset ->
+            asset.priceHistory.map { priceHistoryDate ->
+                PriceHistoryEntity(
+                    id = priceHistoryDate.id,
+                    assetId = asset.id,
+                    value = priceHistoryDate.value,
+                    timestamp = priceHistoryDate.timestamp.time
+                )
+            }
+        }
+
+        historicalPricesDao.insertAll(historicalPriceEntities)
     }
 
     override suspend fun deleteAssets(assetIds: List<String>) {

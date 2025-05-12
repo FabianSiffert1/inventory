@@ -43,7 +43,7 @@ fun AssetListItem(
             AssetIcon()
         },
         headlineContent = { Text(text = asset.name) },
-        supportingContent = { Text(text = "placeholder") },
+        supportingContent = { Text(text = "${asset.priceHistory.last()} ${asset.currency.name}") },
         trailingContent = {
             //todo: implement
             TrendIcon(trend = Trend.FLAT)
