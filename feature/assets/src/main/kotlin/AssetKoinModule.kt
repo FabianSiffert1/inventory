@@ -1,11 +1,13 @@
 package io.siffert.mobile.app.feature.assets
 
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreenViewModel
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val assetKoinModule = module {
-    single {
-        AssetsScreenViewModel(
-            assetRepository = get()
-        )
+    singleOf(::AssetsScreenViewModel)
+    viewModel { assetId ->
+        AssetDetailsScreenViewModel(assetId = assetId.get(), assetRepository = get())
     }
 }

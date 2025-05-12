@@ -8,17 +8,12 @@ interface AssetRepository {
 
     suspend fun getAssetsList(): List<Asset>
 
-    fun getAssetById(assetId: String): Flow<Asset>
+    fun getAssetById(assetId: String): Flow<Asset?>
 
-
-    /**
-     * Inserts [assets] into the db if they don't exist, and ignores those that do
-     */
+    /** Inserts [assets] into the db if they don't exist, and ignores those that do */
     suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long>
 
-    /**
-     * Inserts or updates [assets] in the db under the specified primary keys
-     */
+    /** Inserts or updates [assets] in the db under the specified primary keys */
     suspend fun upsertAssets(assets: List<Asset>)
 
     suspend fun deleteAssets(assetIds: List<String>)

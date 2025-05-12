@@ -24,13 +24,13 @@ fun rememberInventoryAppState(
     navController: NavHostController = rememberNavController(),
 ): InventoryAppState {
     return remember(navController, coroutineScope) {
-        InventoryAppState(navController = navController, coroutineScope = coroutineScope)
+        InventoryAppState(navController = navController)
     }
 }
 
 
 @Stable
-class InventoryAppState(val navController: NavHostController, val coroutineScope: CoroutineScope) {
+class InventoryAppState(val navController: NavHostController) {
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
     private val previousDestination = mutableStateOf<NavDestination?>(null)
 
