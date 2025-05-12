@@ -4,13 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.model.data.Asset
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlin.time.Duration.Companion.seconds
 
 sealed interface AssetDetailsScreenUiState {
     data object Loading : AssetDetailsScreenUiState
@@ -26,15 +25,11 @@ sealed interface AssetDetailsScreenUiState {
     }
 }
 
-class AssetDetailsScreenViewModel(
-    private val assetId: String,
-    private val assetRepository: AssetRepository,
-) : ViewModel() {
+class AssetDetailsScreenViewModel(assetId: String, assetRepository: AssetRepository) : ViewModel() {
 
     val uiState: StateFlow<AssetDetailsScreenUiState> =
         assetRepository
             .getAssetById(assetId)
-            .onEach { println(it) }
             .map { asset ->
                 if (asset != null) {
                     AssetDetailsScreenUiState.Loaded(asset)

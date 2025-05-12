@@ -10,19 +10,17 @@ import io.siffert.mobile.app.inventory.feature.balance.navigation.balanceSection
 import io.siffert.mobile.app.inventory.ui.InventoryAppState
 
 @Composable
-fun InventoryNavHost(
-    appState: InventoryAppState,
-    modifier: Modifier = Modifier,
-) {
+fun InventoryNavHost(appState: InventoryAppState, modifier: Modifier = Modifier) {
     val navController = appState.navController
     NavHost(
         navController = navController,
         startDestination = BalanceBaseRoute,
-        modifier = modifier
+        modifier = modifier,
     ) {
         balanceSection()
         assetsSection(
-            onAssetClick = navController::navigateToAssetDetails
+            onAssetClick = navController::navigateToAssetDetails,
+            onBackClick = navController::popBackStack,
         )
     }
 }

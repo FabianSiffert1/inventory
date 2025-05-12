@@ -15,47 +15,40 @@ import io.siffert.mobile.app.feature.assets.AssetsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreen
 import kotlinx.serialization.Serializable
 
+@Serializable data object AssetsRoute
 
-@Serializable
-data object AssetsRoute
+@Serializable data class AssetDetailsRoute(val assetId: String)
 
-@Serializable
-data class AssetDetailsRoute(val assetId: String)
-
-@Serializable
-data object AssetsBaseRoute
-
+@Serializable data object AssetsBaseRoute
 
 fun NavController.navigateToAssets(navOptions: NavOptions) =
     navigate(route = AssetsRoute, navOptions)
 
 fun NavController.navigateToAssetDetails(
     assetId: String,
-    navOptions: NavOptionsBuilder.() -> Unit = {}
+    navOptions: NavOptionsBuilder.() -> Unit = {},
 ) {
     navigate(route = AssetDetailsRoute(assetId = assetId), navOptions)
 }
 
-//todo: fix animation when entering asset
-fun NavGraphBuilder.assetsSection(
-    onAssetClick: (String) -> Unit
-) {
+// todo: fix animation when entering asset
+fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: () -> Unit) {
     navigation<AssetsBaseRoute>(startDestination = AssetsRoute) {
         composable<AssetsRoute>(
             enterTransition = {
                 return@composable slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    AnimatedContentTransitionScope.SlideDirection.Left
                 )
             },
             exitTransition = {
-                val isTargetInAssetGraph = targetState.destination.hierarchy.any {
-                    it.route == AssetsBaseRoute::class.simpleName
-                }
-                if (!isTargetInAssetGraph) return@composable fadeOut(
-                    animationSpec = tween(durationMillis = 0)
-                )
+                val isTargetInAssetGraph =
+                    targetState.destination.hierarchy.any {
+                        it.route == AssetsBaseRoute::class.simpleName
+                    }
+                if (!isTargetInAssetGraph)
+                    return@composable fadeOut(animationSpec = tween(durationMillis = 0))
                 return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    AnimatedContentTransitionScope.SlideDirection.Right
                 )
             },
         ) {
@@ -64,18 +57,17 @@ fun NavGraphBuilder.assetsSection(
         composable<AssetDetailsRoute>(
             enterTransition = {
                 return@composable slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    AnimatedContentTransitionScope.SlideDirection.Left
                 )
             },
             exitTransition = {
                 return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    AnimatedContentTransitionScope.SlideDirection.Right
                 )
-            }
+            },
         ) { asset ->
             val assetId = asset.toRoute<AssetDetailsRoute>().assetId
-            AssetDetailsScreen(assetId = assetId)
+            AssetDetailsScreen(assetId = assetId, onBackClick = onBackClick)
         }
-
     }
 }

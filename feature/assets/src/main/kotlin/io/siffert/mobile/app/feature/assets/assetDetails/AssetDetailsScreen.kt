@@ -17,20 +17,18 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-internal fun AssetDetailsScreen(assetId: String? = null) {
+internal fun AssetDetailsScreen(assetId: String? = null, onBackClick: () -> Unit) {
     val viewModel: AssetDetailsScreenViewModel = koinViewModel { parametersOf(assetId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AssetDetailScreenContent(uiState = uiState)
+    AssetDetailScreenContent(uiState = uiState, onBackClick = onBackClick)
 }
 
 @Composable
-private fun AssetDetailScreenContent(uiState: AssetDetailsScreenUiState) {
+private fun AssetDetailScreenContent(uiState: AssetDetailsScreenUiState, onBackClick: () -> Unit) {
     Scaffold(
         containerColor = Color.Transparent,
-        topBar = {
-            // todo: implement topBar
-        },
+        topBar = { AssetDetailsTopBar(onBackClick = onBackClick, onDeleteAssetClick = {}) },
     ) { paddingValues ->
         // todo: Crossfade for loading states -> state.when
         Crossfade(
