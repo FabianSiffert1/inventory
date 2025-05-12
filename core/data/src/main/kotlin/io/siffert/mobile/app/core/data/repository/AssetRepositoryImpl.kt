@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.core.data.repository
 
+import io.siffert.mobile.app.core.data.model.asEntity
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
 import io.siffert.mobile.app.core.database.model.asExternalModel
@@ -45,16 +46,18 @@ class AssetRepositoryImpl(
         }
     }
 
-    override fun insertOrIgnoreAsset(assets: List<Asset>): List<Long> {
-        TODO("Not yet implemented")
+    override suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long> {
+        val assetEntities = assets.map { it.asEntity() }
+        return assetDao.insertOrIgnoreAssets(assetEntities)
     }
 
-    override fun upsertAssets(assets: List<Asset>) {
-        TODO("Not yet implemented")
+    override suspend fun upsertAssets(assets: List<Asset>) {
+        val assetEntities = assets.map { it.asEntity() }
+        assetDao.upsertAssets(assetEntities)
     }
 
-    override fun deleteAssets(assetIds: List<String>) {
-        TODO("Not yet implemented")
+    override suspend fun deleteAssets(assetIds: List<String>) {
+        assetDao.deleteAssets(assetIds)
     }
 
 }

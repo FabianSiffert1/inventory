@@ -14,12 +14,12 @@ interface AssetRepository {
     /**
      * Inserts [assets] into the db if they don't exist, and ignores those that do
      */
-    fun insertOrIgnoreAsset(assets: List<Asset>): List<Long>
+    suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long>
 
     /**
      * Inserts or updates [assets] in the db under the specified primary keys
      */
-    fun upsertAssets(assets: List<Asset>)
+    suspend fun upsertAssets(assets: List<Asset>)
 
-    fun deleteAssets(assetIds: List<String>)
+    suspend fun deleteAssets(assetIds: List<String>)
 }
