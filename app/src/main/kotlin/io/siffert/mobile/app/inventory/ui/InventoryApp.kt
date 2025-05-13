@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +32,8 @@ import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryBack
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryNavigationSuiteScaffold
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryTopAppBar
+import io.siffert.mobile.app.inventory.core.designsystem.icons.AddCircle
+import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.LocalGradientColors
 import io.siffert.mobile.app.inventory.navigation.InventoryNavHost
 import kotlin.reflect.KClass
@@ -42,7 +42,7 @@ import kotlin.reflect.KClass
 fun InventoryApp(
     appState: InventoryAppState,
     modifier: Modifier = Modifier,
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
 ) {
     InventoryBackground(modifier = modifier) {
         InventoryGradientBackground(gradientColors = LocalGradientColors.current) {
@@ -50,12 +50,11 @@ fun InventoryApp(
                 appState = appState,
                 windowAdaptiveInfo = windowAdaptiveInfo,
                 onTopAppBarActionClick = {},
-                onTopAppBarNavigationClick = { appState.navigateToSearch() })
+                onTopAppBarNavigationClick = { appState.navigateToSearch() },
+            )
         }
     }
-
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,34 +68,23 @@ internal fun InventoryApp(
     val currentDestination = appState.currentDestination
 
     InventoryNavigationSuiteScaffold(
-        navigationSuiteItems =
-            {
-                appState.topLevelDestinations.forEach { destination ->
-                    val selected = currentDestination
-                        .isRouteInHierarchy(destination.baseRoute)
-                    item(
-                        selected = selected,
-                        onClick = { appState.navigateToTopLevelDestination(destination) },
-                        icon = {
-                            Icon(
-                                imageVector = destination.unselectedIcon,
-                                contentDescription = null,
-                            )
-                        },
-                        selectedIcon = {
-                            Icon(
-                                imageVector = destination.selectedIcon,
-                                contentDescription = null,
-                            )
-                        },
-                        label = { Text(stringResource(destination.iconTextId)) },
-                        modifier =
-                            Modifier
-                                .testTag("InventoryNavItem")
-                                .then(Modifier),
-                    )
-                }
-            },
+        navigationSuiteItems = {
+            appState.topLevelDestinations.forEach { destination ->
+                val selected = currentDestination.isRouteInHierarchy(destination.baseRoute)
+                item(
+                    selected = selected,
+                    onClick = { appState.navigateToTopLevelDestination(destination) },
+                    icon = {
+                        Icon(imageVector = destination.unselectedIcon, contentDescription = null)
+                    },
+                    selectedIcon = {
+                        Icon(imageVector = destination.selectedIcon, contentDescription = null)
+                    },
+                    label = { Text(stringResource(destination.iconTextId)) },
+                    modifier = Modifier.testTag("InventoryNavItem").then(Modifier),
+                )
+            }
+        },
         windowAdaptiveInfo = windowAdaptiveInfo,
     ) {
         Scaffold(
@@ -106,43 +94,37 @@ internal fun InventoryApp(
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
         ) { padding ->
             Column(
-                Modifier
-                    .fillMaxSize()
+                Modifier.fillMaxSize()
                     .padding(padding)
                     .consumeWindowInsets(padding)
                     .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal,
-                        ),
-                    ),
+                        WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
+                    )
             ) {
                 val currentTopLevelDestination = appState.currentTopLevelDestination
                 if (currentTopLevelDestination?.showTopAppBar == true) {
                     InventoryTopAppBar(
                         navigationIcon = Icons.Filled.Search,
                         navigationIconContentDescription =
-                            stringResource(id = assetsResource.string.feature_assets_top_app_bar_search),
-                        actionIcon = Icons.Filled.Add,
+                            stringResource(
+                                id = assetsResource.string.feature_assets_top_app_bar_search
+                            ),
+                        actionIcon = Cozy.icon.AddCircle,
                         actionIconContentDescription =
-                            stringResource(id = assetsResource.string.feature_assets_top_app_bar_add_asset),
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent
-                        ),
+                            stringResource(
+                                id = assetsResource.string.feature_assets_top_app_bar_add_asset
+                            ),
+                        colors =
+                            TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                         onNavigationClick = { onTopAppBarNavigationClick() },
-                        onActionClick = { onTopAppBarActionClick() }
+                        onActionClick = { onTopAppBarActionClick() },
                     )
                 }
-                InventoryNavHost(
-                    appState = appState,
-                )
+                InventoryNavHost(appState = appState)
             }
         }
-
     }
 }
 
-
 private fun NavDestination?.isRouteInHierarchy(route: KClass<*>) =
-    this?.hierarchy?.any {
-        it.hasRoute(route)
-    } ?: false
+    this?.hierarchy?.any { it.hasRoute(route) } ?: false
