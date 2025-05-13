@@ -17,17 +17,17 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-internal fun AssetDetailsScreen(assetId: String? = null, onBackClick: () -> Unit) {
+internal fun AssetDetailsScreen(assetId: String? = null, navigateBack: () -> Unit) {
     val viewModel: AssetDetailsScreenViewModel = koinViewModel { parametersOf(assetId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     AssetDetailScreenContent(
         uiState = uiState,
-        onBackClick = onBackClick,
+        onBackClick = navigateBack,
         onDeleteAssetClick = {
-            if (assetId != null) {
-                viewModel.deleteAsset(assetId)
-            }
+            // todo: navigate to confirmation dialog
+            // todo: implement dialog handler
+            viewModel.deleteAsset(assetId = assetId, navigateBack = navigateBack)
         },
     )
 }
@@ -42,7 +42,13 @@ private fun AssetDetailScreenContent(
         modifier = Modifier.statusBarsPadding(),
         containerColor = Color.Transparent,
         topBar = {
-            AssetDetailsTopBar(onBackClick = onBackClick, onDeleteAssetClick = onDeleteAssetClick)
+            AssetDetailsTopBar(
+                onBackClick = onBackClick,
+                onDeleteAssetClick = onDeleteAssetClick,
+                onEditClick = {
+                    // todo:implement edit
+                },
+            )
         },
     ) { paddingValues ->
         // todo: Crossfade for loading states -> state.when

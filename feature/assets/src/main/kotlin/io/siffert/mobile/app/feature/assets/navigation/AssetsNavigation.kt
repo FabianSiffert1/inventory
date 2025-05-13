@@ -67,7 +67,7 @@ fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: (
             },
         ) { asset ->
             val assetId = asset.toRoute<AssetDetailsRoute>().assetId
-            AssetDetailsScreen(assetId = assetId, onBackClick = onBackClick)
+            AssetDetailsScreen(assetId = assetId, navigateBack = onBackClick)
         }
     }
 }

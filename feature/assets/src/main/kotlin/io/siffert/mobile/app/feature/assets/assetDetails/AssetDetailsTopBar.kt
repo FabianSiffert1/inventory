@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Delete
+import io.siffert.mobile.app.inventory.core.designsystem.icons.Edit
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,6 +22,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 internal fun AssetDetailsTopBar(
     onBackClick: () -> Unit,
     onDeleteAssetClick: () -> Unit,
+    onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     CenterAlignedTopAppBar(
@@ -43,6 +45,14 @@ internal fun AssetDetailsTopBar(
                 Icon(
                     imageVector = Cozy.icon.Delete,
                     contentDescription = "Delete Asset",
+                    // todo: implement cozy.color.redMuted
+                    tint = Color.Red,
+                )
+            }
+            IconButton(onClick = onEditClick) {
+                Icon(
+                    imageVector = Cozy.icon.Edit,
+                    contentDescription = "Edit Asset Information",
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }

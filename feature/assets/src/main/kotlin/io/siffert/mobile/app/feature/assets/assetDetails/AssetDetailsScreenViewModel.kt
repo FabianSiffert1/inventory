@@ -45,7 +45,16 @@ class AssetDetailsScreenViewModel(assetId: String, private val assetRepository: 
                 initialValue = AssetDetailsScreenUiState.Loading,
             )
 
-    fun deleteAsset(assetId: String) {
-        viewModelScope.launch { assetRepository.deleteAssets(assetIds = listOf(assetId)) }
+    fun deleteAsset(assetId: String?, navigateBack: () -> Unit) {
+        if (assetId != null)
+            viewModelScope.launch {
+                try {
+                    assetRepository.deleteAssets(assetIds = listOf(assetId))
+                    // todo: implement wait for delete
+                    navigateBack()
+                } catch (e: Exception) {
+                    println("AssetDetailsScreenViewModel: deleteAsset failed: $e")
+                }
+            }
     }
 }
