@@ -36,6 +36,10 @@ class AssetRepositoryImpl(
     override fun getAssetById(assetId: String): Flow<Asset?> = flow {
         val assetEntityFlow = assetDao.getAssetById(assetId)
         assetEntityFlow.collect { assetEntity ->
+            if (assetEntity == null) {
+                emit(null)
+                return@collect
+            }
             val historicalPrices = historicalPricesDao.getHistoricalPricesForAsset(assetEntity.uid)
             val asset = assetEntity.asExternalModel(historicalPrices)
             emit(asset)

@@ -21,15 +21,29 @@ internal fun AssetDetailsScreen(assetId: String? = null, onBackClick: () -> Unit
     val viewModel: AssetDetailsScreenViewModel = koinViewModel { parametersOf(assetId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AssetDetailScreenContent(uiState = uiState, onBackClick = onBackClick)
+    AssetDetailScreenContent(
+        uiState = uiState,
+        onBackClick = onBackClick,
+        onDeleteAssetClick = {
+            if (assetId != null) {
+                viewModel.deleteAsset(assetId)
+            }
+        },
+    )
 }
 
 @Composable
-private fun AssetDetailScreenContent(uiState: AssetDetailsScreenUiState, onBackClick: () -> Unit) {
+private fun AssetDetailScreenContent(
+    uiState: AssetDetailsScreenUiState,
+    onBackClick: () -> Unit,
+    onDeleteAssetClick: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
         containerColor = Color.Transparent,
-        topBar = { AssetDetailsTopBar(onBackClick = onBackClick, onDeleteAssetClick = {}) },
+        topBar = {
+            AssetDetailsTopBar(onBackClick = onBackClick, onDeleteAssetClick = onDeleteAssetClick)
+        },
     ) { paddingValues ->
         // todo: Crossfade for loading states -> state.when
         Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) {
