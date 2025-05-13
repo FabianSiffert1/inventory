@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,6 +24,7 @@ internal fun AssetDetailsTopBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
+            // todo: set to Asset Name
             // if (titleRes != null) Text(text = stringResource(id = titleRes)) },
             Text(text = "Asset Details")
         },
@@ -44,7 +46,7 @@ internal fun AssetDetailsTopBar(
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         modifier = modifier.testTag("assetDetailsTopBar"),
     )
 }

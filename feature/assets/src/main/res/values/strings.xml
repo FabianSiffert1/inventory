@@ -3,4 +3,7 @@
     <string name="feature_assets_title">Assets</string>
     <string name="feature_assets_top_app_bar_search">Search</string>
     <string name="feature_assets_top_app_bar_add_asset">Add Asset</string>
+    <string name="feature_assets_asset_details_name">Name</string>
+    <string name="feature_assets_asset_details_current_price">Current Price</string>
+    <string name="feature_assets_asset_details_notes">Notes</string>">
 </resources>
