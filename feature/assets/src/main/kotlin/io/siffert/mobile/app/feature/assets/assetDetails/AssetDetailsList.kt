@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,16 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.prettyPrint
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.mapper.getDisplayName
-import io.siffert.mobile.app.inventory.core.designsystem.icons.TrendingUp
-import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
+import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
@@ -107,7 +104,7 @@ private fun AssetDetailsListItem(
         headlineContent = {
             Text(
                 text = title,
-                // todo: replace with Cozy color
+                // todo: replace with Cozy color that supports light and dark
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = Color.Gray,
             )
@@ -116,21 +113,22 @@ private fun AssetDetailsListItem(
     )
 }
 
-// todo: add icons, implement
 @Composable
-private fun AssetClassIcon(assetClass: AssetClass, modifier: Modifier = Modifier) {
-    Icon(
-        modifier = modifier.padding(4.dp),
-        imageVector =
-            when (assetClass) {
-                AssetClass.REAL_ASSET,
-                AssetClass.SECURITY,
-                AssetClass.DIGITAL_ASSET -> Cozy.icon.TrendingUp
+@PreviewLightDark
+private fun AssetDetailsListItemPreview() {
+    val localContext = LocalContext.current
+    InventoryTheme {
+        AssetDetailsListItem(
+            title = "Preview",
+            supportingContent = {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    AssetClassIcon(assetClass = AssetClass.DIGITAL_ASSET)
+                    Text(text = AssetClass.DIGITAL_ASSET.getDisplayName(localContext))
+                }
             },
-        contentDescription = "assetClassIcon",
-    )
-}
-
-fun Date.prettyPrint(): String {
-    return SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(this)
+        )
+    }
 }

@@ -28,6 +28,6 @@ internal fun Assets(
             // todo: create loadingState
             AssetsScreenUiState.Loading -> Text("LoadingStateImplPlaceholder")
             is AssetsScreenUiState.Success ->
-                AssetList(assetList = uiState.assetList, onAssetClick = onAssetClick)
+                AssetOverviewList(assetList = uiState.assetList, onAssetClick = onAssetClick)
         }
     }

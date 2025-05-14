@@ -52,7 +52,7 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
                 id = "assetId2",
                 name = "assetName2",
                 assetGroupId = null,
-                assetClass = AssetClass.REAL_ASSET,
+                assetClass = AssetClass.DIGITAL_ASSET,
                 fees = 0.10,
                 priceHistory =
                     listOf(
@@ -74,7 +74,7 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
                 id = "assetId3",
                 name = "assetName3",
                 assetGroupId = null,
-                assetClass = AssetClass.REAL_ASSET,
+                assetClass = AssetClass.SECURITY,
                 fees = 0.10,
                 priceHistory =
                     listOf(
