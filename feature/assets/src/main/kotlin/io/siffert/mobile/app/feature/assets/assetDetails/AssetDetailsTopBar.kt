@@ -57,12 +57,7 @@ internal fun AssetDetailsTopBar(
         },
         actions = {
             IconButton(onClick = onDeleteAssetClick) {
-                Icon(
-                    imageVector = Cozy.icon.Delete,
-                    contentDescription = "Delete Asset",
-                    // todo: implement cozy.color.redMuted
-                    tint = Color.Red,
-                )
+                Icon(imageVector = Cozy.icon.Delete, contentDescription = "Delete Asset")
             }
             IconButton(onClick = onEditClick) {
                 Icon(
