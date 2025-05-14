@@ -23,13 +23,17 @@ fun Asset.toPriceHistoryEntities(): List<PriceHistoryEntity> {
             id = priceHistoryDate.id,
             assetId = this.id,
             value = priceHistoryDate.value,
-            timestamp = priceHistoryDate.timestamp.time,
+            timestamp = priceHistoryDate.timestamp.toEpochMilliseconds(),
         )
     }
 }
 
 fun Asset.toSalesEntity(): SalesEntity? {
     return saleData?.let {
-        SalesEntity(assetId = it.assetId, value = it.value, timestamp = it.timestamp.time)
+        SalesEntity(
+            assetId = it.assetId,
+            value = it.value,
+            timestamp = it.timestamp.toEpochMilliseconds(),
+        )
     }
 }

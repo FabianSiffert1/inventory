@@ -6,9 +6,7 @@ plugins {
     alias(libs.plugins.inventory.android.defaultConventionPlugin)
 }
 
-android {
-    namespace = "io.siffert.mobile.app.core.database"
-}
+android { namespace = "io.siffert.mobile.app.core.database" }
 
 dependencies {
     implementation(project(":core:common"))
@@ -18,6 +16,7 @@ dependencies {
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

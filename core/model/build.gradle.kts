@@ -4,14 +4,13 @@ plugins {
     alias(libs.plugins.inventory.android.defaultConventionPlugin)
 }
 
-android {
-    namespace = "io.siffert.mobile.app.core.model.data"
-}
+android { namespace = "io.siffert.mobile.app.core.model.data" }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.kotlinx.datetime)
     testImplementation(libs.junit)
     implementation(libs.androidx.foundation.android)
     androidTestImplementation(libs.androidx.junit)

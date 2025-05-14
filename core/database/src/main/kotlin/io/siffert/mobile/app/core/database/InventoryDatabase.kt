@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.AssetGroupDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
@@ -12,6 +13,7 @@ import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.m
 import io.siffert.mobile.app.core.database.model.AssetEntity
 import io.siffert.mobile.app.core.database.model.AssetGroupEntity
 import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
+import io.siffert.mobile.app.core.database.util.Converters
 
 interface InventoryAppDatabase {
     fun assetDao(): AssetDao
@@ -34,6 +36,7 @@ interface InventoryAppDatabase {
     version = 5,
     exportSchema = false,
 )
+@TypeConverters(Converters::class)
 abstract class InventoryAppDatabaseImpl : RoomDatabase(), InventoryAppDatabase {
     abstract override fun assetDao(): AssetDao
 

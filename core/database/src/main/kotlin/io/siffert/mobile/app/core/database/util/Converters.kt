@@ -1,31 +1,17 @@
 package io.siffert.mobile.app.core.database.util
 
 import androidx.room.TypeConverter
-import io.siffert.mobile.app.model.data.AssetClass
-import io.siffert.mobile.app.model.data.Currency
-import kotlinx.serialization.json.Json
-import java.time.LocalDate
-
+import kotlinx.datetime.Instant
 
 class Converters {
 
-    private val json = Json { encodeDefaults = true; ignoreUnknownKeys = true }
+    @TypeConverter
+    fun toKotlinInstant(value: Long?): Instant? {
+        return value?.let { Instant.fromEpochMilliseconds(value) }
+    }
 
     @TypeConverter
-    fun fromAssetClass(value: AssetClass): String = value.name
-
-    @TypeConverter
-    fun toAssetClass(value: String): AssetClass = AssetClass.valueOf(value)
-
-    @TypeConverter
-    fun fromCurrency(value: Currency): String = value.name
-
-    @TypeConverter
-    fun toCurrency(value: String): Currency = Currency.valueOf(value)
-
-    @TypeConverter
-    fun fromLocalDate(date: LocalDate): Long = date.toEpochDay()
-
-    @TypeConverter
-    fun toLocalDate(epochDay: Long): LocalDate = LocalDate.ofEpochDay(epochDay)
+    fun fromKotlinInstant(value: Instant?): Long? {
+        return value?.let { value.toEpochMilliseconds() }
+    }
 }

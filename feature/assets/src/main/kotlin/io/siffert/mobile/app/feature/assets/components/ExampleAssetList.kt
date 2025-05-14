@@ -4,7 +4,8 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryDate
-import java.util.Date
+import kotlin.time.Duration.Companion.days
+import kotlinx.datetime.Clock
 
 private val assetid1 = "uud1"
 private val assetid2 = "uud2"
@@ -20,7 +21,12 @@ val exampleAssetList =
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 1, assetId = assetid1, value = 1.20, timestamp = Date())
+                    PriceHistoryDate(
+                        id = 1,
+                        assetId = assetid1,
+                        value = 1.20,
+                        timestamp = Clock.System.now(),
+                    )
                 ),
             saleData = null,
             currency = Currency.EUR,
@@ -31,11 +37,16 @@ val exampleAssetList =
             id = assetid2,
             name = "asset2",
             assetGroupId = null,
-            assetClass = AssetClass.REAL_ASSET,
+            assetClass = AssetClass.SECURITY,
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 2, assetId = assetid2, value = 1.30, timestamp = Date())
+                    PriceHistoryDate(
+                        id = 2,
+                        assetId = assetid2,
+                        value = 1.30,
+                        timestamp = Clock.System.now(),
+                    )
                 ),
             saleData = null,
             currency = Currency.EUR,
@@ -46,14 +57,30 @@ val exampleAssetList =
             id = assetid3,
             name = "asset3",
             assetGroupId = null,
-            assetClass = AssetClass.REAL_ASSET,
+            assetClass = AssetClass.DIGITAL_ASSET,
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 3, assetId = assetid3, value = 1.40, timestamp = Date())
+                    PriceHistoryDate(
+                        id = 3,
+                        assetId = assetid3,
+                        value = 1.40,
+                        timestamp = Clock.System.now().minus(2.days),
+                    ),
+                    PriceHistoryDate(
+                        id = 5,
+                        assetId = assetid3,
+                        value = 1.45,
+                        timestamp = Clock.System.now(),
+                    ),
                 ),
             saleData =
-                PriceHistoryDate(id = 4, assetId = assetid3, value = 1.20, timestamp = Date()),
+                PriceHistoryDate(
+                    id = 4,
+                    assetId = assetid3,
+                    value = 1.20,
+                    timestamp = Clock.System.now(),
+                ),
             currency = Currency.EUR,
             url = null,
             userNotes = null,

@@ -3,9 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-android {
-    namespace = "io.siffert.mobile.app.feature.assets"
-}
+android { namespace = "io.siffert.mobile.app.feature.assets" }
 
 dependencies {
     implementation(project(":core:designsystem"))
@@ -20,6 +18,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.koin.androidx.compose)
     implementation(libs.material)
     androidTestImplementation(libs.androidx.espresso.core)

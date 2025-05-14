@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import io.siffert.mobile.app.core.database.model.AssetEntity
 import io.siffert.mobile.app.model.data.PriceHistoryDate
-import java.util.Date
+import kotlinx.datetime.Instant
 
 @Entity(
     tableName = "sales",
@@ -30,4 +30,9 @@ data class SalesEntity(
 )
 
 fun SalesEntity.toExternalModel() =
-    PriceHistoryDate(id = id, assetId = assetId, value = value, timestamp = Date(timestamp))
+    PriceHistoryDate(
+        id = id,
+        assetId = assetId,
+        value = value,
+        timestamp = Instant.fromEpochMilliseconds(timestamp),
+    )

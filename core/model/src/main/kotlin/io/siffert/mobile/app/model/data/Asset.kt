@@ -1,6 +1,6 @@
 package io.siffert.mobile.app.model.data
 
-import java.util.Date
+import kotlinx.datetime.Instant
 
 data class Asset(
     val id: String,
@@ -27,5 +27,5 @@ data class PriceHistoryDate(
     val id: Long,
     val assetId: String,
     val value: Double,
-    val timestamp: Date,
+    val timestamp: Instant,
 )

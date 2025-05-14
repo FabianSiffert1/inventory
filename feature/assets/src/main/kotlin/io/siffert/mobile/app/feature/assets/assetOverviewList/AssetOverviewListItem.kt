@@ -24,7 +24,7 @@ import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryDate
 import io.siffert.mobile.app.model.data.Trend
-import java.util.Date
+import kotlinx.datetime.Clock
 
 @Composable
 fun AssetOverviewListItem(
@@ -72,10 +72,20 @@ fun AssetOverviewListItemPreview() {
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 2, assetId = "assetId", value = 1.30, timestamp = Date())
+                    PriceHistoryDate(
+                        id = 2,
+                        assetId = "assetId",
+                        value = 1.30,
+                        timestamp = Clock.System.now(),
+                    )
                 ),
             saleData =
-                PriceHistoryDate(id = 1, assetId = "assetId", value = 1.20, timestamp = Date()),
+                PriceHistoryDate(
+                    id = 1,
+                    assetId = "assetId",
+                    value = 1.20,
+                    timestamp = Clock.System.now(),
+                ),
             currency = Currency.EUR,
             url = null,
             userNotes = "notes1",
