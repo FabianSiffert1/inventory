@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.Flow
 interface AssetDao {
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
-    suspend fun getAssetWithPriceHistoryAndSales(assetId: String): AssetWithPriceHistoryAndSales
+    suspend fun getAssetWithPriceHistoryAndSales(assetId: String): AssetWithPriceHistoryAndSales?
 
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
-    fun getAssetWithPriceHistoryAndSalesFlow(assetId: String): Flow<AssetWithPriceHistoryAndSales>
+    fun getAssetWithPriceHistoryAndSalesFlow(assetId: String): Flow<AssetWithPriceHistoryAndSales?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun insertAsset(asset: AssetEntity)
 
@@ -36,7 +36,7 @@ interface AssetDao {
     @Query("SELECT * FROM assets WHERE uid IN (:ids)")
     fun getAssetsWithPriceHistoryAndSalesByIds(
         ids: Set<String>
-    ): Flow<List<AssetWithPriceHistoryAndSales>>
+    ): Flow<List<AssetWithPriceHistoryAndSales?>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertOrIgnoreAssets(assetEntities: List<AssetEntity>): List<Long>

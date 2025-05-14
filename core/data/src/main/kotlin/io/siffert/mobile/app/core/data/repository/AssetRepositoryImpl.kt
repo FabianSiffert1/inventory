@@ -21,13 +21,11 @@ class AssetRepositoryImpl(
             assetWithRelationsList.map { it.asExternalModel() }
         }
 
-    override suspend fun getAssetsList(): List<Asset> {
-        val assetEntities = assetDao.getAssetsWithPriceHistoryAndSales()
-        return assetEntities.map { it.asExternalModel() }
-    }
+    override suspend fun getAssetsList(): List<Asset> =
+        assetDao.getAssetsWithPriceHistoryAndSales().map { it.asExternalModel() }
 
     override fun getAssetById(assetId: String): Flow<Asset?> =
-        assetDao.getAssetWithPriceHistoryAndSalesFlow(assetId).map { it.asExternalModel() }
+        assetDao.getAssetWithPriceHistoryAndSalesFlow(assetId).map { it?.asExternalModel() }
 
     override suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long> {
         val assetEntities = assets.map { it.asEntity() }
@@ -46,7 +44,6 @@ class AssetRepositoryImpl(
     }
 
     override suspend fun deleteAssets(assetIds: List<String>) {
-        // todo: delete price history and sales history too
         assetDao.deleteAssets(assetIds)
     }
 }

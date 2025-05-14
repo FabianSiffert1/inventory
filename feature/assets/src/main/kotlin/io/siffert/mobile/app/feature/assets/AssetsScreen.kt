@@ -30,5 +30,7 @@ internal fun Assets(
             AssetsScreenUiState.Loading -> Text("LoadingStateImplPlaceholder")
             is AssetsScreenUiState.Success ->
                 AssetOverviewList(assetList = uiState.assetList, onAssetClick = onAssetClick)
+
+            AssetsScreenUiState.Empty -> Text("No Asset yet.")
         }
     }

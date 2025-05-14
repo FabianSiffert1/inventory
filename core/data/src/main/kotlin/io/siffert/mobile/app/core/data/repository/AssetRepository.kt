@@ -4,9 +4,9 @@ import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
 
 interface AssetRepository {
-    fun getAssetsFlow(): Flow<List<Asset>>
+    fun getAssetsFlow(): Flow<List<Asset>?>
 
-    suspend fun getAssetsList(): List<Asset>
+    suspend fun getAssetsList(): List<Asset>?
 
     fun getAssetById(assetId: String): Flow<Asset?>
 

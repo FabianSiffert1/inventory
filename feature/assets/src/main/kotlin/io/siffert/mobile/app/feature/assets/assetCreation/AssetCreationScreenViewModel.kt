@@ -7,12 +7,15 @@ import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
+import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import kotlin.random.Random
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -52,22 +55,30 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
         viewModelScope.launch {
             val uiState = _uiState.value
             if (!uiState.isValidAsset) return@launch
-
+            val assetId = Uuid.random().toString()
             val asset =
                 Asset(
-                    id = Uuid.random().toString(),
+                    id = assetId,
                     name = uiState.nameInput.text,
                     assetClass = AssetClass.DIGITAL_ASSET,
                     assetGroupId = null,
                     fees = 0.01,
-                    priceHistory = emptyList(),
+                    priceHistory =
+                        listOf(
+                            PriceHistoryEntry(
+                                id = Random.nextLong(),
+                                assetId = assetId,
+                                value = 1.0,
+                                timestamp = Clock.System.now(),
+                            )
+                        ),
                     saleData = null,
                     currency = Currency.EUR,
                     url = uiState.urlInput.text,
                     userNotes = uiState.notesInput.text,
                 )
             // todo: implement return success/failure etc
-            assetRepository.insertOrIgnoreAsset(listOf(asset))
+            assetRepository.upsertAssets(listOf(asset))
             // on success -> navigate back
         }
     }
