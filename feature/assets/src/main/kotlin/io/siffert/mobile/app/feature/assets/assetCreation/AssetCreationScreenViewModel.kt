@@ -8,14 +8,15 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
-import kotlin.random.Random
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.days
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -69,8 +70,14 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                                 id = Random.nextLong(),
                                 assetId = assetId,
                                 value = 1.0,
+                                timestamp = Clock.System.now().minus(2.days),
+                            ),
+                            PriceHistoryEntry(
+                                id = Random.nextLong(),
+                                assetId = assetId,
+                                value = 1.0,
                                 timestamp = Clock.System.now(),
-                            )
+                            ),
                         ),
                     saleData = null,
                     currency = Currency.EUR,
@@ -80,6 +87,15 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
             // todo: implement return success/failure etc
             assetRepository.upsertAssets(listOf(asset))
             // on success -> navigate back
+            // on success -> clean inputs
+            _uiState.update {
+                it.copy(
+                    nameInput = TextFieldValue(),
+                    feesInput = TextFieldValue(),
+                    urlInput = TextFieldValue(),
+                    notesInput = TextFieldValue(),
+                )
+            }
         }
     }
 }
