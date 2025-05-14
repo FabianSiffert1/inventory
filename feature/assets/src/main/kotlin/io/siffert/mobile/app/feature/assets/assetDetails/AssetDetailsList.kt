@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +23,8 @@ import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.prettyPrint
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.mapper.getDisplayName
+import io.siffert.mobile.app.inventory.core.designsystem.icons.Gavel
+import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
@@ -45,6 +48,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                 }
             },
         )
+
         AssetDetailsListItem(
             title = stringResource(id = R.string.feature_assets_asset_details_acquisition_price),
             supportingContent = {
@@ -60,14 +64,29 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                 }
             },
         )
-        asset.assetGroupId?.let {
+
+        asset.realizedGain?.let {
             AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_asset_details_group),
+                title = stringResource(id = R.string.feature_assets_class_realized_gain),
                 supportingContent = {
-                    Row(modifier = Modifier.fillMaxWidth()) { Text(text = "${asset.assetGroupId}") }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Icon(
+                            imageVector = Cozy.icon.Gavel,
+                            contentDescription =
+                                stringResource(id = R.string.feature_assets_class_realized_gain),
+                        )
+                        Text(text = "${asset.realizedGain} ")
+                    }
                 },
             )
         }
+        asset.assetGroupId?.let {
+            AssetDetailsListItem(
+                title = stringResource(id = R.string.feature_assets_asset_details_group),
+                supportingContent = { Text(text = "${asset.assetGroupId}") },
+            )
+        }
+
         AssetDetailsListItem(
             title = stringResource(id = R.string.feature_assets_asset_details_asset_class),
             supportingContent = {
@@ -80,16 +99,29 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                 }
             },
         )
-        asset.userNotes?.let {
+
+        // todo: implement rest of asset details, make editable, textfields?
+        asset.url?.let {
             AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_asset_details_notes),
+                title = stringResource(id = R.string.feature_assets_asset_details_url),
                 supportingContent = {
-                    Row(modifier = Modifier.fillMaxWidth()) { Text(text = "${asset.userNotes}") }
+                    // todo: make clickable
+                    Text(text = "${asset.url}")
                 },
             )
         }
-        // todo: implement rest of asset details
-        Text(text = "Placeholder: Price Graph?")
+
+        asset.userNotes?.let {
+            AssetDetailsListItem(
+                title = stringResource(id = R.string.feature_assets_asset_details_notes),
+                supportingContent = { Text(text = "${asset.userNotes}") },
+            )
+        }
+
+        AssetDetailsListItem(
+            title = stringResource(id = R.string.feature_assets_asset_details_price_chart),
+            supportingContent = { Text(text = "Placeholder: Price Chart") },
+        )
     }
 }
 

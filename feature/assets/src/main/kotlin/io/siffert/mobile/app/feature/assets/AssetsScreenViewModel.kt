@@ -93,7 +93,7 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
                     ),
                 sellPrice = null,
                 sellDate = null,
-                realizedGain = null,
+                realizedGain = 0.30,
                 currency = Currency.EUR,
                 url = null,
                 userNotes = "userNotes3",
