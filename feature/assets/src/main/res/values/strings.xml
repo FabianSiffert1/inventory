@@ -5,7 +5,7 @@
     <string name="feature_assets_top_app_bar_add_asset">Add Asset</string>
     <string name="feature_assets_top_app_bar_asset_details_title">Asset Details</string>
     <string name="feature_assets_asset_details_name">Name</string>
-    <string name="feature_assets_asset_details_current_price">Current Price</string>
+    <string name="feature_assets_asset_details_current_value">Current Value</string>
     <string name="feature_assets_asset_details_overview">Overview</string>
     <string name="feature_assets_asset_details_acquisition_price">Bought For</string>
     <string name="feature_assets_asset_details_fees">Fees</string>

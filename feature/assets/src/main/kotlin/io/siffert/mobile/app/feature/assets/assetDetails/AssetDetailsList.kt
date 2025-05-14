@@ -10,13 +10,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.mapper.getDisplayName
@@ -36,7 +37,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_asset_details_current_price),
+            title = stringResource(id = R.string.feature_assets_asset_details_current_value),
             supportingContent = {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -50,6 +51,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
         AssetDetailsListItem(
             title = stringResource(id = R.string.feature_assets_asset_details_acquisition_price),
             supportingContent = {
+                // todo: onClick move to asset acquisition screen
                 Column {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -57,18 +59,6 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                     ) {
                         Text(text = "${asset.priceHistory.first().value} ${asset.currency.name}")
                         Text(text = asset.priceHistory.first().timestamp.prettyPrint())
-                    }
-                    asset.fees?.let {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                        ) {
-                            Text(
-                                text =
-                                    stringResource(id = R.string.feature_assets_asset_details_fees)
-                            )
-                            Text(text = asset.fees.toString())
-                        }
                     }
                 }
             },
@@ -114,7 +104,14 @@ private fun AssetDetailsListItem(
 ) {
     ListItem(
         modifier = Modifier.fillMaxWidth().then(modifier),
-        headlineContent = { Text(text = title, fontWeight = FontWeight.SemiBold) },
+        headlineContent = {
+            Text(
+                text = title,
+                // todo: replace with Cozy color
+                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                color = Color.Gray,
+            )
+        },
         supportingContent = supportingContent,
     )
 }
