@@ -8,8 +8,8 @@ data class Asset(
     val assetClass: AssetClass,
     val assetGroupId: String?,
     val fees: Double?,
-    val priceHistory: List<PriceHistoryDate>,
-    val saleData: PriceHistoryDate?,
+    val priceHistory: List<PriceHistoryEntry>,
+    val saleData: PriceHistoryEntry?,
     val currency: Currency,
     val url: String?,
     val userNotes: String?,
@@ -23,7 +23,7 @@ enum class AssetClass {
 
 data class AssetGroup(val id: String, val name: String)
 
-data class PriceHistoryDate(
+data class PriceHistoryEntry(
     val id: Long,
     val assetId: String,
     val value: Double,

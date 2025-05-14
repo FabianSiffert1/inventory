@@ -35,17 +35,18 @@ class AssetRepositoryImpl(
     }
 
     override suspend fun upsertAssets(assets: List<Asset>) {
+        val assetEntities = assets.map { it.asEntity() }
+        assetDao.upsertAssets(assetEntities)
+
         val historicalPriceEntities = assets.flatMap { it.toPriceHistoryEntities() }
         historicalPricesDao.insertAll(historicalPriceEntities)
 
         val salesEntities = assets.mapNotNull { it.toSalesEntity() }
         salesDao.insertAll(salesEntities)
-
-        val assetEntities = assets.map { it.asEntity() }
-        assetDao.upsertAssets(assetEntities)
     }
 
     override suspend fun deleteAssets(assetIds: List<String>) {
+        // todo: delete price history and sales history too
         assetDao.deleteAssets(assetIds)
     }
 }

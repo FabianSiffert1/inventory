@@ -4,38 +4,21 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.core.data.repository.AssetRepository
-import io.siffert.mobile.app.model.data.Asset
-import io.siffert.mobile.app.model.data.AssetClass
-import io.siffert.mobile.app.model.data.Currency
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.uuid.ExperimentalUuidApi
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
 constructor(
-    val asset: Asset =
-        Asset(
-            id = Uuid.random().toString(),
-            name = "",
-            assetClass = AssetClass.SECURITY,
-            assetGroupId = null,
-            fees = null,
-            priceHistory = emptyList(),
-            saleData = null,
-            currency = Currency.EUR,
-            url = null,
-            userNotes = null,
-        ),
     val nameInput: TextFieldValue = TextFieldValue(),
     val feesInput: TextFieldValue = TextFieldValue(),
     val urlInput: TextFieldValue = TextFieldValue(),
     val notesInput: TextFieldValue = TextFieldValue(),
 ) {
-    val isValidAsset = asset.name.isNotBlank()
+    val isValidAsset = nameInput.text.isNotEmpty()
 }
 
 class AssetCreationScreenViewModel(private val assetRepository: AssetRepository) : ViewModel() {
@@ -44,30 +27,31 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
     val uiState = _uiState.asStateFlow()
 
     fun onNameChange(newName: String) {
-        _uiState.update { it.copy(asset = it.asset.copy(name = newName)) }
+        _uiState.update { it.copy(nameInput = TextFieldValue(newName)) }
     }
 
     fun onFeesChange(newFees: String) {
         val fees = newFees.toDoubleOrNull()
-        _uiState.update { it.copy(asset = it.asset.copy(fees = fees)) }
+        _uiState.update { it.copy(feesInput = TextFieldValue(fees.toString())) }
     }
 
     fun onNotesChange(newNotes: String) {
-        _uiState.update { it.copy(asset = it.asset.copy(userNotes = newNotes)) }
+        _uiState.update { it.copy(notesInput = TextFieldValue(newNotes)) }
     }
 
     fun onUrlChange(newUrl: String) {
-        _uiState.update { it.copy(asset = it.asset.copy(url = newUrl)) }
+        _uiState.update { it.copy(urlInput = TextFieldValue(newUrl)) }
     }
 
     fun createAsset() {
         viewModelScope.launch {
             val state = _uiState.value
-            println(state.isValidAsset)
-            println("name" + state.asset.name)
             if (!state.isValidAsset) return@launch
+
+            //          val asset =
+            //                Asset()
             // todo: implement return success/failure etc
-            uiState.value.asset.let { assetRepository.insertOrIgnoreAsset(listOf(it)) }
+            //  uiState.value.asset.let { assetRepository.insertOrIgnoreAsset(listOf(it)) }
             // on success -> navigate back
         }
     }

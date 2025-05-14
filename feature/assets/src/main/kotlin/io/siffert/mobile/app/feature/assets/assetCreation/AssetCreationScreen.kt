@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
-import kotlin.reflect.KFunction1
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -47,10 +46,10 @@ private fun AssetDetailScreenContent(
     uiState: AssetCreationScreenUiState,
     onBackClick: () -> Unit,
     onCreateAssetClick: () -> Unit,
-    onNotesChange: KFunction1<String, Unit>,
-    onFeesChange: KFunction1<String, Unit>,
-    onNameChange: KFunction1<String, Unit>,
-    onUrlChange: KFunction1<String, Unit>,
+    onNotesChange: (String) -> Unit,
+    onFeesChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onUrlChange: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -65,7 +64,7 @@ private fun AssetDetailScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AssetTextField(
-                input = uiState.asset.name,
+                input = uiState.nameInput.text,
                 onInputChange = onNameChange,
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
             )

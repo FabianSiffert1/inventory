@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import io.siffert.mobile.app.core.database.model.AssetEntity
-import io.siffert.mobile.app.model.data.PriceHistoryDate
+import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import kotlinx.datetime.Instant
 
 @Entity(
@@ -30,7 +30,7 @@ data class SalesEntity(
 )
 
 fun SalesEntity.toExternalModel() =
-    PriceHistoryDate(
+    PriceHistoryEntry(
         id = id,
         assetId = assetId,
         value = value,

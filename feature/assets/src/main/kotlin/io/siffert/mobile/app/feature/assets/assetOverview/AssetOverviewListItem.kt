@@ -22,7 +22,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
-import io.siffert.mobile.app.model.data.PriceHistoryDate
+import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import io.siffert.mobile.app.model.data.Trend
 import kotlinx.datetime.Clock
 
@@ -72,15 +72,15 @@ fun AssetOverviewListItemPreview() {
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(
-                        id = 2,
+                    PriceHistoryEntry(
                         assetId = "assetId",
                         value = 1.30,
                         timestamp = Clock.System.now(),
+                        id = 1,
                     )
                 ),
             saleData =
-                PriceHistoryDate(
+                PriceHistoryEntry(
                     id = 1,
                     assetId = "assetId",
                     value = 1.20,
