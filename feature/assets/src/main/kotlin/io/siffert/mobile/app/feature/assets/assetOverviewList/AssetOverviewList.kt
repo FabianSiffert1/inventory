@@ -1,4 +1,4 @@
-package io.siffert.mobile.app.feature.assets
+package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
