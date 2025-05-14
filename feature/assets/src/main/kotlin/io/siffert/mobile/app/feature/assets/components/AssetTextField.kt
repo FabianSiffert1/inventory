@@ -1,6 +1,5 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,10 +9,10 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -30,8 +29,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun AssetTextField(
     input: String,
+    inputLabel: String,
     onInputChange: (String) -> Unit,
     onComplete: (String) -> Unit = {},
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -48,6 +49,7 @@ internal fun AssetTextField(
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
             ),
+        label = { Text(text = inputLabel) },
         trailingIcon = {
             if (input.isNotEmpty()) {
                 IconButton(onClick = { onInputChange("") }) {
@@ -61,8 +63,7 @@ internal fun AssetTextField(
         },
         onValueChange = { if ("\n" !in it) onInputChange(it) },
         modifier =
-            Modifier.fillMaxWidth()
-                .padding(16.dp)
+            Modifier.padding(16.dp)
                 .focusRequester(focusRequester)
                 .onKeyEvent {
                     if (it.key == Key.Enter) {
@@ -74,9 +75,9 @@ internal fun AssetTextField(
                     }
                 }
                 .testTag("assetTextField"),
-        shape = RoundedCornerShape(32.dp),
+        shape = RoundedCornerShape(4.dp),
         value = input,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardOptions = keyboardOptions,
         keyboardActions =
             KeyboardActions(
                 onSearch = {
@@ -87,5 +88,4 @@ internal fun AssetTextField(
         maxLines = 1,
         singleLine = true,
     )
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 }

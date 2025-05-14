@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="feature_assets_asset_creation_date">Date</string>
+    <string name="feature_assets_asset_creation_fees">Fees</string>
+    <string name="feature_assets_asset_creation_name">Name</string>
+    <string name="feature_assets_asset_creation_notes">Notes</string>
+    <string name="feature_assets_asset_creation_price">Price</string>
     <string name="feature_assets_asset_creation_title">Create Asset</string>
+    <string name="feature_assets_asset_creation_url">Url</string>
     <string name="feature_assets_asset_details_acquisition_price">Bought For</string>
     <string name="feature_assets_asset_details_asset_class">Asset Class</string>
     <string name="feature_assets_asset_details_current_value">Current Value</string>
@@ -11,7 +17,6 @@
     <string name="feature_assets_asset_details_price_chart">Price Chart</string>
     <string name="feature_assets_asset_details_sold_for">Sold For</string>
     <string name="feature_assets_asset_details_url">Url</string>
-    <string name="feature_assets_asset_name">Name</string>
     <string name="feature_assets_class_digital_asset">Digital Asset</string>
     <string name="feature_assets_class_real_asset">Real Asset</string>
     <string name="feature_assets_class_security">Security</string>

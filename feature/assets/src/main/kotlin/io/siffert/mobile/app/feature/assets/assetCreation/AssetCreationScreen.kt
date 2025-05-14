@@ -12,8 +12,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
+import kotlin.reflect.KFunction1
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -24,17 +27,30 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
     AssetDetailScreenContent(
         uiState = uiState,
         onBackClick = navigateBack,
-        onInputChange = viewModel::onInputChange,
-        onCreateAssetClick = {},
+        onNameChange = viewModel::onNameChange,
+        onFeesChange = viewModel::onFeesChange,
+        onNotesChange = viewModel::onNotesChange,
+        onUrlChange = viewModel::onUrlChange,
+        onCreateAssetClick = {
+            try {
+                viewModel.createAsset()
+                navigateBack()
+            } catch (e: Exception) {
+                println(e)
+            }
+        },
     )
 }
 
 @Composable
 private fun AssetDetailScreenContent(
     uiState: AssetCreationScreenUiState,
-    onInputChange: (field: AssetCreationTextField, newValue: String) -> Unit,
     onBackClick: () -> Unit,
     onCreateAssetClick: () -> Unit,
+    onNotesChange: KFunction1<String, Unit>,
+    onFeesChange: KFunction1<String, Unit>,
+    onNameChange: KFunction1<String, Unit>,
+    onUrlChange: KFunction1<String, Unit>,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding(),
@@ -49,17 +65,9 @@ private fun AssetDetailScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AssetTextField(
-                input = uiState.textInputs[AssetCreationTextField.NAME]?.text.orEmpty(),
-                onInputChange = { onInputChange(AssetCreationTextField.NAME, it) },
-            )
-            AssetTextField(
-                input =
-                    uiState.textInputs[AssetCreationTextField.ACQUISITION_PRICE]?.text.orEmpty(),
-                onInputChange = { onInputChange(AssetCreationTextField.ACQUISITION_PRICE, it) },
-            )
-            AssetTextField(
-                input = uiState.textInputs[AssetCreationTextField.ACQUISITION_DATE]?.text.orEmpty(),
-                onInputChange = { onInputChange(AssetCreationTextField.ACQUISITION_DATE, it) },
+                input = uiState.asset.name,
+                onInputChange = onNameChange,
+                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
             )
         }
     }
