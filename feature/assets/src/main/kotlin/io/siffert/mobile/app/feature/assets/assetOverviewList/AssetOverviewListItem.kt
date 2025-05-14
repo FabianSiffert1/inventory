@@ -50,7 +50,7 @@ fun AssetOverviewListItem(
                 Icon(
                     imageVector = Cozy.icon.Gavel,
                     contentDescription =
-                        stringResource(id = R.string.feature_assets_class_realized_gain),
+                        stringResource(id = R.string.feature_assets_asset_details_sold_for),
                 )
             } else {
                 // todo implement

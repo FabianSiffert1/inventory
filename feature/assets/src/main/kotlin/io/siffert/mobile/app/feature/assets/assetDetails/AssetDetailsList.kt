@@ -3,12 +3,10 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,8 +22,6 @@ import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.prettyPrint
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.mapper.getDisplayName
-import io.siffert.mobile.app.inventory.core.designsystem.icons.Gavel
-import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
@@ -77,12 +73,14 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
             ListItem(
                 modifier = Modifier.fillMaxWidth().then(modifier),
                 headlineContent = {
-                        Text(
-                            text = stringResource(id = R.string.feature_assets_class_realized_gain),
-                            // todo: replace with Cozy color that supports light and dark
-                            fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                            color = Color.Gray,
-                        )
+                    Text(
+                        // todo: implement correctly. currently price at point of sale, not realized
+                        // gain
+                        text = stringResource(id = R.string.feature_assets_asset_details_sold_for),
+                        // todo: replace with Cozy color that supports light and dark
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                        color = Color.Gray,
+                    )
                 },
                 supportingContent = {
                     Row(
