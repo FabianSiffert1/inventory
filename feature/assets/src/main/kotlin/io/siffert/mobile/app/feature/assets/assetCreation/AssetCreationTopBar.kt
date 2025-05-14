@@ -42,8 +42,6 @@ internal fun AssetCreationTopBar(
                     imageVector = Cozy.icon.Save,
                     contentDescription =
                         stringResource(id = R.string.feature_assets_asset_creation_title),
-                    // todo: implement cozy.color.redMuted
-                    tint = Color.Red,
                 )
             }
         },

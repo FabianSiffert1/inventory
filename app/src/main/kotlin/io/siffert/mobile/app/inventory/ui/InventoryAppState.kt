@@ -13,6 +13,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetCreation
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssets
 import io.siffert.mobile.app.inventory.feature.balance.navigation.navigateToBalance
 import io.siffert.mobile.app.inventory.navigation.TopLevelDestination
@@ -28,16 +29,16 @@ fun rememberInventoryAppState(
     }
 }
 
-
 @Stable
 class InventoryAppState(val navController: NavHostController) {
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
     private val previousDestination = mutableStateOf<NavDestination?>(null)
 
     val currentDestination: NavDestination?
-        @Composable get() {
-            val currentEntry = navController.currentBackStackEntryFlow
-                .collectAsState(initial = null)
+        @Composable
+        get() {
+            val currentEntry =
+                navController.currentBackStackEntryFlow.collectAsState(initial = null)
 
             return currentEntry.value?.destination.also { destination ->
                 if (destination != null) {
@@ -47,9 +48,10 @@ class InventoryAppState(val navController: NavHostController) {
         }
 
     val currentTopLevelDestination: TopLevelDestination?
-        get() = TopLevelDestination.entries.firstOrNull { topLevelDestination ->
-            navController.currentDestination?.hasRoute(topLevelDestination.route) == true
-        }
+        get() =
+            TopLevelDestination.entries.firstOrNull { topLevelDestination ->
+                navController.currentDestination?.hasRoute(topLevelDestination.route) == true
+            }
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         if (topLevelDestination.route == currentTopLevelDestination?.route) {
@@ -58,25 +60,29 @@ class InventoryAppState(val navController: NavHostController) {
 
         trace("Navigation: ${topLevelDestination.name}") {
             val topLevelNavOptions = navOptions {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
+                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                 launchSingleTop = true
                 restoreState = true
             }
-
 
             when (topLevelDestination) {
                 TopLevelDestination.BALANCE -> navController.navigateToBalance(topLevelNavOptions)
                 TopLevelDestination.ASSETS -> navController.navigateToAssets(topLevelNavOptions)
             }
-
-
         }
     }
 
-    // fun navigateToSearch() = navController.navigateToSearch()
+    fun navigateToAssetCreation() {
+        navController.navigateToAssetCreation(
+            navOptions {
+                launchSingleTop = true
+                restoreState = true
+            }
+        )
+    }
+
     fun navigateToSearch() {
-        println("todo: implement")
+        // todo implement
+        println("not implemented yet")
     }
 }

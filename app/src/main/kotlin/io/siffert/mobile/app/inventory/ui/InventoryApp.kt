@@ -49,7 +49,7 @@ fun InventoryApp(
             InventoryApp(
                 appState = appState,
                 windowAdaptiveInfo = windowAdaptiveInfo,
-                onTopAppBarActionClick = {},
+                onTopAppBarActionClick = { appState.navigateToAssetCreation() },
                 onTopAppBarNavigationClick = { appState.navigateToSearch() },
             )
         }
