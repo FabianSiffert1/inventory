@@ -2,49 +2,32 @@ package io.siffert.mobile.app.core.data.repository
 
 import io.siffert.mobile.app.core.data.model.asEntity
 import io.siffert.mobile.app.core.data.model.toPriceHistoryEntities
+import io.siffert.mobile.app.core.data.model.toSalesEntity
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.dao.SalesDao
 import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class AssetRepositoryImpl(
     private val assetDao: AssetDao,
     private val historicalPricesDao: PriceHistoryDao,
+    private val salesDao: SalesDao,
 ) : AssetRepository {
-    override fun getAssetsFlow(): Flow<List<Asset>> = flow {
-        assetDao.getAssetsFlow().collect { assetEntities ->
-            val assets =
-                assetEntities.map { entity ->
-                    val historicalPrices =
-                        historicalPricesDao.getHistoricalPricesForAsset(entity.uid)
-                    entity.asExternalModel(historicalPrices)
-                }
-            emit(assets)
+    override fun getAssetsFlow(): Flow<List<Asset>> =
+        assetDao.getAssetsWithPriceHistoryAndSalesFlow().map { assetWithRelationsList ->
+            assetWithRelationsList.map { it.asExternalModel() }
         }
-    }
 
     override suspend fun getAssetsList(): List<Asset> {
-        val assetEntities = assetDao.getAssetsList()
-        return assetEntities.map { assetEntity ->
-            val historicalPrices = historicalPricesDao.getHistoricalPricesForAsset(assetEntity.uid)
-            assetEntity.asExternalModel(historicalPrices)
-        }
+        val assetEntities = assetDao.getAssetsWithPriceHistoryAndSales()
+        return assetEntities.map { it.asExternalModel() }
     }
 
-    override fun getAssetById(assetId: String): Flow<Asset?> = flow {
-        val assetEntityFlow = assetDao.getAssetById(assetId)
-        assetEntityFlow.collect { assetEntity ->
-            if (assetEntity == null) {
-                emit(null)
-                return@collect
-            }
-            val historicalPrices = historicalPricesDao.getHistoricalPricesForAsset(assetEntity.uid)
-            val asset = assetEntity.asExternalModel(historicalPrices)
-            emit(asset)
-        }
-    }
+    override fun getAssetById(assetId: String): Flow<Asset?> =
+        assetDao.getAssetWithPriceHistoryAndSalesFlow(assetId).map { it.asExternalModel() }
 
     override suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long> {
         val assetEntities = assets.map { it.asEntity() }
@@ -52,12 +35,14 @@ class AssetRepositoryImpl(
     }
 
     override suspend fun upsertAssets(assets: List<Asset>) {
-        val assetEntities = assets.map { it.asEntity() }
-        assetDao.upsertAssets(assetEntities)
-        // todo: implement date sorting
-
         val historicalPriceEntities = assets.flatMap { it.toPriceHistoryEntities() }
         historicalPricesDao.insertAll(historicalPriceEntities)
+
+        val salesEntities = assets.mapNotNull { it.toSalesEntity() }
+        salesDao.insertAll(salesEntities)
+
+        val assetEntities = assets.map { it.asEntity() }
+        assetDao.upsertAssets(assetEntities)
     }
 
     override suspend fun deleteAssets(assetIds: List<String>) {

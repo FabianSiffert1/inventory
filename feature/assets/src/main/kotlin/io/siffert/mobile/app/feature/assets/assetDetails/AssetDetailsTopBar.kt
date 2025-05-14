@@ -1,5 +1,7 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -14,15 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Delete
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Edit
+import io.siffert.mobile.app.inventory.core.designsystem.icons.Gavel
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AssetDetailsTopBar(
-    title: String?,
+    uiState: AssetDetailsScreenUiState,
     onBackClick: () -> Unit,
     onDeleteAssetClick: () -> Unit,
     onEditClick: () -> Unit,
@@ -30,13 +34,17 @@ internal fun AssetDetailsTopBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text =
-                    title
-                        ?: stringResource(
-                            id = R.string.feature_assets_top_app_bar_asset_details_title
+            if (uiState is AssetDetailsScreenUiState.Loaded) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(text = uiState.asset.name)
+                    if (uiState.asset.saleData != null)
+                        Icon(
+                            imageVector = Cozy.icon.Gavel,
+                            contentDescription =
+                                stringResource(id = R.string.feature_assets_class_realized_gain),
                         )
-            )
+                }
+            }
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {

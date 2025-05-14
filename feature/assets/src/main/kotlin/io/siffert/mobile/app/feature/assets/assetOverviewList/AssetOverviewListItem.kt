@@ -42,11 +42,11 @@ fun AssetOverviewListItem(
         leadingContent = { AssetClassIcon(assetClass = asset.assetClass) },
         headlineContent = { Text(text = asset.name) },
         supportingContent = {
-            Text(text = "${asset.priceHistory.last().value} ${asset.currency.name}")
+            Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
         },
         trailingContent = {
             // todo implement that users can sell partials of their assets
-            if (asset.realizedGain != null) {
+            if (asset.saleData != null) {
                 Icon(
                     imageVector = Cozy.icon.Gavel,
                     contentDescription =
@@ -74,9 +74,8 @@ fun AssetOverviewListItemPreview() {
                 listOf(
                     PriceHistoryDate(id = 2, assetId = "assetId", value = 1.30, timestamp = Date())
                 ),
-            sellPrice = null,
-            sellDate = null,
-            realizedGain = 0.30,
+            saleData =
+                PriceHistoryDate(id = 1, assetId = "assetId", value = 1.20, timestamp = Date()),
             currency = Currency.EUR,
             url = null,
             userNotes = "notes1",

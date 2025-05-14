@@ -18,7 +18,7 @@ import io.siffert.mobile.app.model.data.Asset
 
 @Composable
 fun AssetOverviewList(
-    assetList: List<Asset>,
+    assetList: List<Asset>?,
     onAssetClick: (String) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -32,7 +32,7 @@ fun AssetOverviewList(
             contentPadding = PaddingValues(vertical = 16.dp),
             state = scrollableState,
         ) {
-            assetList.forEach { asset ->
+            assetList?.forEach { asset ->
                 item { AssetOverviewListItem(asset = asset, onAssetClick = onAssetClick) }
             }
         }

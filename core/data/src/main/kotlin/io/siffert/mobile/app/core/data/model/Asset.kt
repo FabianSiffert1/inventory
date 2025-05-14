@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.core.data.model
 
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.SalesEntity
 import io.siffert.mobile.app.core.database.model.AssetEntity
 import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 import io.siffert.mobile.app.model.data.Asset
@@ -11,9 +12,6 @@ fun Asset.asEntity() =
         assetClass = assetClass,
         assetGroupId = assetGroupId,
         fees = fees,
-        sellPrice = sellPrice,
-        sellDate = sellDate?.time,
-        realizedGain = realizedGain,
         currency = currency,
         url = url,
         userNotes = userNotes,
@@ -27,5 +25,11 @@ fun Asset.toPriceHistoryEntities(): List<PriceHistoryEntity> {
             value = priceHistoryDate.value,
             timestamp = priceHistoryDate.timestamp.time,
         )
+    }
+}
+
+fun Asset.toSalesEntity(): SalesEntity? {
+    return saleData?.let {
+        SalesEntity(assetId = it.assetId, value = it.value, timestamp = it.timestamp.time)
     }
 }

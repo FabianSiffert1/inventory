@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.AssetGroupDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.dao.SalesDao
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.SalesEntity
 import io.siffert.mobile.app.core.database.model.AssetEntity
 import io.siffert.mobile.app.core.database.model.AssetGroupEntity
 import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
@@ -17,11 +19,19 @@ interface InventoryAppDatabase {
     fun assetGroupDao(): AssetGroupDao
 
     fun priceHistoryDao(): PriceHistoryDao
+
+    fun salesDao(): SalesDao
 }
 
 @Database(
-    entities = [AssetEntity::class, AssetGroupEntity::class, PriceHistoryEntity::class],
-    version = 4,
+    entities =
+        [
+            AssetEntity::class,
+            AssetGroupEntity::class,
+            PriceHistoryEntity::class,
+            SalesEntity::class,
+        ],
+    version = 5,
     exportSchema = false,
 )
 abstract class InventoryAppDatabaseImpl : RoomDatabase(), InventoryAppDatabase {
@@ -30,6 +40,8 @@ abstract class InventoryAppDatabaseImpl : RoomDatabase(), InventoryAppDatabase {
     abstract override fun assetGroupDao(): AssetGroupDao
 
     abstract override fun priceHistoryDao(): PriceHistoryDao
+
+    abstract override fun salesDao(): SalesDao
 
     companion object {
         internal fun initialize(applicationContext: Context): InventoryAppDatabase =

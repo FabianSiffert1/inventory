@@ -3,6 +3,7 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -43,8 +44,10 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(text = "${asset.priceHistory.last().value} ${asset.currency.name}")
-                    Text(text = asset.priceHistory.last().timestamp.prettyPrint())
+                    Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
+                    asset.priceHistory.lastOrNull()?.timestamp?.prettyPrint()?.let {
+                        Text(text = it)
+                    }
                 }
             },
         )
@@ -58,28 +61,44 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(text = "${asset.priceHistory.first().value} ${asset.currency.name}")
-                        Text(text = asset.priceHistory.first().timestamp.prettyPrint())
+                        Text(
+                            text =
+                                "${asset.priceHistory.firstOrNull()?.value} ${asset.currency.name}"
+                        )
+                        asset.priceHistory.firstOrNull()?.timestamp?.prettyPrint()?.let {
+                            Text(text = it)
+                        }
                     }
                 }
             },
         )
 
-        asset.realizedGain?.let {
-            AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_class_realized_gain),
-                supportingContent = {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(
-                            imageVector = Cozy.icon.Gavel,
-                            contentDescription =
-                                stringResource(id = R.string.feature_assets_class_realized_gain),
+        asset.saleData?.let {
+            ListItem(
+                modifier = Modifier.fillMaxWidth().then(modifier),
+                headlineContent = {
+                        Text(
+                            text = stringResource(id = R.string.feature_assets_class_realized_gain),
+                            // todo: replace with Cozy color that supports light and dark
+                            fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                            color = Color.Gray,
                         )
-                        Text(text = "${asset.realizedGain} ")
+                },
+                supportingContent = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        // todo implement for saleData
+                        Text(text = "${asset.saleData?.value} ${asset.currency.name}")
+                        asset.priceHistory.lastOrNull()?.timestamp?.prettyPrint()?.let { it1 ->
+                            Text(text = it1)
+                        }
                     }
                 },
             )
         }
+
         asset.assetGroupId?.let {
             AssetDetailsListItem(
                 title = stringResource(id = R.string.feature_assets_asset_details_group),

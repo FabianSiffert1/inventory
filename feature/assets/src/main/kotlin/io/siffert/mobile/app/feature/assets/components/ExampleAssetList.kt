@@ -6,57 +6,56 @@ import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryDate
 import java.util.Date
 
+private val assetid1 = "uud1"
+private val assetid2 = "uud2"
+private val assetid3 = "uud3"
+
 val exampleAssetList =
-    mutableListOf(
+    listOf(
         Asset(
-            id = "uuid1",
+            id = assetid1,
             name = "asset1",
-            assetGroupId = "groupId1",
+            assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 1, assetId = "assetId", value = 1.20, timestamp = Date())
+                    PriceHistoryDate(id = 1, assetId = assetid1, value = 1.20, timestamp = Date())
                 ),
-            sellPrice = null,
-            sellDate = null,
-            realizedGain = null,
+            saleData = null,
             currency = Currency.EUR,
-            url = null,
-            userNotes = "currentValue and PnL",
+            url = "https://google.com",
+            userNotes = "userNotes1",
         ),
         Asset(
-            id = "uuid2",
+            id = assetid2,
             name = "asset2",
-            assetGroupId = "groupId2",
+            assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 2, assetId = "assetId", value = 1.30, timestamp = Date())
+                    PriceHistoryDate(id = 2, assetId = assetid2, value = 1.30, timestamp = Date())
                 ),
-            sellPrice = null,
-            sellDate = null,
-            realizedGain = null,
+            saleData = null,
             currency = Currency.EUR,
             url = null,
-            userNotes = "currentValue and PnL",
+            userNotes = "userNotes2",
         ),
         Asset(
-            id = "uuid1",
-            name = "asset1",
-            assetGroupId = "groupId3",
+            id = assetid3,
+            name = "asset3",
+            assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             fees = 0.10,
             priceHistory =
                 listOf(
-                    PriceHistoryDate(id = 3, assetId = "assetId", value = 1.40, timestamp = Date())
+                    PriceHistoryDate(id = 3, assetId = assetid3, value = 1.40, timestamp = Date())
                 ),
-            sellPrice = null,
-            sellDate = null,
-            realizedGain = null,
+            saleData =
+                PriceHistoryDate(id = 4, assetId = assetid3, value = 1.20, timestamp = Date()),
             currency = Currency.EUR,
             url = null,
-            userNotes = "currentValue and PnL",
+            userNotes = null,
         ),
     )
