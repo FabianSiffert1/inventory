@@ -4,11 +4,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.core.data.repository.AssetRepository
+import io.siffert.mobile.app.model.data.Asset
+import io.siffert.mobile.app.model.data.AssetClass
+import io.siffert.mobile.app.model.data.Currency
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.uuid.ExperimentalUuidApi
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -43,15 +47,27 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
         _uiState.update { it.copy(urlInput = TextFieldValue(newUrl)) }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     fun createAsset() {
         viewModelScope.launch {
-            val state = _uiState.value
-            if (!state.isValidAsset) return@launch
+            val uiState = _uiState.value
+            if (!uiState.isValidAsset) return@launch
 
-            //          val asset =
-            //                Asset()
+            val asset =
+                Asset(
+                    id = Uuid.random().toString(),
+                    name = uiState.nameInput.text,
+                    assetClass = AssetClass.DIGITAL_ASSET,
+                    assetGroupId = null,
+                    fees = 0.01,
+                    priceHistory = emptyList(),
+                    saleData = null,
+                    currency = Currency.EUR,
+                    url = uiState.urlInput.text,
+                    userNotes = uiState.notesInput.text,
+                )
             // todo: implement return success/failure etc
-            //  uiState.value.asset.let { assetRepository.insertOrIgnoreAsset(listOf(it)) }
+            assetRepository.insertOrIgnoreAsset(listOf(asset))
             // on success -> navigate back
         }
     }

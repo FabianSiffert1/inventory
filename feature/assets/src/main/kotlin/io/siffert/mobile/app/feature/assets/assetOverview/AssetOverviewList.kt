@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ fun AssetOverviewList(
                     .testTag("assets:assetlist"),
             contentPadding = PaddingValues(vertical = 16.dp),
             state = scrollableState,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             assetList?.forEach { asset ->
                 item { AssetOverviewListItem(asset = asset, onAssetClick = onAssetClick) }

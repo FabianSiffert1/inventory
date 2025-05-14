@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,11 +39,14 @@ fun AssetOverviewListItem(
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(8.dp))
                 .clickable(enabled = true, onClick = { onAssetClick(asset.id) }),
-        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
         leadingContent = { AssetClassIcon(assetClass = asset.assetClass) },
         headlineContent = { Text(text = asset.name) },
         supportingContent = {
+            val lastPrice = asset.priceHistory.lastOrNull()?.value
+            lastPrice?.let {
             Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
+            }
         },
         trailingContent = {
             // todo implement that users can sell partials of their assets

@@ -68,6 +68,16 @@ private fun AssetDetailScreenContent(
                 onInputChange = onNameChange,
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
             )
+            AssetTextField(
+                input = uiState.urlInput.text,
+                onInputChange = onUrlChange,
+                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_url),
+            )
+            AssetTextField(
+                input = uiState.notesInput.text,
+                onInputChange = onNotesChange,
+                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_notes),
+            )
         }
     }
 }

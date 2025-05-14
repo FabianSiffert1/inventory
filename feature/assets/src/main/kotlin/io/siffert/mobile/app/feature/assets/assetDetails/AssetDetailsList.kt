@@ -33,41 +33,48 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
         modifier = modifier.verticalScroll(rememberScrollState()).fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_asset_details_current_value),
-            supportingContent = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
-                    asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let {
-                        Text(text = it)
-                    }
-                }
-            },
-        )
-
-        AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_asset_details_acquisition_price),
-            supportingContent = {
-                // todo: onClick move to asset acquisition screen
-                Column {
+        val lastPrice = asset.priceHistory.lastOrNull()?.value
+        val boughtFor = asset.priceHistory.firstOrNull()?.value
+        lastPrice?.let {
+            AssetDetailsListItem(
+                title = stringResource(id = R.string.feature_assets_asset_details_current_value),
+                supportingContent = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(
-                            text =
-                                "${asset.priceHistory.firstOrNull()?.value} ${asset.currency.name}"
-                        )
-                        asset.priceHistory.firstOrNull()?.timestamp?.toFullDateString()?.let {
+                        Text(text = "$lastPrice ${asset.currency.name}")
+                        asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let {
                             Text(text = it)
                         }
                     }
-                }
-            },
-        )
+                },
+            )
+        }
+
+        boughtFor?.let {
+            AssetDetailsListItem(
+                title =
+                    stringResource(id = R.string.feature_assets_asset_details_acquisition_price),
+                supportingContent = {
+                    // todo: onClick move to asset acquisition screen
+                    Column {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(
+                                text =
+                                    "${asset.priceHistory.firstOrNull()?.value} ${asset.currency.name}"
+                            )
+                            asset.priceHistory.firstOrNull()?.timestamp?.toFullDateString()?.let {
+                                Text(text = it)
+                            }
+                        }
+                    }
+                },
+            )
+        }
 
         asset.saleData?.let {
             ListItem(

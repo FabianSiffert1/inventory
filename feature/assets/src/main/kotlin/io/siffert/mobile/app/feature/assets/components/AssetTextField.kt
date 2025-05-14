@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -45,6 +46,7 @@ internal fun AssetTextField(
     TextField(
         colors =
             TextFieldDefaults.colors(
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
@@ -63,7 +65,8 @@ internal fun AssetTextField(
         },
         onValueChange = { if ("\n" !in it) onInputChange(it) },
         modifier =
-            Modifier.padding(16.dp)
+            Modifier.fillMaxWidth()
+                .padding(16.dp)
                 .focusRequester(focusRequester)
                 .onKeyEvent {
                     if (it.key == Key.Enter) {
