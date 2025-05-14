@@ -2,7 +2,6 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -28,9 +27,8 @@ fun AssetOverviewList(
         LazyColumn(
             modifier =
                 Modifier.navigationBarsPadding()
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 16.dp)
                     .testTag("assets:assetlist"),
-            contentPadding = PaddingValues(vertical = 16.dp),
             state = scrollableState,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {

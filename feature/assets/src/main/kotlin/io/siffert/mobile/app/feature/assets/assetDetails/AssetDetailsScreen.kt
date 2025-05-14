@@ -2,8 +2,8 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,7 +39,7 @@ private fun AssetDetailScreenContent(
     onDeleteAssetClick: () -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier.navigationBarsPadding(),
         containerColor = Color.Transparent,
         topBar = {
             AssetDetailsTopBar(

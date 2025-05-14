@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
@@ -52,7 +54,7 @@ private fun AssetDetailScreenContent(
     onUrlChange: (String) -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier.statusBarsPadding().padding(horizontal = 16.dp),
         containerColor = Color.Transparent,
         topBar = {
             AssetCreationTopBar(onBackClick = onBackClick, onCreateAssetClick = onCreateAssetClick)
@@ -62,6 +64,7 @@ private fun AssetDetailScreenContent(
             modifier =
                 Modifier.padding(paddingValues).verticalScroll(rememberScrollState()).fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             AssetTextField(
                 input = uiState.nameInput.text,

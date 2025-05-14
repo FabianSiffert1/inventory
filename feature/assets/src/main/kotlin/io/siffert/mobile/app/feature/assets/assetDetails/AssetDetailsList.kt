@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ListItem
@@ -30,7 +31,7 @@ import io.siffert.mobile.app.model.data.AssetClass
 internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
     val localContext = LocalContext.current
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()).fillMaxSize(),
+        modifier = modifier.verticalScroll(rememberScrollState()).fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         val lastPrice = asset.priceHistory.lastOrNull()?.value
