@@ -7,16 +7,14 @@ data class Asset(
     val name: String,
     val assetClass: AssetClass,
     val assetGroupId: String?,
-    val acquisitionPrice: Double,
-    val acquisitionDate: Date,
-    val fees: Double,
+    val fees: Double?,
     val priceHistory: List<PriceHistoryDate>,
     val sellPrice: Double?,
     val sellDate: Date?,
     val realizedGain: Double?,
     val currency: Currency,
     val url: String?,
-    val userNotes: String?
+    val userNotes: String?,
 )
 
 enum class AssetClass {
@@ -25,10 +23,7 @@ enum class AssetClass {
     DIGITAL_ASSET,
 }
 
-data class AssetGroup(
-    val id: String,
-    val name: String,
-)
+data class AssetGroup(val id: String, val name: String)
 
 data class PriceHistoryDate(
     val id: Long,

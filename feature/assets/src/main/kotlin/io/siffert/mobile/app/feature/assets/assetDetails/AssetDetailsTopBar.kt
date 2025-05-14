@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Delete
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Edit
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
@@ -20,6 +22,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AssetDetailsTopBar(
+    title: String?,
     onBackClick: () -> Unit,
     onDeleteAssetClick: () -> Unit,
     onEditClick: () -> Unit,
@@ -27,9 +30,13 @@ internal fun AssetDetailsTopBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-            // todo: set to Asset Name
-            // if (titleRes != null) Text(text = stringResource(id = titleRes)) },
-            Text(text = "Asset Details")
+            Text(
+                text =
+                    title
+                        ?: stringResource(
+                            id = R.string.feature_assets_top_app_bar_asset_details_title
+                        )
+            )
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {

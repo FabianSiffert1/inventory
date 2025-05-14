@@ -105,8 +105,6 @@ fun AssetPreview() {
             name = "asset1",
             assetGroupId = "groupId1",
             assetClass = AssetClass.REAL_ASSET,
-            acquisitionPrice = 1.00,
-            acquisitionDate = Date(),
             fees = 0.10,
             priceHistory = listOf(
                 PriceHistoryDate(

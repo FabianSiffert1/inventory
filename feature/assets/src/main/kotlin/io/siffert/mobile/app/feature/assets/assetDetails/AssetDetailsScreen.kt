@@ -43,6 +43,8 @@ private fun AssetDetailScreenContent(
         containerColor = Color.Transparent,
         topBar = {
             AssetDetailsTopBar(
+                title =
+                    if (uiState is AssetDetailsScreenUiState.Loaded) uiState.asset.name else null,
                 onBackClick = onBackClick,
                 onDeleteAssetClick = onDeleteAssetClick,
                 onEditClick = {

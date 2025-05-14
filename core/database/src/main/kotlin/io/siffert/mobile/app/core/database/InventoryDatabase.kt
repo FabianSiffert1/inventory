@@ -13,31 +13,31 @@ import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 
 interface InventoryAppDatabase {
     fun assetDao(): AssetDao
+
     fun assetGroupDao(): AssetGroupDao
+
     fun priceHistoryDao(): PriceHistoryDao
 }
 
 @Database(
-    entities = [
-        AssetEntity::class,
-        AssetGroupEntity::class,
-        PriceHistoryEntity::class,
-    ],
-    version = 2,
-    exportSchema = false
+    entities = [AssetEntity::class, AssetGroupEntity::class, PriceHistoryEntity::class],
+    version = 4,
+    exportSchema = false,
 )
 abstract class InventoryAppDatabaseImpl : RoomDatabase(), InventoryAppDatabase {
     abstract override fun assetDao(): AssetDao
+
     abstract override fun assetGroupDao(): AssetGroupDao
+
     abstract override fun priceHistoryDao(): PriceHistoryDao
 
     companion object {
         internal fun initialize(applicationContext: Context): InventoryAppDatabase =
             Room.databaseBuilder(
-                applicationContext,
-                InventoryAppDatabaseImpl::class.java,
-                "inventory-app-database"
-            )
+                    applicationContext,
+                    InventoryAppDatabaseImpl::class.java,
+                    "inventory-app-database",
+                )
                 .fallbackToDestructiveMigration(dropAllTables = true)
                 .build()
     }
