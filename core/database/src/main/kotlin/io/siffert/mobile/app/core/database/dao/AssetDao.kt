@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AssetDao {
-
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
     suspend fun getAssetWithPriceHistoryAndSales(assetId: String): AssetWithPriceHistoryAndSales

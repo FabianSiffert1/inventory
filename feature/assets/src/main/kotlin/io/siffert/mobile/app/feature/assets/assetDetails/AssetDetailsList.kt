@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
-import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.prettyPrint
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.toFullDateString
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.mapper.getDisplayName
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.model.data.Asset
@@ -41,7 +41,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
-                    asset.priceHistory.lastOrNull()?.timestamp?.prettyPrint()?.let {
+                    asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let {
                         Text(text = it)
                     }
                 }
@@ -61,7 +61,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                             text =
                                 "${asset.priceHistory.firstOrNull()?.value} ${asset.currency.name}"
                         )
-                        asset.priceHistory.firstOrNull()?.timestamp?.prettyPrint()?.let {
+                        asset.priceHistory.firstOrNull()?.timestamp?.toFullDateString()?.let {
                             Text(text = it)
                         }
                     }
@@ -89,7 +89,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                     ) {
                         // todo implement for saleData
                         Text(text = "${asset.saleData?.value} ${asset.currency.name}")
-                        asset.priceHistory.lastOrNull()?.timestamp?.prettyPrint()?.let { it1 ->
+                        asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let { it1 ->
                             Text(text = it1)
                         }
                     }

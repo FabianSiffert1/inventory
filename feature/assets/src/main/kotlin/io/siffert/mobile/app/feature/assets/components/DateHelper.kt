@@ -6,10 +6,11 @@ import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
 
-fun Instant.prettyPrint(): String {
+/** converts kotlinx-datetime Instant to dd.MMMM.yyyy String */
+fun Instant.toFullDateString(): String {
     val timeZone = TimeZone.currentSystemDefault()
     val localDateTime = this.toLocalDateTime(timeZone)
 
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val formatter = DateTimeFormatter.ofPattern("dd.MMMM.yyyy")
     return formatter.format(localDateTime.toJavaLocalDateTime())
 }

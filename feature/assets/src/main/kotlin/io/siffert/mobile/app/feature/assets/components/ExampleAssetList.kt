@@ -15,7 +15,7 @@ val exampleAssetList =
     listOf(
         Asset(
             id = assetid1,
-            name = "asset1",
+            name = "Real Asset",
             assetGroupId = null,
             assetClass = AssetClass.REAL_ASSET,
             fees = 0.10,
@@ -35,7 +35,7 @@ val exampleAssetList =
         ),
         Asset(
             id = assetid2,
-            name = "asset2",
+            name = "Security Asset",
             assetGroupId = null,
             assetClass = AssetClass.SECURITY,
             fees = 0.10,
@@ -55,7 +55,7 @@ val exampleAssetList =
         ),
         Asset(
             id = assetid3,
-            name = "asset3",
+            name = "Digital Asset",
             assetGroupId = null,
             assetClass = AssetClass.DIGITAL_ASSET,
             fees = 0.10,
