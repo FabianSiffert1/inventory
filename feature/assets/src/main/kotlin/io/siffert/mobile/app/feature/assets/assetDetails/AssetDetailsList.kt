@@ -87,7 +87,6 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        // todo implement for saleData
                         Text(text = "${asset.saleData?.value} ${asset.currency.name}")
                         asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let { it1 ->
                             Text(text = it1)

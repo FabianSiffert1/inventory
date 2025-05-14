@@ -12,14 +12,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import io.siffert.mobile.app.feature.assets.AssetsScreen
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation.AssetCreationScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreen
 import kotlinx.serialization.Serializable
+
+@Serializable data object AssetsBaseRoute
 
 @Serializable data object AssetsRoute
 
 @Serializable data class AssetDetailsRoute(val assetId: String)
 
-@Serializable data object AssetsBaseRoute
+@Serializable data object AssetCreationRoute
 
 fun NavController.navigateToAssets(navOptions: NavOptions) =
     navigate(route = AssetsRoute, navOptions)
@@ -30,6 +33,9 @@ fun NavController.navigateToAssetDetails(
 ) {
     navigate(route = AssetDetailsRoute(assetId = assetId), navOptions)
 }
+
+fun NavController.navigateToAssetCreation(navOptions: NavOptions) =
+    navigate(route = AssetCreationRoute, navOptions)
 
 // todo: fix animation when entering asset
 fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: () -> Unit) {
@@ -68,6 +74,20 @@ fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: (
         ) { asset ->
             val assetId = asset.toRoute<AssetDetailsRoute>().assetId
             AssetDetailsScreen(assetId = assetId, navigateBack = onBackClick)
+        }
+        composable<AssetCreationRoute>(
+            enterTransition = {
+                return@composable slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left
+                )
+            },
+            exitTransition = {
+                return@composable slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right
+                )
+            },
+        ) {
+            AssetCreationScreen(navigateBack = onBackClick)
         }
     }
 }
