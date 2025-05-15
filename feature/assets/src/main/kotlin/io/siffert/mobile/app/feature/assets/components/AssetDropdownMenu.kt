@@ -1,14 +1,16 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +55,11 @@ fun <T : Enum<T>> AssetDropdownMenu(
                             .background(
                                 color = MaterialTheme.colorScheme.surface,
                                 shape = RoundedCornerShape(8.dp),
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                shape = RoundedCornerShape(8.dp),
                             ),
                     text = { Text(item.name) },
                     onClick = {
@@ -61,7 +68,7 @@ fun <T : Enum<T>> AssetDropdownMenu(
                     },
                 )
                 if (item != values.last()) {
-                    HorizontalDivider()
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
             }
         }
