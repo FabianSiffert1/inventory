@@ -8,15 +8,15 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.days
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.days
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -105,6 +105,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                     feesInput = TextFieldValue(),
                     urlInput = TextFieldValue(),
                     notesInput = TextFieldValue(),
+                    acquisitionPrice = TextFieldValue(),
                 )
             }
         }
