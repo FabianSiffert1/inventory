@@ -8,15 +8,15 @@ import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.days
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.days
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -35,7 +35,7 @@ constructor(
     private val isValidFee =
         feesInput.text.isEmpty() ||
             feesInput.text.isNotEmpty() && feesInput.text.toDoubleOrNull() is Double
-    val isValidAsset = nameInput.text.isNotEmpty() && currency != null && isValidPrice && isValidFee
+    val isValidAsset = nameInput.text.isNotEmpty() && isValidPrice && isValidFee
 }
 
 class AssetCreationScreenViewModel(private val assetRepository: AssetRepository) : ViewModel() {
@@ -43,33 +43,33 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
     private val _uiState = MutableStateFlow(AssetCreationScreenUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun onNameChange(newName: String) {
-        _uiState.update { it.copy(nameInput = TextFieldValue(newName)) }
+    private fun updateUiState(update: (AssetCreationScreenUiState) -> AssetCreationScreenUiState) {
+        _uiState.update(update)
     }
 
-    fun onPriceChange(newPrice: String) {
-        _uiState.update { it.copy(acquisitionPrice = TextFieldValue(newPrice)) }
+    fun onNameChange(newName: String) = updateUiState {
+        it.copy(nameInput = TextFieldValue(newName))
     }
 
-    fun onCurrencyChange(newCurrency: Currency) {
-        _uiState.update { it.copy(currency = newCurrency) }
+    fun onPriceChange(newPrice: String) = updateUiState {
+        it.copy(acquisitionPrice = TextFieldValue(newPrice))
     }
 
-    fun onAssetClassChange(newAssetClass: AssetClassWithStringRes) {
-        _uiState.update { it.copy(assetClassWithStringRes = newAssetClass) }
+    fun onCurrencyChange(newCurrency: Currency) = updateUiState { it.copy(currency = newCurrency) }
+
+    fun onAssetClassChange(newAssetClass: AssetClassWithStringRes) = updateUiState {
+        it.copy(assetClassWithStringRes = newAssetClass)
     }
 
-    fun onFeesChange(newFees: String) {
-        _uiState.update { it.copy(feesInput = TextFieldValue(newFees)) }
+    fun onFeesChange(newFees: String) = updateUiState {
+        it.copy(feesInput = TextFieldValue(newFees))
     }
 
-    fun onNotesChange(newNotes: String) {
-        _uiState.update { it.copy(notesInput = TextFieldValue(newNotes)) }
+    fun onNotesChange(newNotes: String) = updateUiState {
+        it.copy(notesInput = TextFieldValue(newNotes))
     }
 
-    fun onUrlChange(newUrl: String) {
-        _uiState.update { it.copy(urlInput = TextFieldValue(newUrl)) }
-    }
+    fun onUrlChange(newUrl: String) = updateUiState { it.copy(urlInput = TextFieldValue(newUrl)) }
 
     @OptIn(ExperimentalUuidApi::class)
     fun createAsset() {
@@ -103,16 +103,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
             assetRepository.upsertAssets(listOf(asset))
             // on success -> navigate back
             // on success -> clean inputs
-            _uiState.update {
-                it.copy(
-                    nameInput = TextFieldValue(),
-                    feesInput = TextFieldValue(),
-                    urlInput = TextFieldValue(),
-                    notesInput = TextFieldValue(),
-                    currency = null,
-                    acquisitionPrice = TextFieldValue(),
-                )
-            }
+            updateUiState { AssetCreationScreenUiState() }
         }
     }
 }
