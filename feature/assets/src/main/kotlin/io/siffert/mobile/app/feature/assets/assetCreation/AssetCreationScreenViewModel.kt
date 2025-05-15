@@ -48,6 +48,10 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
         _uiState.update { it.copy(nameInput = TextFieldValue(newName)) }
     }
 
+    fun onPriceChange(newPrice: String) {
+        _uiState.update { it.copy(acquisitionPrice = TextFieldValue(newPrice)) }
+    }
+
     fun onAssetClassChange(newAssetClass: AssetClass) {
         _uiState.update { it.copy(assetClass = newAssetClass) }
     }
@@ -68,10 +72,8 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
     @OptIn(ExperimentalUuidApi::class)
     fun createAsset() {
         viewModelScope.launch {
-            _uiState.update { it.copy(acquisitionPrice = TextFieldValue("2.3")) }
             val uiState = _uiState.value
             if (!uiState.isValidAsset) return@launch
-            println(uiState.acquisitionPrice.text)
             val assetId = Uuid.random().toString()
             val asset =
                 Asset(
@@ -87,13 +89,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                                 assetId = assetId,
                                 value = uiState.acquisitionPrice.text.toDouble(),
                                 timestamp = Clock.System.now().minus(2.days),
-                            ),
-                            PriceHistoryEntry(
-                                id = Random.nextLong(),
-                                assetId = assetId,
-                                value = 1.0,
-                                timestamp = Clock.System.now(),
-                            ),
+                            )
                         ),
                     saleData = null,
                     currency = Currency.EUR,

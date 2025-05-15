@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun <T : Enum<T>> EnumDropdownMenu(
+fun <T : Enum<T>> AssetDropdownMenu(
     values: Array<T>,
     currentlySelectedAssetClass: String,
     onItemSelected: (T) -> Unit,

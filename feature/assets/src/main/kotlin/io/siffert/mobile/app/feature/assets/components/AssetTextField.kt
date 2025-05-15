@@ -24,6 +24,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -33,6 +34,7 @@ internal fun AssetTextField(
     onInputChange: (String) -> Unit,
     onComplete: (String) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+    numericOnly: Boolean = false,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -62,7 +64,18 @@ internal fun AssetTextField(
                 }
             }
         },
-        onValueChange = { if ("\n" !in it) onInputChange(it) },
+        onValueChange = { newValue ->
+            if ("\n" in newValue) return@TextField // Ignore Enter key input
+
+            val filteredValue =
+                if (numericOnly) {
+                    newValue.filter { it.isDigit() || it == '.' }
+                } else {
+                    newValue
+                }
+
+            onInputChange(filteredValue)
+        },
         modifier =
             Modifier.fillMaxWidth()
                 .focusRequester(focusRequester)
@@ -78,7 +91,12 @@ internal fun AssetTextField(
                 .testTag("assetTextField"),
         shape = RoundedCornerShape(4.dp),
         value = input,
-        keyboardOptions = keyboardOptions,
+        keyboardOptions =
+            if (numericOnly) {
+                keyboardOptions.copy(keyboardType = KeyboardType.Number)
+            } else {
+                keyboardOptions
+            },
         keyboardActions =
             KeyboardActions(
                 onSearch = {

@@ -17,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetDropdownMenu
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
-import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.EnumDropdownMenu
 import io.siffert.mobile.app.model.data.AssetClass
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -35,6 +35,7 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
         onNotesChange = viewModel::onNotesChange,
         onAssetClassChange = viewModel::onAssetClassChange,
         onUrlChange = viewModel::onUrlChange,
+        onPriceChange = viewModel::onPriceChange,
         onCreateAssetClick = {
             try {
                 viewModel.createAsset()
@@ -52,6 +53,7 @@ private fun AssetDetailScreenContent(
     onBackClick: () -> Unit,
     onCreateAssetClick: () -> Unit,
     onNotesChange: (String) -> Unit,
+    onPriceChange: (String) -> Unit,
     onFeesChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
     onUrlChange: (String) -> Unit,
@@ -75,12 +77,17 @@ private fun AssetDetailScreenContent(
                 onInputChange = onNameChange,
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
             )
-            EnumDropdownMenu(
+            AssetTextField(
+                input = uiState.acquisitionPrice.text,
+                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_price),
+                onInputChange = onPriceChange,
+                numericOnly = true,
+            )
+            AssetDropdownMenu(
                 values = AssetClass.entries.toTypedArray(),
                 currentlySelectedAssetClass = uiState.assetClass.name,
                 onItemSelected = onAssetClassChange,
             )
-
             AssetTextField(
                 input = uiState.urlInput.text,
                 onInputChange = onUrlChange,
