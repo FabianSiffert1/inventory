@@ -83,6 +83,13 @@ private fun AssetDetailScreenContent(
                 onInputChange = onPriceChange,
                 numericOnly = true,
             )
+
+            AssetTextField(
+                input = uiState.feesInput.text,
+                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_fees),
+                onInputChange = onFeesChange,
+                numericOnly = true,
+            )
             AssetDropdownMenu(
                 values = AssetClass.entries.toTypedArray(),
                 currentlySelectedAssetClass = uiState.assetClass.name,
