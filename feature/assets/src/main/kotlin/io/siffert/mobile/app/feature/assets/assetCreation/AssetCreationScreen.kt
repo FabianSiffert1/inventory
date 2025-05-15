@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.EnumDropdownMenu
+import io.siffert.mobile.app.model.data.AssetClass
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -31,6 +33,7 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
         onNameChange = viewModel::onNameChange,
         onFeesChange = viewModel::onFeesChange,
         onNotesChange = viewModel::onNotesChange,
+        onAssetClassChange = viewModel::onAssetClassChange,
         onUrlChange = viewModel::onUrlChange,
         onCreateAssetClick = {
             try {
@@ -52,6 +55,7 @@ private fun AssetDetailScreenContent(
     onFeesChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
     onUrlChange: (String) -> Unit,
+    onAssetClassChange: (AssetClass) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding().padding(horizontal = 16.dp),
@@ -71,6 +75,12 @@ private fun AssetDetailScreenContent(
                 onInputChange = onNameChange,
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
             )
+            EnumDropdownMenu(
+                values = AssetClass.entries.toTypedArray(),
+                currentlySelectedAssetClass = uiState.assetClass.name,
+                onItemSelected = onAssetClassChange,
+            )
+
             AssetTextField(
                 input = uiState.urlInput.text,
                 onInputChange = onUrlChange,

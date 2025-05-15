@@ -8,15 +8,15 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.days
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.days
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -25,8 +25,18 @@ constructor(
     val feesInput: TextFieldValue = TextFieldValue(),
     val urlInput: TextFieldValue = TextFieldValue(),
     val notesInput: TextFieldValue = TextFieldValue(),
+    val acquisitionPrice: TextFieldValue = TextFieldValue(),
+    val assetClass: AssetClass = AssetClass.REAL_ASSET,
+    // todo reset default to null
+    val currency: Currency? = Currency.EUR,
 ) {
-    val isValidAsset = nameInput.text.isNotEmpty()
+    private val isValidPrice =
+        acquisitionPrice.text.isEmpty() ||
+            acquisitionPrice.text.isNotEmpty() && acquisitionPrice.text.toDoubleOrNull() is Double
+    private val isValidFee =
+        feesInput.text.isEmpty() ||
+            feesInput.text.isNotEmpty() && feesInput.text.toDoubleOrNull() is Double
+    val isValidAsset = nameInput.text.isNotEmpty() && currency != null && isValidPrice && isValidFee
 }
 
 class AssetCreationScreenViewModel(private val assetRepository: AssetRepository) : ViewModel() {
@@ -36,6 +46,10 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
 
     fun onNameChange(newName: String) {
         _uiState.update { it.copy(nameInput = TextFieldValue(newName)) }
+    }
+
+    fun onAssetClassChange(newAssetClass: AssetClass) {
+        _uiState.update { it.copy(assetClass = newAssetClass) }
     }
 
     fun onFeesChange(newFees: String) {
@@ -54,14 +68,16 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
     @OptIn(ExperimentalUuidApi::class)
     fun createAsset() {
         viewModelScope.launch {
+            _uiState.update { it.copy(acquisitionPrice = TextFieldValue("2.3")) }
             val uiState = _uiState.value
             if (!uiState.isValidAsset) return@launch
+            println(uiState.acquisitionPrice.text)
             val assetId = Uuid.random().toString()
             val asset =
                 Asset(
                     id = assetId,
                     name = uiState.nameInput.text,
-                    assetClass = AssetClass.DIGITAL_ASSET,
+                    assetClass = uiState.assetClass,
                     assetGroupId = null,
                     fees = 0.01,
                     priceHistory =
@@ -69,7 +85,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                             PriceHistoryEntry(
                                 id = Random.nextLong(),
                                 assetId = assetId,
-                                value = 1.0,
+                                value = uiState.acquisitionPrice.text.toDouble(),
                                 timestamp = Clock.System.now().minus(2.days),
                             ),
                             PriceHistoryEntry(
