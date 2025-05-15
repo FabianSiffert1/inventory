@@ -17,9 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetDropdownMenu
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
-import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -60,7 +61,7 @@ private fun AssetDetailScreenContent(
     onNameChange: (String) -> Unit,
     onUrlChange: (String) -> Unit,
     onCurrencyChange: (Currency) -> Unit,
-    onAssetClassChange: (AssetClass) -> Unit,
+    onAssetClassChange: (AssetClassWithStringRes) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.statusBarsPadding().padding(horizontal = 16.dp),
@@ -88,7 +89,7 @@ private fun AssetDetailScreenContent(
             )
             AssetDropdownMenu(
                 values = Currency.entries.toTypedArray(),
-                currentlySelectedAssetClass =
+                currentlySelected =
                     uiState.currency?.name
                         ?: stringResource(id = R.string.feature_assets_asset_creation_currency),
                 onItemSelected = onCurrencyChange,
@@ -100,9 +101,11 @@ private fun AssetDetailScreenContent(
                 numericOnly = true,
             )
             AssetDropdownMenu(
-                values = AssetClass.entries.toTypedArray(),
-                currentlySelectedAssetClass = uiState.assetClass.name,
+                values = AssetClassWithStringRes.entries.toTypedArray(),
+                currentlySelected =
+                    stringResource(id = uiState.assetClassWithStringRes.nameResource),
                 onItemSelected = onAssetClassChange,
+                trailingIcon = { AssetClassIcon(uiState.assetClassWithStringRes.assetClass) },
             )
             AssetTextField(
                 input = uiState.urlInput.text,

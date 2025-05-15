@@ -4,8 +4,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.core.data.repository.AssetRepository
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.model.data.Asset
-import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +26,7 @@ constructor(
     val urlInput: TextFieldValue = TextFieldValue(),
     val notesInput: TextFieldValue = TextFieldValue(),
     val acquisitionPrice: TextFieldValue = TextFieldValue(),
-    val assetClass: AssetClass = AssetClass.REAL_ASSET,
+    val assetClassWithStringRes: AssetClassWithStringRes = AssetClassWithStringRes.DIGITAL_ASSET,
     val currency: Currency? = null,
 ) {
     private val isValidPrice =
@@ -55,8 +55,8 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
         _uiState.update { it.copy(currency = newCurrency) }
     }
 
-    fun onAssetClassChange(newAssetClass: AssetClass) {
-        _uiState.update { it.copy(assetClass = newAssetClass) }
+    fun onAssetClassChange(newAssetClass: AssetClassWithStringRes) {
+        _uiState.update { it.copy(assetClassWithStringRes = newAssetClass) }
     }
 
     fun onFeesChange(newFees: String) {
@@ -82,7 +82,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                 Asset(
                     id = assetId,
                     name = uiState.nameInput.text,
-                    assetClass = uiState.assetClass,
+                    assetClass = uiState.assetClassWithStringRes.assetClass,
                     assetGroupId = null,
                     fees = 0.01,
                     priceHistory =
