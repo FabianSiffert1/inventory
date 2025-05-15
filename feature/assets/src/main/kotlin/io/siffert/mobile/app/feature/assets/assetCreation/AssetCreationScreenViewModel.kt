@@ -8,15 +8,15 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.days
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.days
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
@@ -27,8 +27,7 @@ constructor(
     val notesInput: TextFieldValue = TextFieldValue(),
     val acquisitionPrice: TextFieldValue = TextFieldValue(),
     val assetClass: AssetClass = AssetClass.REAL_ASSET,
-    // todo reset default to null
-    val currency: Currency? = Currency.EUR,
+    val currency: Currency? = null,
 ) {
     private val isValidPrice =
         acquisitionPrice.text.isEmpty() ||
@@ -52,6 +51,10 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
         _uiState.update { it.copy(acquisitionPrice = TextFieldValue(newPrice)) }
     }
 
+    fun onCurrencyChange(newCurrency: Currency) {
+        _uiState.update { it.copy(currency = newCurrency) }
+    }
+
     fun onAssetClassChange(newAssetClass: AssetClass) {
         _uiState.update { it.copy(assetClass = newAssetClass) }
     }
@@ -73,6 +76,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
         viewModelScope.launch {
             val uiState = _uiState.value
             if (!uiState.isValidAsset) return@launch
+            val currency = uiState.currency ?: return@launch
             val assetId = Uuid.random().toString()
             val asset =
                 Asset(
@@ -91,7 +95,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                             )
                         ),
                     saleData = null,
-                    currency = Currency.EUR,
+                    currency = currency,
                     url = uiState.urlInput.text,
                     userNotes = uiState.notesInput.text,
                 )
@@ -105,6 +109,7 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
                     feesInput = TextFieldValue(),
                     urlInput = TextFieldValue(),
                     notesInput = TextFieldValue(),
+                    currency = null,
                     acquisitionPrice = TextFieldValue(),
                 )
             }

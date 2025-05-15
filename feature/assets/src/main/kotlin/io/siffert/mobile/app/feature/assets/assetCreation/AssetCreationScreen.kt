@@ -20,6 +20,7 @@ import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetDropdownMenu
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
 import io.siffert.mobile.app.model.data.AssetClass
+import io.siffert.mobile.app.model.data.Currency
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -36,6 +37,7 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
         onAssetClassChange = viewModel::onAssetClassChange,
         onUrlChange = viewModel::onUrlChange,
         onPriceChange = viewModel::onPriceChange,
+        onCurrencyChange = viewModel::onCurrencyChange,
         onCreateAssetClick = {
             try {
                 viewModel.createAsset()
@@ -57,6 +59,7 @@ private fun AssetDetailScreenContent(
     onFeesChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
     onUrlChange: (String) -> Unit,
+    onCurrencyChange: (Currency) -> Unit,
     onAssetClassChange: (AssetClass) -> Unit,
 ) {
     Scaffold(
@@ -83,7 +86,13 @@ private fun AssetDetailScreenContent(
                 onInputChange = onPriceChange,
                 numericOnly = true,
             )
-
+            AssetDropdownMenu(
+                values = Currency.entries.toTypedArray(),
+                currentlySelectedAssetClass =
+                    uiState.currency?.name
+                        ?: stringResource(id = R.string.feature_assets_asset_creation_currency),
+                onItemSelected = onCurrencyChange,
+            )
             AssetTextField(
                 input = uiState.feesInput.text,
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_fees),
