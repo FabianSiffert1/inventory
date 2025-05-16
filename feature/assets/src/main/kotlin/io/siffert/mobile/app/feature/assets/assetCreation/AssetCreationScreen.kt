@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +33,14 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
     val viewModel: AssetCreationScreenViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.uiCommands.collect { command ->
+            when (command) {
+                AssetCreationScreenUiCommand.NavigateBack -> {} // navigateBack()
+            }
+        }
+    }
+
     AssetDetailScreenContent(
         uiState = uiState,
         onBackClick = navigateBack,
@@ -42,15 +51,7 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
         onUrlChange = viewModel::onUrlChange,
         onPriceChange = viewModel::onPriceChange,
         onCurrencyChange = viewModel::onCurrencyChange,
-        onCreateAssetClick = {
-            try {
-                // todo: move to viewmodel, callback navfun
-                viewModel.createAsset()
-                navigateBack()
-            } catch (e: Exception) {
-                println(e)
-            }
-        },
+        onCreateAssetClick = viewModel::createAsset,
     )
 }
 

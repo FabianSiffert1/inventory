@@ -10,15 +10,15 @@ import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import io.siffert.mobile.app.model.data.SaleEntry
 import io.siffert.mobile.app.model.data.isValidAsset
+import kotlinx.datetime.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-import kotlinx.datetime.Instant
 
 class CreateAssetUseCase(private val assetRepository: AssetRepository) {
     @OptIn(ExperimentalUuidApi::class)
     suspend fun createAsset(assetCreationData: AssetCreationData): Result<Unit> {
         // todo: implement logging solution
-        Log.d("CreateAssetUseCase", "createAsset: $assetCreationData")
+        Log.d("CreateAssetUseCase", "createAssetUseCase called")
         val assetId = Uuid.random().toString()
 
         val priceHistory = assetCreationData.priceHistory.map { it.toPriceHistoryEntry(assetId) }
@@ -38,8 +38,6 @@ class CreateAssetUseCase(private val assetRepository: AssetRepository) {
                 url = assetCreationData.url,
                 userNotes = assetCreationData.userNotes,
             )
-        println(asset.isValidAsset())
-        println(asset)
         if (!asset.isValidAsset()) {
             return Result.failure(IllegalArgumentException("Invalid asset"))
         }

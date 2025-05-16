@@ -73,12 +73,7 @@ class InventoryAppState(val navController: NavHostController) {
     }
 
     fun navigateToAssetCreation() {
-        navController.navigateToAssetCreation(
-            navOptions {
-                launchSingleTop = true
-                restoreState = true
-            }
-        )
+        navController.navigateToAssetCreation(navOptions { launchSingleTop = false })
     }
 
     fun navigateToSearch() {

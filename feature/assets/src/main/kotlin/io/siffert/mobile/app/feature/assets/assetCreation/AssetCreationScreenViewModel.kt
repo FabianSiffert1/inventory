@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
 
+import android.util.Log
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,20 +11,27 @@ import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets
 import io.siffert.mobile.app.model.data.Currency
 import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+
+sealed interface AssetCreationScreenUiCommand {
+    data object NavigateBack : AssetCreationScreenUiCommand
+}
 
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
 constructor(
-    val nameInput: TextFieldValue = TextFieldValue(),
+    val nameInput: TextFieldValue = TextFieldValue("123"),
     val feesInput: TextFieldValue = TextFieldValue(),
     val urlInput: TextFieldValue = TextFieldValue(),
     val notesInput: TextFieldValue = TextFieldValue(),
-    val currentPrice: TextFieldValue = TextFieldValue(),
+    val currentPrice: TextFieldValue = TextFieldValue("123"),
     val assetClassWithStringRes: AssetClassWithStringRes = AssetClassWithStringRes.DIGITAL_ASSET,
     val currency: Currency = Currency.EUR,
 ) {
@@ -40,6 +48,9 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
 
     private val _uiState = MutableStateFlow(AssetCreationScreenUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _uiCommands: Channel<AssetCreationScreenUiCommand> = Channel()
+    internal val uiCommands = _uiCommands.receiveAsFlow()
 
     private fun updateUiState(update: (AssetCreationScreenUiState) -> AssetCreationScreenUiState) {
         _uiState.update(update)
@@ -94,13 +105,21 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
     }
 
     fun createAsset() {
+        println(viewModelScope.coroutineContext.isActive)
         viewModelScope.launch {
-            val assetData = _uiState.value.toAssetCreationData() ?: return@launch
-            val result = createAssetUseCase.createAsset(assetData)
-            if (result.isSuccess) {
-                updateUiState { AssetCreationScreenUiState() }
+            Log.d("AssetCreationScreenViewModel", "createAsset called")
+
+            val assetData = _uiState.value.toAssetCreationData()
+            if (assetData != null) {
+                val result = createAssetUseCase.createAsset(assetData)
+                if (result.isSuccess) {
+                    updateUiState { AssetCreationScreenUiState() }
+                    _uiCommands.send(AssetCreationScreenUiCommand.NavigateBack)
+                }
+                // optionally handle error cases
             }
-            // optionally handle error cases
+            // todo: proper error handling
+            else println("assetData is null, abort")
         }
     }
 }
