@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 
@@ -105,7 +104,6 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
     }
 
     fun createAsset() {
-        println(viewModelScope.coroutineContext.isActive)
         viewModelScope.launch {
             Log.d("AssetCreationScreenViewModel", "createAsset called")
 

@@ -29,14 +29,16 @@ import io.siffert.mobile.app.model.data.Currency
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal fun AssetCreationScreen(navigateBack: () -> Unit) {
-    val viewModel: AssetCreationScreenViewModel = koinViewModel()
+internal fun AssetCreationScreen(
+    navigateBack: () -> Unit,
+    viewModel: AssetCreationScreenViewModel = koinViewModel(),
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.uiCommands.collect { command ->
             when (command) {
-                AssetCreationScreenUiCommand.NavigateBack -> {} // navigateBack()
+                AssetCreationScreenUiCommand.NavigateBack -> navigateBack()
             }
         }
     }
