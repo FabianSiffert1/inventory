@@ -4,6 +4,7 @@
     <string name="feature_assets_asset_creation_fees">Fees</string>
     <string name="feature_assets_asset_creation_name">Name</string>
     <string name="feature_assets_asset_creation_notes">Notes</string>
+    <string name="feature_assets_asset_creation_optional">Optional</string>
     <string name="feature_assets_asset_creation_price">Price</string>
     <string name="feature_assets_asset_creation_currency">Currency</string>
     <string name="feature_assets_asset_creation_title">Create Asset</string>

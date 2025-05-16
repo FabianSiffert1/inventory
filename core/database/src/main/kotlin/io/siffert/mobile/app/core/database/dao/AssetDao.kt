@@ -6,8 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.AssetEntityWithPricesAndSales
 import io.siffert.mobile.app.core.database.model.AssetEntity
-import io.siffert.mobile.app.core.database.model.AssetWithPriceHistoryAndSales
 import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.Flow
 interface AssetDao {
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
-    suspend fun getAssetWithPriceHistoryAndSales(assetId: String): AssetWithPriceHistoryAndSales?
+    suspend fun getAssetWithPriceHistoryAndSales(assetId: String): AssetEntityWithPricesAndSales?
 
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
-    fun getAssetWithPriceHistoryAndSalesFlow(assetId: String): Flow<AssetWithPriceHistoryAndSales?>
+    fun getAssetWithPriceHistoryAndSalesFlow(assetId: String): Flow<AssetEntityWithPricesAndSales?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun insertAsset(asset: AssetEntity)
 
@@ -27,16 +27,16 @@ interface AssetDao {
 
     @Transaction
     @Query("SELECT * FROM assets")
-    fun getAssetsWithPriceHistoryAndSalesFlow(): Flow<List<AssetWithPriceHistoryAndSales>>
+    fun getAssetsWithPriceHistoryAndSalesFlow(): Flow<List<AssetEntityWithPricesAndSales>>
 
     @Transaction
     @Query("SELECT * FROM assets")
-    fun getAssetsWithPriceHistoryAndSales(): List<AssetWithPriceHistoryAndSales>
+    fun getAssetsWithPriceHistoryAndSales(): List<AssetEntityWithPricesAndSales>
 
     @Query("SELECT * FROM assets WHERE uid IN (:ids)")
     fun getAssetsWithPriceHistoryAndSalesByIds(
         ids: Set<String>
-    ): Flow<List<AssetWithPriceHistoryAndSales?>>
+    ): Flow<List<AssetEntityWithPricesAndSales?>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertOrIgnoreAssets(assetEntities: List<AssetEntity>): List<Long>

@@ -6,6 +6,7 @@ import io.siffert.mobile.app.core.data.model.toSalesEntity
 import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.dao.SalesDao
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow

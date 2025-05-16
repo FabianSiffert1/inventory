@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.AssetEntityWithPricesAndSales
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.SalesEntity
-import io.siffert.mobile.app.core.database.model.AssetWithPriceHistoryAndSales
 
 @Dao
 interface SalesDao {
@@ -27,5 +27,5 @@ interface SalesDao {
 
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
-    suspend fun getAssetWithSaleAndPriceHistory(assetId: String): AssetWithPriceHistoryAndSales
+    suspend fun getAssetWithSaleAndPriceHistory(assetId: String): AssetEntityWithPricesAndSales
 }

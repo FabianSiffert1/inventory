@@ -3,15 +3,13 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.siffert.mobile.app.core.data.repository.AssetRepository
+import io.siffert.mobile.app.core.domain.AssetCreationData
+import io.siffert.mobile.app.core.domain.CreateAssetUseCase
+import io.siffert.mobile.app.core.domain.PriceHistoryEntryCreationData
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
-import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
-import io.siffert.mobile.app.model.data.PriceHistoryEntry
-import kotlin.random.Random
 import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,7 +25,7 @@ constructor(
     val notesInput: TextFieldValue = TextFieldValue(),
     val acquisitionPrice: TextFieldValue = TextFieldValue(),
     val assetClassWithStringRes: AssetClassWithStringRes = AssetClassWithStringRes.DIGITAL_ASSET,
-    val currency: Currency? = null,
+    val currency: Currency = Currency.EUR,
 ) {
     private val isValidPrice =
         acquisitionPrice.text.isEmpty() ||
@@ -38,7 +36,8 @@ constructor(
     val isValidAsset = nameInput.text.isNotEmpty() && isValidPrice && isValidFee
 }
 
-class AssetCreationScreenViewModel(private val assetRepository: AssetRepository) : ViewModel() {
+class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUseCase) :
+    ViewModel() {
 
     private val _uiState = MutableStateFlow(AssetCreationScreenUiState())
     val uiState = _uiState.asStateFlow()
@@ -71,39 +70,38 @@ class AssetCreationScreenViewModel(private val assetRepository: AssetRepository)
 
     fun onUrlChange(newUrl: String) = updateUiState { it.copy(urlInput = TextFieldValue(newUrl)) }
 
-    @OptIn(ExperimentalUuidApi::class)
+    fun AssetCreationScreenUiState.toAssetCreationData(): AssetCreationData? {
+        if (!isValidAsset) return null
+        val acquisitionPrice = acquisitionPrice.text.toDoubleOrNull() ?: return null
+        val fee = feesInput.text.toDoubleOrNull() ?: return null
+
+        return AssetCreationData(
+            name = nameInput.text,
+            assetClass = assetClassWithStringRes.assetClass,
+            fees = fee,
+            priceHistory =
+                listOf(
+                    PriceHistoryEntryCreationData(
+                        value = acquisitionPrice,
+                        timestamp = Clock.System.now() - 10.days,
+                    )
+                ),
+            currency = currency,
+            url = urlInput.text,
+            userNotes = notesInput.text,
+            saleData = null,
+            assetGroupId = null,
+        )
+    }
+
     fun createAsset() {
         viewModelScope.launch {
-            val uiState = _uiState.value
-            if (!uiState.isValidAsset) return@launch
-            val currency = uiState.currency ?: return@launch
-            val assetId = Uuid.random().toString()
-            val asset =
-                Asset(
-                    id = assetId,
-                    name = uiState.nameInput.text,
-                    assetClass = uiState.assetClassWithStringRes.assetClass,
-                    assetGroupId = null,
-                    fees = 0.01,
-                    priceHistory =
-                        listOf(
-                            PriceHistoryEntry(
-                                id = Random.nextLong(),
-                                assetId = assetId,
-                                value = uiState.acquisitionPrice.text.toDouble(),
-                                timestamp = Clock.System.now().minus(2.days),
-                            )
-                        ),
-                    saleData = null,
-                    currency = currency,
-                    url = uiState.urlInput.text,
-                    userNotes = uiState.notesInput.text,
-                )
-            // todo: implement return success/failure etc
-            assetRepository.upsertAssets(listOf(asset))
-            // on success -> navigate back
-            // on success -> clean inputs
-            updateUiState { AssetCreationScreenUiState() }
+            val assetData = _uiState.value.toAssetCreationData() ?: return@launch
+            val result = createAssetUseCase.createAsset(assetData)
+            if (result.isSuccess) {
+                updateUiState { AssetCreationScreenUiState() }
+            }
+            // optionally handle error cases
         }
     }
 }

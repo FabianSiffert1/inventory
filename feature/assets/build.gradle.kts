@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:database"))
     implementation(project(":core:data"))
+    implementation(project(":core:domain"))
 
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)

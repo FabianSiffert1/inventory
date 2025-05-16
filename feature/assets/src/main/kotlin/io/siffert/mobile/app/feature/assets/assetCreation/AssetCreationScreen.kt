@@ -7,13 +7,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
@@ -39,14 +42,7 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
         onUrlChange = viewModel::onUrlChange,
         onPriceChange = viewModel::onPriceChange,
         onCurrencyChange = viewModel::onCurrencyChange,
-        onCreateAssetClick = {
-            try {
-                viewModel.createAsset()
-                navigateBack()
-            } catch (e: Exception) {
-                println(e)
-            }
-        },
+        onCreateAssetClick = viewModel::createAsset,
     )
 }
 
@@ -73,7 +69,6 @@ private fun AssetDetailScreenContent(
         Column(
             modifier =
                 Modifier.padding(paddingValues).verticalScroll(rememberScrollState()).fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             AssetTextField(
@@ -87,17 +82,9 @@ private fun AssetDetailScreenContent(
                 onInputChange = onPriceChange,
                 numericOnly = true,
             )
-            AssetTextField(
-                input = uiState.feesInput.text,
-                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_fees),
-                onInputChange = onFeesChange,
-                numericOnly = true,
-            )
             AssetDropdownMenu(
                 values = Currency.entries.toTypedArray(),
-                currentlySelected =
-                    uiState.currency?.name
-                        ?: stringResource(id = R.string.feature_assets_asset_creation_currency),
+                currentlySelected = uiState.currency.name,
                 onItemSelected = onCurrencyChange,
             )
             AssetDropdownMenu(
@@ -106,6 +93,19 @@ private fun AssetDetailScreenContent(
                     stringResource(id = uiState.assetClassWithStringRes.nameResource),
                 onItemSelected = onAssetClassChange,
                 trailingIcon = { AssetClassIcon(uiState.assetClassWithStringRes.assetClass) },
+            )
+            HorizontalDivider()
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = stringResource(id = R.string.feature_assets_asset_creation_optional),
+                fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                textAlign = TextAlign.Left,
+            )
+            AssetTextField(
+                input = uiState.feesInput.text,
+                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_fees),
+                onInputChange = onFeesChange,
+                numericOnly = true,
             )
             AssetTextField(
                 input = uiState.urlInput.text,

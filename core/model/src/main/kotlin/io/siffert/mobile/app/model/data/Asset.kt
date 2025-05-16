@@ -12,3 +12,7 @@ data class Asset(
     val url: String?,
     val userNotes: String?,
 )
+
+fun Asset.isValidAsset(): Boolean {
+    return name.isNotEmpty() && priceHistory.isNotEmpty() && fees is Double
+}
