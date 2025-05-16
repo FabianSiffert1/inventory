@@ -85,6 +85,7 @@ private fun AssetDetailScreenContent(
             AssetDropdownMenu(
                 values = Currency.entries.toTypedArray(),
                 currentlySelected = uiState.currency.name,
+                assetLabel = stringResource(id = R.string.feature_assets_asset_creation_currency),
                 onItemSelected = onCurrencyChange,
             )
             AssetDropdownMenu(
@@ -92,6 +93,8 @@ private fun AssetDetailScreenContent(
                 currentlySelected =
                     stringResource(id = uiState.assetClassWithStringRes.nameResource),
                 onItemSelected = onAssetClassChange,
+                assetLabel =
+                    stringResource(id = R.string.feature_assets_asset_creation_asset_class),
                 trailingIcon = { AssetClassIcon(uiState.assetClassWithStringRes.assetClass) },
             )
             HorizontalDivider()

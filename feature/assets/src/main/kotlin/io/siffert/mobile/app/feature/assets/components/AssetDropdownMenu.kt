@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun <T : Enum<T>> AssetDropdownMenu(
     values: Array<T>,
+    assetLabel: String,
     currentlySelected: String,
     onItemSelected: (T) -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -45,13 +47,20 @@ fun <T : Enum<T>> AssetDropdownMenu(
                 },
             colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
             headlineContent = {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(text = currentlySelected)
-                    if (trailingIcon != null) {
-                        trailingIcon()
+                Column {
+                    Text(
+                        text = assetLabel,
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(text = currentlySelected)
+                        if (trailingIcon != null) {
+                            trailingIcon()
+                        }
                     }
                 }
             },
