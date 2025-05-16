@@ -14,7 +14,7 @@ interface AssetRepository {
     suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long>
 
     /** Inserts or updates [assets] in the db under the specified primary keys */
-    suspend fun upsertAssets(assets: List<Asset>)
+    suspend fun upsertAssets(assets: List<Asset>): Result<Unit>
 
     suspend fun deleteAssets(assetIds: List<String>)
 }

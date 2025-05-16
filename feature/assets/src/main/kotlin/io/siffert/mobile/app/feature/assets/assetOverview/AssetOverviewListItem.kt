@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +23,7 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import io.siffert.mobile.app.model.data.SaleEntry
 import io.siffert.mobile.app.model.data.Trend
 import kotlinx.datetime.Clock
 
@@ -45,7 +45,7 @@ fun AssetOverviewListItem(
         supportingContent = {
             val lastPrice = asset.priceHistory.lastOrNull()?.value
             lastPrice?.let {
-            Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
+                Text(text = "${asset.priceHistory.lastOrNull()?.value} ${asset.currency.name}")
             }
         },
         trailingContent = {
@@ -80,12 +80,12 @@ fun AssetOverviewListItemPreview() {
                         assetId = "assetId",
                         value = 1.30,
                         timestamp = Clock.System.now(),
-                        id = 1,
+                        id = "uuid2",
                     )
                 ),
             saleData =
-                PriceHistoryEntry(
-                    id = 1,
+                SaleEntry(
+                    id = "uuid3",
                     assetId = "assetId",
                     value = 1.20,
                     timestamp = Clock.System.now(),

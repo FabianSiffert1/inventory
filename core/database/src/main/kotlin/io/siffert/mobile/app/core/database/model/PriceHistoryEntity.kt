@@ -21,7 +21,7 @@ import kotlinx.datetime.Instant
     indices = [Index("assetId")],
 )
 data class PriceHistoryEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey val uid: String,
     val assetId: String,
     val value: Double,
     val timestamp: Long,
@@ -29,7 +29,7 @@ data class PriceHistoryEntity(
 
 fun PriceHistoryEntity.toExternalModel(): PriceHistoryEntry =
     PriceHistoryEntry(
-        id = id,
+        id = uid,
         assetId = assetId,
         value = value,
         timestamp = Instant.fromEpochMilliseconds(timestamp),

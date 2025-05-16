@@ -8,8 +8,9 @@ import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 
 @Dao
 interface PriceHistoryDao {
-    //todo: add delete
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    // todo: add delete
+    // todo: fix conflict strategies
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(values: List<PriceHistoryEntity>)
 
     @Query("SELECT * FROM price_history WHERE assetId = :assetId ORDER BY timestamp ASC")

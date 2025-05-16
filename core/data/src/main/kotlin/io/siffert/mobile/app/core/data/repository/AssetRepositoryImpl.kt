@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.core.data.repository
 
+import android.util.Log
 import io.siffert.mobile.app.core.data.model.asEntity
 import io.siffert.mobile.app.core.data.model.toPriceHistoryEntities
 import io.siffert.mobile.app.core.data.model.toSalesEntity
@@ -33,15 +34,16 @@ class AssetRepositoryImpl(
         return assetDao.insertOrIgnoreAssets(assetEntities)
     }
 
-    override suspend fun upsertAssets(assets: List<Asset>) {
-        val assetEntities = assets.map { it.asEntity() }
-        assetDao.upsertAssets(assetEntities)
-
-        val historicalPriceEntities = assets.flatMap { it.toPriceHistoryEntities() }
-        historicalPricesDao.insertAll(historicalPriceEntities)
-
-        val salesEntities = assets.mapNotNull { it.toSalesEntity() }
-        salesDao.insertAll(salesEntities)
+    override suspend fun upsertAssets(assets: List<Asset>): Result<Unit> {
+        return try {
+            assetDao.upsertAssets(assets.map { it.asEntity() })
+            historicalPricesDao.insertAll(assets.flatMap { it.toPriceHistoryEntities() })
+            salesDao.insertAll(assets.mapNotNull { it.toSalesEntity() })
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e("AssetRepository", "Database error", e)
+            Result.failure(e)
+        }
     }
 
     override suspend fun deleteAssets(assetIds: List<String>) {

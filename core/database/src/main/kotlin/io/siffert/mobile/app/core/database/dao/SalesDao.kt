@@ -3,6 +3,7 @@ package io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
@@ -14,7 +15,10 @@ interface SalesDao {
 
     @Insert suspend fun insert(salesEntity: SalesEntity)
 
-    @Transaction @Insert suspend fun insertAll(salesEntities: List<SalesEntity>)
+    // todo: fix conflict strategy
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Transaction
+    suspend fun insertAll(salesEntities: List<SalesEntity>)
 
     @Update suspend fun update(salesEntity: SalesEntity)
 

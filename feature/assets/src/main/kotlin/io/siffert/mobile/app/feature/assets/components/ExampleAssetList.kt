@@ -6,19 +6,19 @@ import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
-import kotlinx.datetime.Clock
+import io.siffert.mobile.app.model.data.SaleEntry
 import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
+import kotlinx.datetime.Clock
 
 private val assetid1 = "assetid1"
 private val assetid2 = "assetid2"
 private val assetid3 = "assetid3"
-private val priceHistoryDateId1 = 1L
-private val priceHistoryDateId2 = 2L
-private val priceHistoryDateId3 = 3L
-private val priceHistoryDateId4 = 4L
-private val priceHistoryDateId5 = 5L
-
+private val priceHistoryEntryId1 = "priceHistoryEntryId1"
+private val priceHistoryEntryId2 = "priceHistoryEntryId2"
+private val priceHistoryEntryId3 = "priceHistoryEntryId3"
+private val priceHistoryEntryId4 = "priceHistoryEntryId4"
+private val saleEntryId1 = "saleEntryId1"
 val exampleAssetList =
     listOf(
         Asset(
@@ -30,7 +30,7 @@ val exampleAssetList =
             priceHistory =
                 listOf(
                     PriceHistoryEntry(
-                        id = priceHistoryDateId1,
+                        id = priceHistoryEntryId1,
                         assetId = assetid1,
                         value = 1.20,
                         timestamp = Clock.System.now(),
@@ -50,7 +50,7 @@ val exampleAssetList =
             priceHistory =
                 listOf(
                     PriceHistoryEntry(
-                        id = priceHistoryDateId2,
+                        id = priceHistoryEntryId2,
                         assetId = assetid2,
                         value = 1.30,
                         timestamp = Clock.System.now(),
@@ -70,21 +70,21 @@ val exampleAssetList =
             priceHistory =
                 listOf(
                     PriceHistoryEntry(
-                        id = priceHistoryDateId3,
+                        id = priceHistoryEntryId3,
                         assetId = assetid3,
                         value = 1.40,
                         timestamp = Clock.System.now().minus(2.days),
                     ),
                     PriceHistoryEntry(
-                        id = priceHistoryDateId5,
+                        id = priceHistoryEntryId4,
                         assetId = assetid3,
                         value = 1.45,
                         timestamp = Clock.System.now(),
                     ),
                 ),
             saleData =
-                PriceHistoryEntry(
-                    id = priceHistoryDateId4,
+                SaleEntry(
+                    id = saleEntryId1,
                     assetId = assetid3,
                     value = 1.20,
                     timestamp = Clock.System.now(),

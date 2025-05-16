@@ -23,13 +23,12 @@ constructor(
     val feesInput: TextFieldValue = TextFieldValue(),
     val urlInput: TextFieldValue = TextFieldValue(),
     val notesInput: TextFieldValue = TextFieldValue(),
-    val acquisitionPrice: TextFieldValue = TextFieldValue(),
+    val currentPrice: TextFieldValue = TextFieldValue(),
     val assetClassWithStringRes: AssetClassWithStringRes = AssetClassWithStringRes.DIGITAL_ASSET,
     val currency: Currency = Currency.EUR,
 ) {
     private val isValidPrice =
-        acquisitionPrice.text.isEmpty() ||
-            acquisitionPrice.text.isNotEmpty() && acquisitionPrice.text.toDoubleOrNull() is Double
+        currentPrice.text.isNotEmpty() && currentPrice.text.toDoubleOrNull() is Double
     private val isValidFee =
         feesInput.text.isEmpty() ||
             feesInput.text.isNotEmpty() && feesInput.text.toDoubleOrNull() is Double
@@ -51,7 +50,7 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
     }
 
     fun onPriceChange(newPrice: String) = updateUiState {
-        it.copy(acquisitionPrice = TextFieldValue(newPrice))
+        it.copy(currentPrice = TextFieldValue(newPrice))
     }
 
     fun onCurrencyChange(newCurrency: Currency) = updateUiState { it.copy(currency = newCurrency) }
@@ -71,24 +70,24 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
     fun onUrlChange(newUrl: String) = updateUiState { it.copy(urlInput = TextFieldValue(newUrl)) }
 
     fun AssetCreationScreenUiState.toAssetCreationData(): AssetCreationData? {
-        if (!isValidAsset) return null
-        val acquisitionPrice = acquisitionPrice.text.toDoubleOrNull() ?: return null
-        val fee = feesInput.text.toDoubleOrNull() ?: return null
+
+        val currentPrice = currentPrice.text.toDoubleOrNull()
+        if (!isValidAsset || currentPrice == null) return null
 
         return AssetCreationData(
             name = nameInput.text,
             assetClass = assetClassWithStringRes.assetClass,
-            fees = fee,
+            fees = feesInput.text.toDoubleOrNull(),
             priceHistory =
                 listOf(
                     PriceHistoryEntryCreationData(
-                        value = acquisitionPrice,
+                        value = currentPrice,
                         timestamp = Clock.System.now() - 10.days,
                     )
                 ),
             currency = currency,
-            url = urlInput.text,
-            userNotes = notesInput.text,
+            url = urlInput.text.ifEmpty { null },
+            userNotes = notesInput.text.ifEmpty { null },
             saleData = null,
             assetGroupId = null,
         )

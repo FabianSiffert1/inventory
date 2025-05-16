@@ -42,7 +42,15 @@ internal fun AssetCreationScreen(navigateBack: () -> Unit) {
         onUrlChange = viewModel::onUrlChange,
         onPriceChange = viewModel::onPriceChange,
         onCurrencyChange = viewModel::onCurrencyChange,
-        onCreateAssetClick = viewModel::createAsset,
+        onCreateAssetClick = {
+            try {
+                // todo: move to viewmodel, callback navfun
+                viewModel.createAsset()
+                navigateBack()
+            } catch (e: Exception) {
+                println(e)
+            }
+        },
     )
 }
 
@@ -63,7 +71,11 @@ private fun AssetDetailScreenContent(
         modifier = Modifier.statusBarsPadding().padding(horizontal = 16.dp),
         containerColor = Color.Transparent,
         topBar = {
-            AssetCreationTopBar(onBackClick = onBackClick, onCreateAssetClick = onCreateAssetClick)
+            AssetCreationTopBar(
+                onBackClick = onBackClick,
+                onCreateAssetClick = onCreateAssetClick,
+                isCreateAssetButtonEnabled = uiState.isValidAsset,
+            )
         },
     ) { paddingValues ->
         Column(
@@ -77,7 +89,7 @@ private fun AssetDetailScreenContent(
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
             )
             AssetTextField(
-                input = uiState.acquisitionPrice.text,
+                input = uiState.currentPrice.text,
                 inputLabel = stringResource(id = R.string.feature_assets_asset_creation_price),
                 onInputChange = onPriceChange,
                 numericOnly = true,

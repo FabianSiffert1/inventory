@@ -20,6 +20,7 @@ fun Asset.asEntity() =
 fun Asset.toPriceHistoryEntities(): List<PriceHistoryEntity> {
     return priceHistory.map { priceHistoryDate ->
         PriceHistoryEntity(
+            uid = priceHistoryDate.id,
             assetId = priceHistoryDate.assetId,
             value = priceHistoryDate.value,
             timestamp = priceHistoryDate.timestamp.toEpochMilliseconds(),
@@ -30,6 +31,7 @@ fun Asset.toPriceHistoryEntities(): List<PriceHistoryEntity> {
 fun Asset.toSalesEntity(): SalesEntity? {
     return saleData?.let {
         SalesEntity(
+            uid = it.id,
             assetId = it.assetId,
             value = it.value,
             timestamp = it.timestamp.toEpochMilliseconds(),

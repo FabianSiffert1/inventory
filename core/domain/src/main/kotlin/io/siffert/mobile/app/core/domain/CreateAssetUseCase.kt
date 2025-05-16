@@ -1,12 +1,15 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package io.siffert.mobile.app.core.domain
 
+import android.util.Log
 import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import io.siffert.mobile.app.model.data.SaleEntry
 import io.siffert.mobile.app.model.data.isValidAsset
-import kotlin.random.Random
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import kotlinx.datetime.Instant
@@ -14,12 +17,13 @@ import kotlinx.datetime.Instant
 class CreateAssetUseCase(private val assetRepository: AssetRepository) {
     @OptIn(ExperimentalUuidApi::class)
     suspend fun createAsset(assetCreationData: AssetCreationData): Result<Unit> {
-
+        // todo: implement logging solution
+        Log.d("CreateAssetUseCase", "createAsset: $assetCreationData")
         val assetId = Uuid.random().toString()
 
         val priceHistory = assetCreationData.priceHistory.map { it.toPriceHistoryEntry(assetId) }
 
-        val saleData = assetCreationData.saleData?.toPriceHistoryEntry(assetId)
+        val saleData = assetCreationData.saleData?.toSaleEntry(assetId)
 
         val asset =
             Asset(
@@ -34,13 +38,12 @@ class CreateAssetUseCase(private val assetRepository: AssetRepository) {
                 url = assetCreationData.url,
                 userNotes = assetCreationData.userNotes,
             )
-
+        println(asset.isValidAsset())
+        println(asset)
         if (!asset.isValidAsset()) {
             return Result.failure(IllegalArgumentException("Invalid asset"))
         }
-
-        assetRepository.upsertAssets(listOf(asset))
-        return Result.success(Unit)
+        return assetRepository.upsertAssets(listOf(asset))
     }
 }
 
@@ -50,7 +53,7 @@ data class AssetCreationData(
     val assetGroupId: String?,
     val fees: Double?,
     val priceHistory: List<PriceHistoryEntryCreationData>,
-    val saleData: PriceHistoryEntryCreationData?,
+    val saleData: SaleEntryCreationData?,
     val currency: Currency,
     val url: String?,
     val userNotes: String?,
@@ -58,9 +61,20 @@ data class AssetCreationData(
 
 data class PriceHistoryEntryCreationData(val value: Double, val timestamp: Instant)
 
+data class SaleEntryCreationData(val value: Double, val timestamp: Instant)
+
 private fun PriceHistoryEntryCreationData.toPriceHistoryEntry(assetId: String): PriceHistoryEntry {
     return PriceHistoryEntry(
-        id = Random.nextLong(),
+        id = Uuid.random().toString(),
+        assetId = assetId,
+        value = value,
+        timestamp = timestamp,
+    )
+}
+
+private fun SaleEntryCreationData.toSaleEntry(assetId: String): SaleEntry {
+    return SaleEntry(
+        id = Uuid.random().toString(),
         assetId = assetId,
         value = value,
         timestamp = timestamp,

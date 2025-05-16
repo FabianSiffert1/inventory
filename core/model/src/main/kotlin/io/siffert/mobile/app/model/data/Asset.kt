@@ -7,12 +7,12 @@ data class Asset(
     val assetGroupId: String?,
     val fees: Double?,
     val priceHistory: List<PriceHistoryEntry>,
-    val saleData: PriceHistoryEntry?,
+    val saleData: SaleEntry?,
     val currency: Currency,
     val url: String?,
     val userNotes: String?,
 )
 
 fun Asset.isValidAsset(): Boolean {
-    return name.isNotEmpty() && priceHistory.isNotEmpty() && fees is Double
+    return name.isNotEmpty() && priceHistory.isNotEmpty()
 }

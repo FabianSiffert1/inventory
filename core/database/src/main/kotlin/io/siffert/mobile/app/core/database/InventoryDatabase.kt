@@ -33,7 +33,7 @@ interface InventoryAppDatabase {
             PriceHistoryEntity::class,
             SalesEntity::class,
         ],
-    version = 5,
+    version = 6,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
