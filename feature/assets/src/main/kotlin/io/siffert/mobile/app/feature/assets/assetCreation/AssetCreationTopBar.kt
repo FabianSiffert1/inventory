@@ -27,7 +27,7 @@ internal fun AssetCreationTopBar(
     isCreateAssetButtonEnabled: Boolean,
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(text = stringResource(id = R.string.feature_assets_asset_creation_title)) },
+        title = { Text(text = stringResource(id = R.string.feature_assets_creation_title)) },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
@@ -42,7 +42,7 @@ internal fun AssetCreationTopBar(
                 Icon(
                     imageVector = Cozy.icon.Save,
                     contentDescription =
-                        stringResource(id = R.string.feature_assets_asset_creation_title),
+                        stringResource(id = R.string.feature_assets_creation_title),
                     tint =
                         if (isCreateAssetButtonEnabled) MaterialTheme.colorScheme.onSurface
                         else MaterialTheme.colorScheme.surfaceVariant,

@@ -89,7 +89,7 @@ private fun AssetDetailScreenContent(
             AssetTextField(
                 input = uiState.nameInput.text,
                 onInputChange = onNameChange,
-                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_name),
+                inputLabel = stringResource(id = R.string.feature_assets_creation_name),
             )
             AssetTextField(
                 input = uiState.currentPrice.text,
@@ -100,7 +100,7 @@ private fun AssetDetailScreenContent(
             AssetDropdownMenu(
                 values = Currency.entries.toTypedArray(),
                 currentlySelected = uiState.currency.name,
-                assetLabel = stringResource(id = R.string.feature_assets_asset_creation_currency),
+                assetLabel = stringResource(id = R.string.feature_assets_creation_currency),
                 onItemSelected = onCurrencyChange,
             )
             AssetDropdownMenu(
@@ -108,32 +108,31 @@ private fun AssetDetailScreenContent(
                 currentlySelected =
                     stringResource(id = uiState.assetClassWithStringRes.nameResource),
                 onItemSelected = onAssetClassChange,
-                assetLabel =
-                    stringResource(id = R.string.feature_assets_asset_creation_asset_class),
+                assetLabel = stringResource(id = R.string.feature_assets_creation_asset_class),
                 trailingIcon = { AssetClassIcon(uiState.assetClassWithStringRes.assetClass) },
             )
             HorizontalDivider()
             Text(
                 modifier = Modifier.padding(start = 8.dp),
-                text = stringResource(id = R.string.feature_assets_asset_creation_optional),
+                text = stringResource(id = R.string.feature_assets_creation_optional),
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 textAlign = TextAlign.Left,
             )
             AssetTextField(
                 input = uiState.feesInput.text,
-                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_fees),
+                inputLabel = stringResource(id = R.string.feature_assets_creation_fees),
                 onInputChange = onFeesChange,
                 numericOnly = true,
             )
             AssetTextField(
                 input = uiState.urlInput.text,
                 onInputChange = onUrlChange,
-                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_url),
+                inputLabel = stringResource(id = R.string.feature_assets_creation_url),
             )
             AssetTextField(
                 input = uiState.notesInput.text,
                 onInputChange = onNotesChange,
-                inputLabel = stringResource(id = R.string.feature_assets_asset_creation_notes),
+                inputLabel = stringResource(id = R.string.feature_assets_creation_notes),
             )
         }
     }

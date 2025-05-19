@@ -31,7 +31,7 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
         assetRepository
             .getAssetsFlow()
             .map { assets ->
-                if (assets == null) return@map AssetsScreenUiState.Empty
+                if (assets.isNullOrEmpty()) return@map AssetsScreenUiState.Empty
                 AssetsScreenUiState.Success(assetList = assets)
             }
             .stateIn(

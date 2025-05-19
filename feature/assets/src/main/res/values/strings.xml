@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    --Asset Overview
+    <string name="feature_assets_overview_empty_list_title">No assets found</string>">
+    <string name="feature_assets_overview_empty_list_subtitle">Click the big plus to add your first one</string>
+
     --- Asset Creation
-    <string name="feature_assets_asset_creation_asset_class">Asset Class</string>
-    <string name="feature_assets_asset_creation_date">Date</string>
-    <string name="feature_assets_asset_creation_fees">Fees</string>
-    <string name="feature_assets_asset_creation_name">Name</string>
-    <string name="feature_assets_asset_creation_notes">Notes</string>
-    <string name="feature_assets_asset_creation_optional">Optional</string>
+    <string name="feature_assets_creation_asset_class">Asset Class</string>
+    <string name="feature_assets_creation_date">Date</string>
+    <string name="feature_assets_creation_fees">Fees</string>
+    <string name="feature_assets_creation_name">Name</string>
+    <string name="feature_assets_creation_notes">Notes</string>
+    <string name="feature_assets_creation_optional">Optional</string>
     <string name="feature_assets_asset_creation_price">Price</string>
-    <string name="feature_assets_asset_creation_currency">Currency</string>
-    <string name="feature_assets_asset_creation_title">Create Asset</string>
-    <string name="feature_assets_asset_creation_url">Url</string>
+    <string name="feature_assets_creation_currency">Currency</string>
+    <string name="feature_assets_creation_title">Create Asset</string>
+    <string name="feature_assets_creation_url">Url</string>
 
     --- Asset Details
     <string name="feature_assets_asset_details_acquisition_price">Bought For</string>

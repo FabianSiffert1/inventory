@@ -1,12 +1,12 @@
 package io.siffert.mobile.app.feature.assets
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.AssetOverviewListEmpty
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.AssetOverviewListLoading
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList.AssetOverviewList
 import org.koin.androidx.compose.koinViewModel
@@ -30,6 +30,6 @@ internal fun Assets(
             AssetsScreenUiState.Loading -> AssetOverviewListLoading()
             is AssetsScreenUiState.Success ->
                 AssetOverviewList(assetList = uiState.assetList, onAssetClick = onAssetClick)
-            AssetsScreenUiState.Empty -> Text("No Asset yet.")
+            AssetsScreenUiState.Empty -> AssetOverviewListEmpty()
         }
     }
