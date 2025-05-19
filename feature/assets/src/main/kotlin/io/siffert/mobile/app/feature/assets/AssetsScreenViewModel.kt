@@ -21,11 +21,13 @@ sealed interface AssetsScreenUiState {
     data class Success(val assetList: List<Asset>) : AssetsScreenUiState
 }
 
-class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
+class AssetsScreenViewModel(private val assetRepository: AssetRepository) : ViewModel() {
 
+    /*
     init {
         viewModelScope.launch { assetRepository.upsertAssets(exampleAssetList) }
     }
+     */
 
     val uiState: StateFlow<AssetsScreenUiState> =
         assetRepository
@@ -39,4 +41,8 @@ class AssetsScreenViewModel(assetRepository: AssetRepository) : ViewModel() {
                 started = SharingStarted.WhileSubscribed(5.seconds),
                 initialValue = AssetsScreenUiState.Loading,
             )
+
+    fun addDebugAssets() {
+        viewModelScope.launch { assetRepository.upsertAssets(exampleAssetList) }
+    }
 }
