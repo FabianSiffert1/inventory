@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.AssetOverviewListLoading
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList.AssetOverviewList
 import org.koin.androidx.compose.koinViewModel
 
@@ -26,11 +27,9 @@ internal fun Assets(
 ) =
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         when (uiState) {
-            // todo: create loadingState
-            AssetsScreenUiState.Loading -> Text("LoadingStateImplPlaceholder")
+            AssetsScreenUiState.Loading -> AssetOverviewListLoading()
             is AssetsScreenUiState.Success ->
                 AssetOverviewList(assetList = uiState.assetList, onAssetClick = onAssetClick)
-
             AssetsScreenUiState.Empty -> Text("No Asset yet.")
         }
     }
