@@ -1,13 +1,16 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -77,7 +81,8 @@ private fun AssetDetailScreenContent(
             AssetCreationTopBar(
                 onBackClick = onBackClick,
                 onCreateAssetClick = onCreateAssetClick,
-                isCreateAssetButtonEnabled = uiState.isValidAsset,
+                isCreateAssetButtonEnabled =
+                    uiState.isValidAsset || uiState.assetCreationState != AssetCreationState.Loading,
             )
         },
     ) { paddingValues ->
@@ -86,6 +91,23 @@ private fun AssetDetailScreenContent(
                 Modifier.padding(paddingValues).verticalScroll(rememberScrollState()).fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            if (uiState.assetCreationState == AssetCreationState.Failure) {
+                ListItem(
+                    modifier =
+                        Modifier.clip(RoundedCornerShape(8.dp))
+                            .border(
+                                width = 1.dp,
+                                color = Color.Red,
+                                shape = RoundedCornerShape(8.dp),
+                            ),
+                    headlineContent = {
+                        Text(stringResource(id = R.string.feature_assets_creation_failed_title))
+                    },
+                    supportingContent = {
+                        Text(stringResource(id = R.string.feature_assets_creation_failed_subtitle))
+                    },
+                )
+            }
             AssetTextField(
                 input = uiState.nameInput.text,
                 onInputChange = onNameChange,

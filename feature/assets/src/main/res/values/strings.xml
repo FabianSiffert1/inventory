@@ -15,6 +15,8 @@
     <string name="feature_assets_creation_currency">Currency</string>
     <string name="feature_assets_creation_title">Create Asset</string>
     <string name="feature_assets_creation_url">Url</string>
+    <string name="feature_assets_creation_failed_title">Asset creation failed</string>
+    <string name="feature_assets_creation_failed_subtitle">Please check your inputs or try again</string>
 
     --- Asset Details
     <string name="feature_assets_asset_details_acquisition_price">Bought For</string>

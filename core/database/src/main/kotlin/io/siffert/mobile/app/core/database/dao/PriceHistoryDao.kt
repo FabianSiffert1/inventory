@@ -8,7 +8,6 @@ import io.siffert.mobile.app.core.database.model.PriceHistoryEntity
 
 @Dao
 interface PriceHistoryDao {
-    // todo: add delete
     // todo: fix conflict strategies
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(values: List<PriceHistoryEntity>)

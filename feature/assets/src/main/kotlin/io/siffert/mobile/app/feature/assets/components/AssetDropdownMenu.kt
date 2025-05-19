@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
+// todo: replace with bottomsheet
 @Composable
 fun <T : Enum<T>> AssetDropdownMenu(
     values: Array<T>,

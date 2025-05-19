@@ -23,6 +23,12 @@ sealed interface AssetCreationScreenUiCommand {
     data object NavigateBack : AssetCreationScreenUiCommand
 }
 
+sealed interface AssetCreationState {
+    data object Loading : AssetCreationState
+
+    data object Failure : AssetCreationState
+}
+
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
 constructor(
@@ -33,6 +39,7 @@ constructor(
     val currentPrice: TextFieldValue = TextFieldValue("123"),
     val assetClassWithStringRes: AssetClassWithStringRes = AssetClassWithStringRes.DIGITAL_ASSET,
     val currency: Currency = Currency.EUR,
+    val assetCreationState: AssetCreationState? = null,
 ) {
     private val isValidPrice =
         currentPrice.text.isNotEmpty() && currentPrice.text.toDoubleOrNull() is Double
@@ -79,7 +86,7 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
 
     fun onUrlChange(newUrl: String) = updateUiState { it.copy(urlInput = TextFieldValue(newUrl)) }
 
-    fun AssetCreationScreenUiState.toAssetCreationData(): AssetCreationData? {
+    private fun AssetCreationScreenUiState.toAssetCreationData(): AssetCreationData? {
 
         val currentPrice = currentPrice.text.toDoubleOrNull()
         if (!isValidAsset || currentPrice == null) return null
@@ -109,15 +116,20 @@ class AssetCreationScreenViewModel(private val createAssetUseCase: CreateAssetUs
 
             val assetData = _uiState.value.toAssetCreationData()
             if (assetData != null) {
+                _uiState.update { it.copy(assetCreationState = AssetCreationState.Loading) }
                 val result = createAssetUseCase.createAsset(assetData)
-                if (result.isSuccess) {
-                    updateUiState { AssetCreationScreenUiState() }
-                    _uiCommands.send(AssetCreationScreenUiCommand.NavigateBack)
+
+                when {
+                    result.isSuccess -> {
+                        updateUiState { AssetCreationScreenUiState() }
+                        _uiCommands.send(AssetCreationScreenUiCommand.NavigateBack)
+                    }
+                    else ->
+                        _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
                 }
-                // optionally handle error cases
+            } else {
+                _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
             }
-            // todo: proper error handling
-            else println("assetData is null, abort")
         }
     }
 }
