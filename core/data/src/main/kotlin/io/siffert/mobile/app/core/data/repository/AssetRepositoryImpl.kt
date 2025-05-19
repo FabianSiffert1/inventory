@@ -8,7 +8,6 @@ import io.siffert.mobile.app.core.database.dao.AssetDao
 import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.dao.SalesDao
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.asExternalModel
-import io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -36,12 +35,20 @@ class AssetRepositoryImpl(
 
     override suspend fun upsertAssets(assets: List<Asset>): Result<Unit> {
         return try {
-            assetDao.upsertAssets(assets.map { it.asEntity() })
-            historicalPricesDao.insertAll(assets.flatMap { it.toPriceHistoryEntities() })
-            salesDao.insertAll(assets.mapNotNull { it.toSalesEntity() })
+            Log.d("AssetRepository", "Upserting assets: $assets")
+            val assetEntities = assets.map { it.asEntity() }
+            val priceHistories = assets.flatMap { it.toPriceHistoryEntities() }
+            val salesEntities = assets.mapNotNull { it.toSalesEntity() }
+
+            assetDao.upsertAllAssetsWithHistoryAndSales(
+                assets = assetEntities,
+                priceHistories = priceHistories,
+                sales = salesEntities,
+            )
+
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("AssetRepository", "Database error", e)
+            Log.e("AssetRepository", "Failed to upsert assets", e)
             Result.failure(e)
         }
     }
