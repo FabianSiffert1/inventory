@@ -12,4 +12,6 @@ setup:
 
 WIP:
 
-https://github.com/FabianSiffert1/inventory/blob/main/inventory.png
+<p align="center">
+    <img src="inventory.png" alt="WIP Screenshot" width="300">
+</p>
