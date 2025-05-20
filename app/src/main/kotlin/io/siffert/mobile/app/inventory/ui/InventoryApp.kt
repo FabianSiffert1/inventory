@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import io.siffert.mobile.app.core.common.dialog.handling.DialogHost
 import io.siffert.mobile.app.feature.assets.R as assetsResource
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
@@ -120,6 +121,7 @@ internal fun InventoryApp(
                         onActionClick = { onTopAppBarActionClick() },
                     )
                 }
+                DialogHost(dialogManager = appState.dialogManager, paddingValues = padding)
                 InventoryNavHost(appState = appState)
             }
         }

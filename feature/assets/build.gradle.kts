@@ -6,6 +6,7 @@ plugins {
 android { namespace = "io.siffert.mobile.app.feature.assets" }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
     implementation(project(":core:database"))

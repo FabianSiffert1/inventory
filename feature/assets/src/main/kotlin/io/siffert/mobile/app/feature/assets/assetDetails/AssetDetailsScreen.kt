@@ -9,7 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.core.common.dialog.AppDialog
+import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -17,6 +20,7 @@ import org.koin.core.parameter.parametersOf
 internal fun AssetDetailsScreen(assetId: String? = null, navigateBack: () -> Unit) {
     val viewModel: AssetDetailsScreenViewModel = koinViewModel { parametersOf(assetId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val dialogManager: DialogManager = koinInject()
 
     AssetDetailScreenContent(
         uiState = uiState,
@@ -26,6 +30,7 @@ internal fun AssetDetailsScreen(assetId: String? = null, navigateBack: () -> Uni
             // todo: implement dialog handler
             viewModel.deleteAsset(assetId = assetId, navigateBack = navigateBack)
         },
+        onEditClick = { dialogManager.enqueue(AppDialog.Test) },
     )
 }
 
@@ -34,6 +39,7 @@ private fun AssetDetailScreenContent(
     uiState: AssetDetailsScreenUiState,
     onBackClick: () -> Unit,
     onDeleteAssetClick: () -> Unit,
+    onEditClick: () -> Unit,
 ) {
     val loadedUiState = uiState as? AssetDetailsScreenUiState.Loaded
     Scaffold(
@@ -46,9 +52,7 @@ private fun AssetDetailScreenContent(
                 assetDeletionState = loadedUiState?.deleteAssetState,
                 onBackClick = onBackClick,
                 onDeleteAssetClick = onDeleteAssetClick,
-                onEditClick = {
-                    // todo:implement edit
-                },
+                onEditClick = onEditClick,
             )
         },
     ) { paddingValues ->

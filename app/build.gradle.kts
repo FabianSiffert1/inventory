@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.koin.androidx.compose)
     implementation(libs.navigation.compose)
     implementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)

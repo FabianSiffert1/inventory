@@ -5,11 +5,15 @@ plugins {
     alias(libs.plugins.inventory.android.defaultConventionPlugin)
 }
 
-android {
-    namespace = "io.siffert.mobile.app.core.common"
-}
+android { namespace = "io.siffert.mobile.app.core.common" }
 
 dependencies {
-    implementation(platform(libs.koin.bom))
+    implementation(project(":core:designsystem"))
+
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.koin.androidx.compose)
     implementation(libs.koin.core)
+    implementation(platform(libs.koin.bom))
 }

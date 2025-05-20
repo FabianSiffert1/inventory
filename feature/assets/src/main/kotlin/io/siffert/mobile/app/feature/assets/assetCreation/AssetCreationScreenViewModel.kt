@@ -32,7 +32,7 @@ sealed interface AssetCreationState {
 data class AssetCreationScreenUiState
 @OptIn(ExperimentalUuidApi::class)
 constructor(
-    val nameInput: TextFieldValue = TextFieldValue("123"),
+    val nameInput: TextFieldValue = TextFieldValue("debugAsset"),
     val feesInput: TextFieldValue = TextFieldValue(),
     val urlInput: TextFieldValue = TextFieldValue(),
     val notesInput: TextFieldValue = TextFieldValue(),

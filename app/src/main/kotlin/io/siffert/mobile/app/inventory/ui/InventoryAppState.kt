@@ -13,24 +13,27 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetCreation
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssets
 import io.siffert.mobile.app.inventory.feature.balance.navigation.navigateToBalance
 import io.siffert.mobile.app.inventory.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
+import org.koin.compose.koinInject
 
 @Composable
 fun rememberInventoryAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
+    dialogManager: DialogManager = koinInject(),
 ): InventoryAppState {
     return remember(navController, coroutineScope) {
-        InventoryAppState(navController = navController)
+        InventoryAppState(navController = navController, dialogManager = dialogManager)
     }
 }
 
 @Stable
-class InventoryAppState(val navController: NavHostController) {
+class InventoryAppState(val navController: NavHostController, val dialogManager: DialogManager) {
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
     private val previousDestination = mutableStateOf<NavDestination?>(null)
 
