@@ -55,7 +55,7 @@ class AssetDetailsScreenViewModel(assetId: String, private val assetRepository: 
         }
     }
 
-    fun deleteAsset(assetId: String?, navigateBack: () -> Unit) {
+    fun deleteAsset(assetId: String?, onAssetDeleted: () -> Unit) {
         if (assetId == null) return
 
         val currentState = _uiState.value
@@ -67,7 +67,7 @@ class AssetDetailsScreenViewModel(assetId: String, private val assetRepository: 
             try {
                 assetRepository.deleteAssets(assetIds = listOf(assetId))
                 _uiState.value = currentState.copy(deleteAssetState = DeleteAssetUiState.Success)
-                navigateBack()
+                onAssetDeleted()
             } catch (e: Exception) {
                 _uiState.value = currentState.copy(deleteAssetState = DeleteAssetUiState.Failure)
                 println("AssetDetailsScreenViewModel: deleteAsset failed: $e")

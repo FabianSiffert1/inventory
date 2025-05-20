@@ -26,7 +26,7 @@ fun DialogHost(
             content = {
                 Box(modifier = Modifier.padding(paddingValues)) {
                     currentDialog.Dialog(
-                        dismiss = { dialogManager.onDialogDismissed(currentDialog) }
+                        onDismiss = { dialogManager.onDialogDismissed(currentDialog) }
                     )
                 }
             },

@@ -26,11 +26,15 @@ internal fun AssetDetailsScreen(assetId: String? = null, navigateBack: () -> Uni
         uiState = uiState,
         onBackClick = navigateBack,
         onDeleteAssetClick = {
-            // todo: navigate to confirmation dialog
-            // todo: implement dialog handler
-            viewModel.deleteAsset(assetId = assetId, navigateBack = navigateBack)
+            dialogManager.enqueue(
+                AppDialog.DeleteAssetDialog(
+                    onConfirm = {
+                        viewModel.deleteAsset(assetId = assetId, onAssetDeleted = navigateBack)
+                    }
+                )
+            )
         },
-        onEditClick = { dialogManager.enqueue(AppDialog.Test) },
+        onEditClick = { dialogManager.enqueue(AppDialog.InformationDialog) },
     )
 }
 

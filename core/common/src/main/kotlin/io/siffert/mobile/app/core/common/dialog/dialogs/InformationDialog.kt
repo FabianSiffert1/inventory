@@ -21,7 +21,7 @@ import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @Composable
-fun AlertDialog(title: String, modifier: Modifier = Modifier, dismiss: () -> Unit = {}) =
+fun InformationDialog(title: String, dismiss: () -> Unit, modifier: Modifier = Modifier) =
     Column(
         modifier
             .fillMaxWidth()
@@ -42,7 +42,7 @@ fun AlertDialog(title: String, modifier: Modifier = Modifier, dismiss: () -> Uni
             shape = RoundedCornerShape(16.dp),
         ) {
             Text(
-                text = stringResource(id = R.string.dialogs_accept),
+                text = stringResource(id = R.string.dialogs_confirm),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -50,11 +50,11 @@ fun AlertDialog(title: String, modifier: Modifier = Modifier, dismiss: () -> Uni
     }
 
 @Composable
-fun AlertDialog(
+fun InformationDialog(
     title: String,
     message: String,
+    dismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    dismiss: () -> Unit = {},
 ) =
     Column(
         modifier
@@ -82,7 +82,7 @@ fun AlertDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             Text(
-                text = stringResource(R.string.dialogs_accept),
+                text = stringResource(R.string.dialogs_confirm),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -91,16 +91,16 @@ fun AlertDialog(
 
 @Composable
 @PreviewLightDark
-private fun AlertDialogPreview() = InventoryTheme {
+private fun Preview() = InventoryTheme {
     Column(
         modifier = Modifier.background(color = MaterialTheme.colorScheme.background).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        AlertDialog(
+        InformationDialog(
             title = "This is an important message the user has to acknowledge!",
             dismiss = {},
         )
-        AlertDialog(
+        InformationDialog(
             title = "Title",
             message = "This is an important message the user has to acknowledge!",
             dismiss = {},
