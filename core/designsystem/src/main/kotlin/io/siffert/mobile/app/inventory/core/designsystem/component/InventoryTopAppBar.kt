@@ -33,9 +33,9 @@ fun InventoryTopAppBar(
     onNavigationClick: () -> Unit = {},
     onActionClick: () -> Unit = {},
 ) {
+    // todo: since, for now, its assets only, maybe move to assets
     CenterAlignedTopAppBar(
-        title = {
-           if (titleRes != null) Text(text = stringResource(id = titleRes)) },
+        title = { if (titleRes != null) Text(text = stringResource(id = titleRes)) },
         navigationIcon = {
             IconButton(onClick = onNavigationClick) {
                 Icon(

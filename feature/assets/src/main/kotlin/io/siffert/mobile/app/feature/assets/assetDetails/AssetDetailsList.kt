@@ -1,6 +1,7 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -162,7 +163,7 @@ private fun AssetDetailsListItem(
                 text = title,
                 // todo: replace with Cozy color that supports light and dark
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         },
         supportingContent = supportingContent,
@@ -174,12 +175,11 @@ private fun AssetDetailsListItem(
 private fun AssetDetailsListItemPreview() {
     val localContext = LocalContext.current
     InventoryTheme {
-        Column(
-            modifier =
-                Modifier.background(color = MaterialTheme.colorScheme.background).padding(16.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
             AssetDetailsListItem(
-                title = "Preview",
+                modifier =
+                    Modifier.background(color = MaterialTheme.colorScheme.surface)
+                ,title = "Preview",
                 supportingContent = {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
