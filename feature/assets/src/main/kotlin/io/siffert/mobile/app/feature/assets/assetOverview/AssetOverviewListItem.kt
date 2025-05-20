@@ -54,10 +54,10 @@ fun AssetOverviewListItem(
                 Icon(
                     imageVector = Cozy.icon.Gavel,
                     contentDescription =
-                        stringResource(id = R.string.feature_assets_asset_details_sold_for),
+                        stringResource(id = R.string.feature_assets_details_sold_for),
                 )
             } else {
-                // todo implement
+                // todo implement trend
                 TrendIcon(trend = Trend.FLAT)
             }
         },

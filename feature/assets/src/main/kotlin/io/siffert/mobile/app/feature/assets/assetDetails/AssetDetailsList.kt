@@ -38,7 +38,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
         val boughtFor = asset.priceHistory.firstOrNull()?.value
         lastPrice?.let {
             AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_asset_details_current_value),
+                title = stringResource(id = R.string.feature_assets_details_current_value),
                 supportingContent = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -55,8 +55,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
 
         boughtFor?.let {
             AssetDetailsListItem(
-                title =
-                    stringResource(id = R.string.feature_assets_asset_details_acquisition_price),
+                title = stringResource(id = R.string.feature_assets_details_acquisition_price),
                 supportingContent = {
                     // todo: onClick move to asset acquisition screen
                     Column {
@@ -82,12 +81,9 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth().then(modifier),
                 headlineContent = {
                     Text(
-                        // todo: implement correctly. currently price at point of sale, not realized
-                        // gain
-                        text = stringResource(id = R.string.feature_assets_asset_details_sold_for),
-                        // todo: replace with Cozy color that supports light and dark
+                        text = stringResource(id = R.string.feature_assets_details_sold_for),
                         fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 },
                 supportingContent = {
@@ -100,19 +96,20 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                             Text(text = it1)
                         }
                     }
+                    // todo: implement realized Gain info
                 },
             )
         }
 
         asset.assetGroupId?.let {
             AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_asset_details_group),
+                title = stringResource(id = R.string.feature_assets_details_group),
                 supportingContent = { Text(text = "${asset.assetGroupId}") },
             )
         }
 
         AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_asset_details_asset_class),
+            title = stringResource(id = R.string.feature_assets_details_asset_class),
             supportingContent = {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -124,10 +121,9 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
             },
         )
 
-        // todo: implement rest of asset details, make editable, textfields?
         asset.url?.let {
             AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_asset_details_url),
+                title = stringResource(id = R.string.feature_assets_details_url),
                 supportingContent = {
                     // todo: make clickable
                     Text(text = "${asset.url}")
@@ -137,13 +133,13 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
 
         asset.userNotes?.let {
             AssetDetailsListItem(
-                title = stringResource(id = R.string.feature_assets_asset_details_notes),
+                title = stringResource(id = R.string.feature_assets_details_notes),
                 supportingContent = { Text(text = "${asset.userNotes}") },
             )
         }
 
         AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_asset_details_price_chart),
+            title = stringResource(id = R.string.feature_assets_details_price_chart),
             supportingContent = { Text(text = "Placeholder: Price Chart") },
         )
     }
