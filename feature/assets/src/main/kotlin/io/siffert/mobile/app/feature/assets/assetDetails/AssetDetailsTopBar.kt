@@ -2,9 +2,13 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,22 +26,25 @@ import io.siffert.mobile.app.inventory.core.designsystem.icons.Delete
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Edit
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Gavel
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
+import io.siffert.mobile.app.model.data.SaleEntry
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AssetDetailsTopBar(
-    uiState: AssetDetailsScreenUiState,
     onBackClick: () -> Unit,
     onDeleteAssetClick: () -> Unit,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
+    assetName: String?,
+    assetSaleInfo: SaleEntry?,
+    assetDeletionState: DeleteAssetUiState?,
 ) {
     CenterAlignedTopAppBar(
         title = {
-            if (uiState is AssetDetailsScreenUiState.Loaded) {
+            if (assetName != null) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(text = uiState.asset.name)
-                    if (uiState.asset.saleData != null)
+                    Text(text = assetName)
+                    if (assetSaleInfo != null)
                         Icon(
                             imageVector = Cozy.icon.Gavel,
                             contentDescription =
@@ -56,15 +63,28 @@ internal fun AssetDetailsTopBar(
             }
         },
         actions = {
-            IconButton(onClick = onDeleteAssetClick) {
-                Icon(imageVector = Cozy.icon.Delete, contentDescription = "Delete Asset")
-            }
-            IconButton(onClick = onEditClick) {
-                Icon(
-                    imageVector = Cozy.icon.Edit,
-                    contentDescription = "Edit Asset Information",
-                    tint = MaterialTheme.colorScheme.onSurface,
+            if (assetDeletionState == DeleteAssetUiState.InProgress) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(40.dp),
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
+                Spacer(modifier = Modifier.width(16.dp))
+            } else {
+                IconButton(onClick = onDeleteAssetClick) {
+                    Icon(
+                        imageVector = Cozy.icon.Delete,
+                        contentDescription =
+                            stringResource(id = R.string.feature_assets_top_app_bar_delete_asset),
+                    )
+                }
+                IconButton(onClick = onEditClick) {
+                    Icon(
+                        imageVector = Cozy.icon.Edit,
+                        contentDescription =
+                            stringResource(id = R.string.feature_assets_top_app_bar_edit_asset),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),

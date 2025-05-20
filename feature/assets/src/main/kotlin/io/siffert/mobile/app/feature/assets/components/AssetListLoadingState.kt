@@ -1,4 +1,4 @@
-package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview
+package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.inventory.core.designsystem.util.loadingAnimationBackground
 
 @Composable
-fun AssetOverviewListLoading() {
+fun AssetListLoadingState() {
     Column(
         modifier = Modifier.navigationBarsPadding().padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -43,15 +43,17 @@ fun AssetOverviewListLoading() {
                             Modifier.fillMaxWidth()
                                 .height(32.dp)
                                 .clip(shape = RoundedCornerShape(8.dp))
-                                .loadingAnimationBackground()
-                    ) {}
+                                .loadingAnimationBackground(),
+                        content = {},
+                    )
                 },
                 trailingContent = {
                     Box(
                         modifier =
                             Modifier.size(24.dp)
                                 .clip(shape = RoundedCornerShape(8.dp))
-                                .loadingAnimationBackground()
+                                .loadingAnimationBackground(),
+                        content = {},
                     )
                 },
             )

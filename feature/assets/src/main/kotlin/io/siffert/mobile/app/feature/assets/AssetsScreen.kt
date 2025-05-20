@@ -22,10 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.AssetOverviewListEmpty
-import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.AssetOverviewListLoading
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.EmptyAssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList.AssetOverviewList
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Save
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import org.koin.androidx.compose.koinViewModel
@@ -53,10 +52,10 @@ internal fun Assets(
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         DebugAssetButton(onAddDebugAssets = onAddDebugAssetsClick)
         when (uiState) {
-            AssetsScreenUiState.Loading -> AssetOverviewListLoading()
+            AssetsScreenUiState.Loading -> AssetListLoadingState()
             is AssetsScreenUiState.Success ->
                 AssetOverviewList(assetList = uiState.assetList, onAssetClick = onAssetClick)
-            AssetsScreenUiState.Empty -> AssetOverviewListEmpty()
+            AssetsScreenUiState.Empty -> EmptyAssetOverviewList()
         }
     }
 

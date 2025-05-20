@@ -50,7 +50,7 @@ fun AssetOverviewListItem(
         },
         trailingContent = {
             // todo implement that users can sell partials of their assets
-            if (asset.saleData != null) {
+            if (asset.saleInfo != null) {
                 Icon(
                     imageVector = Cozy.icon.Gavel,
                     contentDescription =
@@ -83,7 +83,7 @@ fun AssetOverviewListItemPreview() {
                         id = "uuid2",
                     )
                 ),
-            saleData =
+            saleInfo =
                 SaleEntry(
                     id = "uuid3",
                     assetId = "assetId",

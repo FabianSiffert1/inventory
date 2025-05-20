@@ -36,7 +36,7 @@ val exampleAssetList =
                         timestamp = Clock.System.now(),
                     )
                 ),
-            saleData = null,
+            saleInfo = null,
             currency = Currency.EUR,
             url = "https://google.com",
             userNotes = "userNotes1",
@@ -56,7 +56,7 @@ val exampleAssetList =
                         timestamp = Clock.System.now(),
                     )
                 ),
-            saleData = null,
+            saleInfo = null,
             currency = Currency.EUR,
             url = null,
             userNotes = "userNotes2",
@@ -82,7 +82,7 @@ val exampleAssetList =
                         timestamp = Clock.System.now(),
                     ),
                 ),
-            saleData =
+            saleInfo =
                 SaleEntry(
                     id = saleEntryId1,
                     assetId = assetid3,

@@ -29,7 +29,7 @@ fun Asset.toPriceHistoryEntities(): List<PriceHistoryEntity> {
 }
 
 fun Asset.toSalesEntity(): SalesEntity? {
-    return saleData?.let {
+    return saleInfo?.let {
         SalesEntity(
             uid = it.id,
             assetId = it.assetId,

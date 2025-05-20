@@ -7,7 +7,7 @@ data class Asset(
     val assetGroupId: String?,
     val fees: Double?,
     val priceHistory: List<PriceHistoryEntry>,
-    val saleData: SaleEntry?,
+    val saleInfo: SaleEntry?,
     val currency: Currency,
     val url: String?,
     val userNotes: String?,

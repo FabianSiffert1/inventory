@@ -15,13 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Save
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
+import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @Composable
-fun AssetOverviewListEmpty() {
+fun EmptyAssetOverviewList() {
     Column(
         modifier = Modifier.navigationBarsPadding().padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -48,3 +50,7 @@ fun AssetOverviewListEmpty() {
         )
     }
 }
+
+@Composable
+@PreviewLightDark
+internal fun EmptyAssetOverviewListPreview() = InventoryTheme { EmptyAssetOverviewList() }

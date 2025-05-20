@@ -27,7 +27,7 @@ private fun AssetEntity.asExternalModel(
         assetGroupId = assetGroupId,
         fees = fees,
         currency = currency,
-        saleData = salesEntity?.toExternalModel(),
+        saleInfo = salesEntity?.toExternalModel(),
         url = url,
         userNotes = userNotes,
         priceHistory = priceHistoryEntities.map { it.toExternalModel() },

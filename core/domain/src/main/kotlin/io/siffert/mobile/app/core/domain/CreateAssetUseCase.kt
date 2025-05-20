@@ -23,7 +23,7 @@ class CreateAssetUseCase(private val assetRepository: AssetRepository) {
 
         val priceHistory = assetCreationData.priceHistory.map { it.toPriceHistoryEntry(assetId) }
 
-        val saleData = assetCreationData.saleData?.toSaleEntry(assetId)
+        val saleInfo = assetCreationData.saleData?.toSaleEntry(assetId)
 
         val asset =
             Asset(
@@ -33,7 +33,7 @@ class CreateAssetUseCase(private val assetRepository: AssetRepository) {
                 assetGroupId = assetCreationData.assetGroupId,
                 fees = assetCreationData.fees,
                 priceHistory = priceHistory,
-                saleData = saleData,
+                saleInfo = saleInfo,
                 currency = assetCreationData.currency,
                 url = assetCreationData.url,
                 userNotes = assetCreationData.userNotes,

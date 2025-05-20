@@ -29,6 +29,8 @@
     <string name="feature_assets_asset_details_price_chart">Price Chart</string>
     <string name="feature_assets_asset_details_sold_for">Sold For</string>
     <string name="feature_assets_asset_details_url">Url</string>
+    <string name="feature_asset_details_error_title">Something went wrong</string>
+    <string name="feature_asset_details_error_subtitle">No data could be found for this asset. Please navigate back to the previous screen and try again.</string>
 
     --- Asset Class
     <string name="feature_assets_class_digital_asset">Digital Asset</string>
@@ -40,4 +42,6 @@
     <string name="feature_assets_top_app_bar_add_asset">Add Asset</string>
     <string name="feature_assets_top_app_bar_asset_details_title">Asset Details</string>
     <string name="feature_assets_top_app_bar_search">Search</string>
+    <string name="feature_assets_top_app_bar_delete_asset">Delete Asset</string>
+    <string name="feature_assets_top_app_bar_edit_asset">Edit Asset</string>
 </resources>
