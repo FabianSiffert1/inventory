@@ -10,4 +10,6 @@ setup:
 - di: koin
 - db: room (probably will be replaced by real db at some point in the future)
 
-  
+WIP:
+
+https://github.com/FabianSiffert1/inventory/blob/main/inventory.png
