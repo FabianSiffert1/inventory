@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,7 @@ fun ConfirmationDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     confirmationButtonText: String? = null,
+    confirmationButtonTextColor: Color = MaterialTheme.colorScheme.onSurface,
     dismissButtonText: String? = null,
 ) =
     Column(
@@ -63,7 +65,7 @@ fun ConfirmationDialog(
                 Text(
                     text = confirmationButtonText ?: stringResource(id = R.string.dialogs_confirm),
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = confirmationButtonTextColor,
                 )
             }
         }
@@ -81,6 +83,7 @@ private fun Preview() = InventoryTheme {
             message = "This dialog represents a decision the user has to make",
             onDismiss = {},
             onConfirm = {},
+            confirmationButtonTextColor = Color.Red
         )
     }
 }

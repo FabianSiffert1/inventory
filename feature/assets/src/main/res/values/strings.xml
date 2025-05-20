@@ -2,7 +2,7 @@
 <resources>
     --Asset Overview
     <string name="feature_assets_overview_empty_list_title">No assets found</string>">
-    <string name="feature_assets_overview_empty_list_subtitle">Click the big plus to add your first one</string>
+    <string name="feature_assets_overview_empty_list_subtitle">Click Plus button on top to add your first asset</string>
 
     --- Asset Creation
     <string name="feature_assets_creation_asset_class">Asset Class</string>

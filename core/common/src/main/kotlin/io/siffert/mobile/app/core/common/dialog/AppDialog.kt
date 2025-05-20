@@ -1,6 +1,7 @@
 package io.siffert.mobile.app.core.common.dialog
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.core.common.dialog.dialogs.ConfirmationDialog
@@ -36,6 +37,7 @@ sealed interface AppDialog {
                 onDismiss = onDismiss,
                 confirmationButtonText =
                     stringResource(id = R.string.dialogs_asset_deletion_button_confirm),
+                confirmationButtonTextColor = Color.Red,
             )
         }
     }
