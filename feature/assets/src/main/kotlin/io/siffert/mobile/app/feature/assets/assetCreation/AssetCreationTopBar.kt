@@ -1,6 +1,5 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
 
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -28,7 +27,7 @@ internal fun AssetCreationTopBar(
     isCreateAssetButtonEnabled: Boolean,
 ) {
     CenterAlignedTopAppBar(
-        modifier = modifier.statusBarsPadding().testTag("assetDetailsTopBar"),
+        modifier = modifier.testTag("assetCreationTopBar"),
         title = { Text(text = stringResource(id = R.string.feature_assets_creation_title)) },
         navigationIcon = {
             IconButton(onClick = onBackClick) {

@@ -23,18 +23,19 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InventoryTopAppBar(
-    @StringRes titleRes: Int? = null,
     navigationIcon: ImageVector,
     navigationIconContentDescription: String,
     actionIcon: ImageVector,
     actionIconContentDescription: String,
     modifier: Modifier = Modifier,
+    @StringRes titleRes: Int? = null,
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
     onNavigationClick: () -> Unit = {},
     onActionClick: () -> Unit = {},
 ) {
     // todo: since, for now, its assets only, maybe move to assets
     CenterAlignedTopAppBar(
+        modifier = Modifier.testTag("inventoryTopAppBar").then(modifier),
         title = { if (titleRes != null) Text(text = stringResource(id = titleRes)) },
         navigationIcon = {
             IconButton(onClick = onNavigationClick) {
@@ -55,7 +56,6 @@ fun InventoryTopAppBar(
             }
         },
         colors = colors,
-        modifier = modifier.testTag("inventoryTopAppBar"),
     )
 }
 

@@ -1,10 +1,7 @@
 package io.siffert.mobile.app.feature.assets.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
@@ -47,12 +44,6 @@ fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: (
                 )
             },
             exitTransition = {
-                val isTargetInAssetGraph =
-                    targetState.destination.hierarchy.any {
-                        it.route == AssetsBaseRoute::class.simpleName
-                    }
-                if (!isTargetInAssetGraph)
-                    return@composable fadeOut(animationSpec = tween(durationMillis = 0))
                 return@composable slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right
                 )

@@ -1,8 +1,8 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,7 +47,7 @@ private fun AssetDetailScreenContent(
 ) {
     val loadedUiState = uiState as? AssetDetailsScreenUiState.Loaded
     Scaffold(
-        modifier = Modifier.navigationBarsPadding(),
+        modifier = Modifier,
         containerColor = Color.Transparent,
         topBar = {
             AssetDetailsTopBar(
@@ -60,7 +60,10 @@ private fun AssetDetailScreenContent(
             )
         },
     ) { paddingValues ->
-        Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) {
+        Crossfade(
+            modifier = Modifier.statusBarsPadding().padding(paddingValues),
+            targetState = uiState,
+        ) {
             when (it) {
                 AssetDetailsScreenUiState.Empty,
                 AssetDetailsScreenUiState.Error -> ErrorAssetDetailsListItem()

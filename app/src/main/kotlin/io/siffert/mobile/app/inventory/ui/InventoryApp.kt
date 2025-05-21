@@ -93,15 +93,7 @@ internal fun InventoryApp(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onBackground,
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        ) { padding ->
-            Column(
-                Modifier.fillMaxSize()
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
-                    )
-            ) {
+            topBar = {
                 val currentTopLevelDestination = appState.currentTopLevelDestination
                 if (currentTopLevelDestination?.showTopAppBar == true) {
                     InventoryTopAppBar(
@@ -121,6 +113,16 @@ internal fun InventoryApp(
                         onActionClick = { onTopAppBarActionClick() },
                     )
                 }
+            },
+        ) { padding ->
+            Column(
+                Modifier.fillMaxSize()
+                    .padding(padding)
+                    .consumeWindowInsets(padding)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
+                    )
+            ) {
                 DialogHost(dialogManager = appState.dialogManager, paddingValues = padding)
                 InventoryNavHost(appState = appState)
             }

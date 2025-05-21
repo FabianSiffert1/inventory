@@ -30,8 +30,8 @@ import kotlinx.datetime.Clock
 @Composable
 fun AssetOverviewListItem(
     asset: Asset,
-    onAssetClick: (String) -> Unit = {},
     modifier: Modifier = Modifier,
+    onAssetClick: (String) -> Unit = {},
 ) {
     ListItem(
         modifier =

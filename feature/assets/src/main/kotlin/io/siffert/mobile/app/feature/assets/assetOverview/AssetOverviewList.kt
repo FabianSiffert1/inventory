@@ -33,7 +33,9 @@ fun AssetOverviewList(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             assetList.forEach { asset ->
-                item { AssetOverviewListItem(asset = asset, onAssetClick = onAssetClick) }
+                item { AssetOverviewListItem(
+                    modifier = Modifier.animateItem(),
+                    asset = asset, onAssetClick = onAssetClick) }
             }
         }
     }
