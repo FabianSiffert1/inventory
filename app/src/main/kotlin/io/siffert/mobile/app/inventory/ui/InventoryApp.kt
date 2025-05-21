@@ -9,14 +9,11 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -28,13 +25,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import io.siffert.mobile.app.core.common.dialog.handling.DialogHost
-import io.siffert.mobile.app.feature.assets.R as assetsResource
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryNavigationSuiteScaffold
-import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryTopAppBar
-import io.siffert.mobile.app.inventory.core.designsystem.icons.AddCircle
-import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.LocalGradientColors
 import io.siffert.mobile.app.inventory.navigation.InventoryNavHost
 import kotlin.reflect.KClass
@@ -47,24 +40,17 @@ fun InventoryApp(
 ) {
     InventoryBackground(modifier = modifier) {
         InventoryGradientBackground(gradientColors = LocalGradientColors.current) {
-            InventoryApp(
-                appState = appState,
-                windowAdaptiveInfo = windowAdaptiveInfo,
-                onTopAppBarActionClick = { appState.navigateToAssetCreation() },
-                onTopAppBarNavigationClick = { appState.navigateToSearch() },
-            )
+            InventoryAppLayout(appState = appState, windowAdaptiveInfo = windowAdaptiveInfo)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun InventoryApp(
+internal fun InventoryAppLayout(
     appState: InventoryAppState,
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
-    onTopAppBarActionClick: () -> Unit = {},
-    onTopAppBarNavigationClick: () -> Unit = {},
 ) {
     val currentDestination = appState.currentDestination
 
@@ -93,27 +79,6 @@ internal fun InventoryApp(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onBackground,
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            topBar = {
-                val currentTopLevelDestination = appState.currentTopLevelDestination
-                if (currentTopLevelDestination?.showTopAppBar == true) {
-                    InventoryTopAppBar(
-                        navigationIcon = Icons.Filled.Search,
-                        navigationIconContentDescription =
-                            stringResource(
-                                id = assetsResource.string.feature_assets_top_app_bar_search
-                            ),
-                        actionIcon = Cozy.icon.AddCircle,
-                        actionIconContentDescription =
-                            stringResource(
-                                id = assetsResource.string.feature_assets_top_app_bar_add_asset
-                            ),
-                        colors =
-                            TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-                        onNavigationClick = { onTopAppBarNavigationClick() },
-                        onActionClick = { onTopAppBarActionClick() },
-                    )
-                }
-            },
         ) { padding ->
             Column(
                 Modifier.fillMaxSize()

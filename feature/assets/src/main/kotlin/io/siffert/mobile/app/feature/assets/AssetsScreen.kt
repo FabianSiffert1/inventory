@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.AssetsScreenTopBar
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.EmptyAssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList.AssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
@@ -32,27 +34,45 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun AssetsScreen(onAssetClick: (String) -> Unit, modifier: Modifier = Modifier) {
+internal fun AssetsScreen(
+    onAssetClick: (String) -> Unit,
+    onCreateAssetClick: () -> Unit,
+    onSearchClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val viewModel: AssetsScreenViewModel = koinViewModel()
     val uiState: AssetsScreenUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Assets(
         uiState = uiState,
         onAssetClick = onAssetClick,
+        onCreateAssetClick = onCreateAssetClick,
+        onSearchClick = onSearchClick,
         onAddDebugAssetsClick = viewModel::addDebugAssets,
         modifier = modifier,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun Assets(
     uiState: AssetsScreenUiState,
     modifier: Modifier = Modifier,
+    onCreateAssetClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
     onAssetClick: (String) -> Unit = {},
     onAddDebugAssetsClick: () -> Unit = {},
 ) =
-    Scaffold(modifier = Modifier.then(modifier), containerColor = Color.Transparent) { paddingValues
-        ->
+    Scaffold(
+        modifier = Modifier.then(modifier),
+        containerColor = Color.Transparent,
+        topBar = {
+            AssetsScreenTopBar(
+                onCreateAssetClick = onCreateAssetClick,
+                onSearchClick = onSearchClick,
+            )
+        },
+    ) { paddingValues ->
         Crossfade(
             modifier = Modifier.statusBarsPadding().padding(paddingValues),
             targetState = uiState,

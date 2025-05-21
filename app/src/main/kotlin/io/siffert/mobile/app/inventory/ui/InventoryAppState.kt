@@ -14,7 +14,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
-import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetCreation
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssets
 import io.siffert.mobile.app.inventory.feature.balance.navigation.navigateToBalance
 import io.siffert.mobile.app.inventory.navigation.TopLevelDestination
@@ -73,14 +72,5 @@ class InventoryAppState(val navController: NavHostController, val dialogManager:
                 TopLevelDestination.ASSETS -> navController.navigateToAssets(topLevelNavOptions)
             }
         }
-    }
-
-    fun navigateToAssetCreation() {
-        navController.navigateToAssetCreation(navOptions { launchSingleTop = true })
-    }
-
-    fun navigateToSearch() {
-        // todo implement
-        println("not implemented yet")
     }
 }

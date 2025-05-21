@@ -31,11 +31,19 @@ fun NavController.navigateToAssetDetails(
     navigate(route = AssetDetailsRoute(assetId = assetId), navOptions)
 }
 
-fun NavController.navigateToAssetCreation(navOptions: NavOptions) =
+fun NavController.navigateToAssetCreation(navOptions: NavOptionsBuilder.() -> Unit = {}) =
     navigate(route = AssetCreationRoute, navOptions)
 
-// todo: fix animation when entering asset
-fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: () -> Unit) {
+// todo: replace placeholder
+fun NavController.navigateToAssetSearch(navOptions: NavOptionsBuilder.() -> Unit = {}) =
+    navigate(route = AssetsRoute, navOptions)
+
+fun NavGraphBuilder.assetsSection(
+    onAssetClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
+    onCreateAssetClick: () -> Unit,
+    onBackClick: () -> Unit,
+) {
     navigation<AssetsBaseRoute>(startDestination = AssetsRoute) {
         composable<AssetsRoute>(
             enterTransition = {
@@ -49,7 +57,11 @@ fun NavGraphBuilder.assetsSection(onAssetClick: (String) -> Unit, onBackClick: (
                 )
             },
         ) {
-            AssetsScreen(onAssetClick = onAssetClick)
+            AssetsScreen(
+                onSearchClick = onSearchClick,
+                onAssetClick = onAssetClick,
+                onCreateAssetClick = onCreateAssetClick,
+            )
         }
         composable<AssetDetailsRoute>(
             enterTransition = {
