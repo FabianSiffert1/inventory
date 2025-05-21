@@ -27,7 +27,7 @@ fun AssetsScreenTopBar(
     onCreateAssetClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
-        modifier = Modifier.testTag("inventoryTopAppBar").then(modifier),
+        modifier = Modifier.testTag("assetsScreenTopBar").then(modifier),
         title = {},
         navigationIcon = {
             IconButton(onClick = onSearchClick) {

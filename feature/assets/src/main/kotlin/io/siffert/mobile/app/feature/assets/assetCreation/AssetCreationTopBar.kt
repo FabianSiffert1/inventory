@@ -14,9 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Save
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
+import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,5 +53,15 @@ internal fun AssetCreationTopBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+    )
+}
+
+@Preview
+@Composable
+fun Preview() = InventoryTheme {
+    AssetCreationTopBar(
+        onBackClick = {},
+        onCreateAssetClick = {},
+        isCreateAssetButtonEnabled = true,
     )
 }

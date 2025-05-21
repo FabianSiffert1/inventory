@@ -74,20 +74,23 @@ private fun AssetDetailScreenContent(
     onAssetClassChange: (AssetClassWithStringRes) -> Unit,
 ) {
     Scaffold(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier,
         containerColor = Color.Transparent,
         topBar = {
             AssetCreationTopBar(
                 onBackClick = onBackClick,
                 onCreateAssetClick = onCreateAssetClick,
                 isCreateAssetButtonEnabled =
-                    uiState.isValidAsset || uiState.assetCreationState != AssetCreationState.Loading,
+                    uiState.isValidAsset && uiState.assetCreationState != AssetCreationState.Loading,
             )
         },
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier.padding(paddingValues).verticalScroll(rememberScrollState()).fillMaxSize(),
+                Modifier.padding(horizontal = 16.dp)
+                    .padding(paddingValues)
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             if (uiState.assetCreationState == AssetCreationState.Failure) {
