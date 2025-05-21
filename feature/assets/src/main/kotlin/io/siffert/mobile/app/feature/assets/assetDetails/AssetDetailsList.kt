@@ -139,11 +139,6 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                 supportingContent = { Text(text = "${asset.userNotes}") },
             )
         }
-
-        AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_details_price_chart),
-            supportingContent = { Text(text = "Placeholder: Price Chart") },
-        )
     }
 }
 
