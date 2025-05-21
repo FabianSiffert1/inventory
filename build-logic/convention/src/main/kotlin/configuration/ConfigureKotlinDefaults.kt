@@ -21,11 +21,10 @@ private fun Project.setupKotlinCompileOptions() {
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
         }
     }
 }
-
-
 
 private fun Project.configureLanguageSettings() {
     extensions.configure<KotlinProjectExtension> {

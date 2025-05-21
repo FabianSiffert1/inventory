@@ -9,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +27,6 @@ import io.siffert.mobile.app.inventory.core.designsystem.icons.Gavel
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.model.data.SaleEntry
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AssetDetailsTopBar(
     onBackClick: () -> Unit,

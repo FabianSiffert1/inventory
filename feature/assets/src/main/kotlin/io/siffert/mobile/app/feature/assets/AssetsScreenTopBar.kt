@@ -3,7 +3,6 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +18,6 @@ import io.siffert.mobile.app.inventory.core.designsystem.icons.AddCircle
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssetsScreenTopBar(
     modifier: Modifier = Modifier,
@@ -53,7 +51,6 @@ fun AssetsScreenTopBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview("Assets Screen Top App Bar")
 @Composable
 private fun Preview() {
