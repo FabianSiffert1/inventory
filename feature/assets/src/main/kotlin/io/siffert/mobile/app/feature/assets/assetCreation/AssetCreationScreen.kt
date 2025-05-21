@@ -1,30 +1,24 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.feature.assets.R
-import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetBottomSheet
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetBottomSheetListItem
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
@@ -107,21 +101,7 @@ private fun AssetDetailScreenContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             if (uiState.assetCreationState == AssetCreationState.Failure) {
-                ListItem(
-                    modifier =
-                        Modifier.clip(RoundedCornerShape(8.dp))
-                            .border(
-                                width = 1.dp,
-                                color = Color.Red,
-                                shape = RoundedCornerShape(8.dp),
-                            ),
-                    headlineContent = {
-                        Text(stringResource(id = R.string.feature_assets_creation_failed_title))
-                    },
-                    supportingContent = {
-                        Text(stringResource(id = R.string.feature_assets_creation_failed_subtitle))
-                    },
-                )
+                AssetCreationFailedListItem()
             }
             AssetTextField(
                 input = uiState.nameInput.text,
@@ -162,6 +142,7 @@ private fun AssetDetailScreenContent(
                 modifier = Modifier.padding(start = 8.dp),
                 text = stringResource(id = R.string.feature_assets_creation_optional),
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Left,
             )
             AssetTextField(
@@ -185,47 +166,16 @@ private fun AssetDetailScreenContent(
 }
 
 @Composable
-private fun <T : Enum<T>> AssetBottomSheetListItem(
-    toggleBottomSheet: () -> Unit,
-    enumEntries: Array<T>,
-    label: String,
-    currentlySelectedItemName: String,
-    showBottomSheet: Boolean,
-    onItemClick: (T) -> Unit,
-    trailingContent: @Composable (() -> Unit)? = null,
-) {
-    val bottomSheetState = rememberModalBottomSheetState()
+private fun AssetCreationFailedListItem() {
     ListItem(
         modifier =
-            Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(8.dp)).clickable {
-                toggleBottomSheet()
-            },
-        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
+            Modifier.clip(RoundedCornerShape(8.dp))
+                .border(width = 1.dp, color = Color.Red, shape = RoundedCornerShape(8.dp)),
         headlineContent = {
-            Column {
-                Text(
-                    text = label,
-                    fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(text = currentlySelectedItemName)
-                    if (trailingContent != null) {
-                        trailingContent()
-                    }
-                }
-            }
+            Text(stringResource(id = R.string.feature_assets_creation_failed_title))
+        },
+        supportingContent = {
+            Text(stringResource(id = R.string.feature_assets_creation_failed_subtitle))
         },
     )
-    if (showBottomSheet) {
-        AssetBottomSheet(
-            values = enumEntries,
-            sheetState = bottomSheetState,
-            onItemSelected = onItemClick,
-            onDismiss = toggleBottomSheet,
-        )
-    }
 }
