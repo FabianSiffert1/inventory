@@ -2,7 +2,6 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,10 +59,7 @@ private fun AssetDetailScreenContent(
             )
         },
     ) { paddingValues ->
-        Crossfade(
-            modifier = Modifier.statusBarsPadding().padding(paddingValues),
-            targetState = uiState,
-        ) {
+        Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) {
             when (it) {
                 AssetDetailsScreenUiState.Empty,
                 AssetDetailsScreenUiState.Error -> ErrorAssetDetailsListItem()

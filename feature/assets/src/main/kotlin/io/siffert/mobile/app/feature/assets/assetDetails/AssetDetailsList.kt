@@ -1,11 +1,9 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -35,7 +32,7 @@ import io.siffert.mobile.app.model.data.AssetClass
 internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
     val localContext = LocalContext.current
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()).fillMaxSize().padding(16.dp),
+        modifier = modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         val lastPrice = asset.priceHistory.lastOrNull()?.value
@@ -177,9 +174,8 @@ private fun AssetDetailsListItemPreview() {
     InventoryTheme {
         Column(modifier = Modifier.padding(16.dp)) {
             AssetDetailsListItem(
-                modifier =
-                    Modifier.background(color = MaterialTheme.colorScheme.surface)
-                ,title = "Preview",
+                modifier = Modifier.background(color = MaterialTheme.colorScheme.surface),
+                title = "Preview",
                 supportingContent = {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
