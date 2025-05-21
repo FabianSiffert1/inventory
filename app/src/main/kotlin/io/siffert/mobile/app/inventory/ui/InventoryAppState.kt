@@ -49,7 +49,7 @@ class InventoryAppState(val navController: NavHostController, val dialogManager:
             } ?: previousDestination.value
         }
 
-    val currentTopLevelDestination: TopLevelDestination?
+    private val currentTopLevelDestination: TopLevelDestination?
         get() =
             TopLevelDestination.entries.firstOrNull { topLevelDestination ->
                 navController.currentDestination?.hasRoute(topLevelDestination.route) == true

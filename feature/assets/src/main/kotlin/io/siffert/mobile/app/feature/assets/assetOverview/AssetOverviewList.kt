@@ -26,16 +26,18 @@ fun AssetOverviewList(
         val scrollableState = rememberLazyListState()
         LazyColumn(
             modifier =
-                Modifier.navigationBarsPadding()
+                Modifier
                     .padding(horizontal = 16.dp)
                     .testTag("assets:assetlist"),
             state = scrollableState,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             assetList.forEach { asset ->
-                item { AssetOverviewListItem(
+                item {
+                    AssetOverviewListItem(
                     modifier = Modifier.animateItem(),
-                    asset = asset, onAssetClick = onAssetClick) }
+                    asset = asset, onAssetClick = onAssetClick)
+                }
             }
         }
     }

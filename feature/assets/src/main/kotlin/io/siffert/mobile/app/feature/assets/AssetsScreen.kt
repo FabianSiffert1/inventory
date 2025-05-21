@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -45,6 +44,7 @@ internal fun AssetsScreen(
 
     Assets(
         uiState = uiState,
+        isDebug = viewModel.isDebug,
         onAssetClick = onAssetClick,
         onCreateAssetClick = onCreateAssetClick,
         onSearchClick = onSearchClick,
@@ -62,6 +62,7 @@ internal fun Assets(
     onSearchClick: () -> Unit = {},
     onAssetClick: (String) -> Unit = {},
     onAddDebugAssetsClick: () -> Unit = {},
+    isDebug: Boolean = false,
 ) =
     Scaffold(
         modifier = Modifier.then(modifier),
@@ -73,15 +74,15 @@ internal fun Assets(
             )
         },
     ) { paddingValues ->
-        Crossfade(
-            modifier = Modifier.statusBarsPadding().padding(paddingValues),
-            targetState = uiState,
-        ) { uiState ->
+        Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) { uiState ->
             when (uiState) {
                 AssetsScreenUiState.Loading -> AssetListLoadingState()
                 is AssetsScreenUiState.Success -> {
                     Column {
-                        DebugAssetButton(onAddDebugAssets = onAddDebugAssetsClick)
+                        DebugAssetButton(
+                            onAddDebugAssets = onAddDebugAssetsClick,
+                            isVisible = isDebug,
+                        )
                         AssetOverviewList(
                             assetList = uiState.assetList,
                             onAssetClick = onAssetClick,
@@ -90,7 +91,10 @@ internal fun Assets(
                 }
                 AssetsScreenUiState.Empty -> {
                     Column {
-                        DebugAssetButton(onAddDebugAssets = onAddDebugAssetsClick)
+                        DebugAssetButton(
+                            onAddDebugAssets = onAddDebugAssetsClick,
+                            isVisible = isDebug,
+                        )
                         EmptyAssetOverviewList()
                     }
                 }
@@ -99,28 +103,30 @@ internal fun Assets(
     }
 
 @Composable
-fun DebugAssetButton(onAddDebugAssets: () -> Unit) {
-    // todo: show only in debug mode
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        ListItem(
-            modifier =
-                Modifier.fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .clickable(enabled = true, onClick = onAddDebugAssets),
-            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
-            leadingContent = {
-                Icon(
-                    imageVector = Cozy.icon.Save,
-                    contentDescription =
-                        stringResource(id = R.string.feature_assets_overview_empty_list_title) +
-                            " ${stringResource(id = R.string.feature_assets_overview_empty_list_subtitle)}",
-                )
-            },
-            headlineContent = { Text(text = "Add Debug Assets") },
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+fun DebugAssetButton(onAddDebugAssets: () -> Unit, isVisible: Boolean) {
+    if (isVisible) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            ListItem(
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(8.dp))
+                        .clickable(enabled = true, onClick = onAddDebugAssets),
+                colors =
+                    ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
+                leadingContent = {
+                    Icon(
+                        imageVector = Cozy.icon.Save,
+                        contentDescription =
+                            stringResource(id = R.string.feature_assets_overview_empty_list_title) +
+                                " ${stringResource(id = R.string.feature_assets_overview_empty_list_subtitle)}",
+                    )
+                },
+                headlineContent = { Text(text = "Add Debug Assets") },
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }

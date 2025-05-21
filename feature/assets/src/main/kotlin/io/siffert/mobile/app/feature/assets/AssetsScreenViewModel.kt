@@ -2,6 +2,7 @@ package io.siffert.mobile.app.feature.assets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.siffert.mobile.app.core.common.config.AppEnvironment
 import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.exampleAssetList
 import io.siffert.mobile.app.model.data.Asset
@@ -21,7 +22,10 @@ sealed interface AssetsScreenUiState {
     data class Success(val assetList: List<Asset>) : AssetsScreenUiState
 }
 
-class AssetsScreenViewModel(private val assetRepository: AssetRepository) : ViewModel() {
+class AssetsScreenViewModel(
+    private val assetRepository: AssetRepository,
+    private val appEnvironment: AppEnvironment,
+) : ViewModel() {
 
     /*
     init {
@@ -41,6 +45,8 @@ class AssetsScreenViewModel(private val assetRepository: AssetRepository) : View
                 started = SharingStarted.WhileSubscribed(5.seconds),
                 initialValue = AssetsScreenUiState.Loading,
             )
+
+    val isDebug: Boolean = appEnvironment.isDebug
 
     fun addDebugAssets() {
         viewModelScope.launch { assetRepository.upsertAssets(exampleAssetList) }

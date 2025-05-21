@@ -16,6 +16,7 @@ class MainApplication : Application() {
             androidContext(this@MainApplication.applicationContext)
             modules(
                 listOf(
+                    mainKoinModule,
                     commonKoinModule,
                     assetKoinModule,
                     databaseCoreKoinModule,
