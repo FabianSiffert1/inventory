@@ -28,7 +28,7 @@ import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.EmptyAssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList.AssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
-import io.siffert.mobile.app.inventory.core.designsystem.icons.Save
+import io.siffert.mobile.app.inventory.core.designsystem.icons.Code
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import org.koin.androidx.compose.koinViewModel
 
@@ -79,7 +79,7 @@ internal fun Assets(
                 AssetsScreenUiState.Loading -> AssetListLoadingState()
                 is AssetsScreenUiState.Success -> {
                     Column {
-                        DebugAssetButton(
+                        DebugAssetButtons(
                             onAddDebugAssets = onAddDebugAssetsClick,
                             isVisible = isDebug,
                         )
@@ -91,7 +91,7 @@ internal fun Assets(
                 }
                 AssetsScreenUiState.Empty -> {
                     Column {
-                        DebugAssetButton(
+                        DebugAssetButtons(
                             onAddDebugAssets = onAddDebugAssetsClick,
                             isVisible = isDebug,
                         )
@@ -103,7 +103,7 @@ internal fun Assets(
     }
 
 @Composable
-fun DebugAssetButton(onAddDebugAssets: () -> Unit, isVisible: Boolean) {
+fun DebugAssetButtons(onAddDebugAssets: () -> Unit, isVisible: Boolean) {
     if (isVisible) {
         Column(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -118,7 +118,7 @@ fun DebugAssetButton(onAddDebugAssets: () -> Unit, isVisible: Boolean) {
                     ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
                 leadingContent = {
                     Icon(
-                        imageVector = Cozy.icon.Save,
+                        imageVector = Cozy.icon.Code,
                         contentDescription =
                             stringResource(id = R.string.feature_assets_overview_empty_list_title) +
                                 " ${stringResource(id = R.string.feature_assets_overview_empty_list_subtitle)}",
