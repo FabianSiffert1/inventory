@@ -18,6 +18,10 @@
     <string name="feature_assets_creation_failed_title">Asset creation failed</string>
     <string name="feature_assets_creation_failed_subtitle">Please check your inputs or try again</string>
 
+    --- Asset Editor
+    <string name="feature_assets_editor_asset_name">Asset Name</string>
+    <string name="feature_assets_editor_save_changes">Save Changes</string>
+
     --- Asset Details
     <string name="feature_assets_details_acquisition_price">Bought For</string>
     <string name="feature_assets_details_asset_class">Asset Class</string>
@@ -45,4 +49,6 @@
     <string name="feature_assets_top_app_bar_search">Search</string>
     <string name="feature_assets_top_app_bar_delete_asset">Delete Asset</string>
     <string name="feature_assets_top_app_bar_edit_asset">Edit Asset</string>
+    <string name="feature_assets_sold">Sold</string>
+    <string name="feature_assets_navigate_back">Navigate to previous Screen</string>
 </resources>

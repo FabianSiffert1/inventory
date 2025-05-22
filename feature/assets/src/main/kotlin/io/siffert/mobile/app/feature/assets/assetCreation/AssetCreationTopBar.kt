@@ -1,5 +1,7 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -13,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Save
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
@@ -33,7 +35,7 @@ internal fun AssetCreationTopBar(
             IconButton(onClick = onBackClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Navigate to previous Screen",
+                    contentDescription = stringResource(id = R.string.feature_assets_navigate_back),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -54,12 +56,14 @@ internal fun AssetCreationTopBar(
     )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun Preview() = InventoryTheme {
-    AssetCreationTopBar(
-        onBackClick = {},
-        onCreateAssetClick = {},
-        isCreateAssetButtonEnabled = true,
-    )
+private fun Preview() = InventoryTheme {
+    Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
+        AssetCreationTopBar(
+            onBackClick = {},
+            onCreateAssetClick = {},
+            isCreateAssetButtonEnabled = true,
+        )
+    }
 }

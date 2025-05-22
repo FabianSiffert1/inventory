@@ -28,16 +28,32 @@ internal fun AssetEditorScreen(assetId: String? = null, navigateBack: () -> Unit
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogManager: DialogManager = koinInject()
 
-    AssetEditorScreenContent(asset = uiState.asset)
+    AssetEditorScreenContent(
+        asset = uiState.asset,
+        navigateBack = navigateBack,
+        onSaveChangesClick = viewModel::saveAsset,
+    )
 }
 
 @Composable
-private fun AssetEditorScreenContent(asset: LoadingState<Asset>) {
+private fun AssetEditorScreenContent(
+    asset: LoadingState<Asset>,
+    navigateBack: () -> Unit,
+    onSaveChangesClick: () -> Unit,
+) {
+    val loadedAssetState = asset as? LoadingState.Present
     Scaffold(
         modifier = Modifier,
         containerColor = Color.Transparent,
         topBar = {
-            // todo: make topbar generic?
+            AssetEditorTopBar(
+                assetName = loadedAssetState?.value?.name,
+                assetSaleInfo = loadedAssetState?.value?.saleInfo,
+                onBackClick = navigateBack,
+                onSaveChangesClick = onSaveChangesClick,
+                // todo implement
+                isSaveAssetChangesButtonEnabled = true,
+            )
         },
     ) { paddingValues ->
         Crossfade(modifier = Modifier.padding(paddingValues), targetState = asset) {
@@ -59,5 +75,9 @@ private fun AssetEditorScreenContent(asset: LoadingState<Asset>) {
 @Composable
 @PreviewLightDark
 private fun Preview() = InventoryTheme {
-    AssetEditorScreenContent(asset = LoadingState.Present(exampleAsset))
+    AssetEditorScreenContent(
+        asset = LoadingState.Present(exampleAsset),
+        navigateBack = {},
+        onSaveChangesClick = {},
+    )
 }
