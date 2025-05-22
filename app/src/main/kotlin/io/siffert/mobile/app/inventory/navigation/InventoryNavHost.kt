@@ -24,7 +24,7 @@ fun InventoryNavHost(appState: InventoryAppState, modifier: Modifier = Modifier)
         assetsSection(
             onAssetClick = navController::navigateToAssetDetails,
             onBackClick = navController::popBackStack,
-            onNavigateToAssetEditorClick = { navController.navigateToAssetEditor(null) },
+            onNavigateToAssetEditorClick = navController::navigateToAssetEditor,
             onSearchClick = navController::navigateToAssetSearch,
         )
     }

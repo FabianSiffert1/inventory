@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.siffert.mobile.app.core.common.flow.LoadingState
 import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.core.domain.AssetCreationData
 import io.siffert.mobile.app.core.domain.CreateAssetUseCase
 import io.siffert.mobile.app.core.domain.PriceHistoryEntryCreationData
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
+import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
 import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.channels.Channel
@@ -38,6 +40,7 @@ data class AssetEditorScreenUiState(
     val assetClassWithStringRes: AssetClassWithStringRes = AssetClassWithStringRes.DIGITAL_ASSET,
     val currency: Currency = Currency.EUR,
     val assetCreationState: AssetCreationState? = null,
+    val assetToEditState: LoadingState<Asset>? = null,
 ) {
     private val isValidPrice =
         currentPrice.text.isNotEmpty() && currentPrice.text.toDoubleOrNull() is Double
@@ -52,13 +55,28 @@ class AssetEditorScreenViewModel(
     private val createAssetUseCase: CreateAssetUseCase,
     private val assetRepository: AssetRepository,
 ) : ViewModel() {
-
-    init {
-        println(assetId)
-    }
-
     private val _uiState = MutableStateFlow(AssetEditorScreenUiState())
     val uiState = _uiState.asStateFlow()
+
+    init {
+        if (assetId != null) {
+            viewModelScope.launch {
+                updateUiState { it.copy(assetToEditState = LoadingState.Loading) }
+                assetRepository.getAssetById(assetId).collect { asset ->
+                    when {
+                        asset != null ->
+                            updateUiState {
+                                it.copy(assetToEditState = LoadingState.Present(asset)).also {
+                                    Log.d("AssetEditorScreenViewModel", "asset: $asset")
+                                }
+                            }
+                        else ->
+                            updateUiState { it.copy(assetToEditState = LoadingState.NotPresent) }
+                    }
+                }
+            }
+        }
+    }
 
     private val _uiCommands: Channel<AssetEditorScreenUiCommand> = Channel()
     internal val uiCommands = _uiCommands.receiveAsFlow()
