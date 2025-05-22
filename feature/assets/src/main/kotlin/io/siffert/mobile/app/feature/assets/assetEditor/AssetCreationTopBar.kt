@@ -1,4 +1,4 @@
-package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetCreation
+package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
