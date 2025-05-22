@@ -14,11 +14,16 @@ import kotlinx.datetime.Clock
 private val assetid1 = "assetid1"
 private val assetid2 = "assetid2"
 private val assetid3 = "assetid3"
+private val assetid4 = "assetid4"
+
 private val priceHistoryEntryId1 = "priceHistoryEntryId1"
 private val priceHistoryEntryId2 = "priceHistoryEntryId2"
 private val priceHistoryEntryId3 = "priceHistoryEntryId3"
 private val priceHistoryEntryId4 = "priceHistoryEntryId4"
+private val priceHistoryEntryId5 = "priceHistoryEntryId5"
+
 private val saleEntryId1 = "saleEntryId1"
+
 val exampleAssetList =
     listOf(
         Asset(
@@ -93,4 +98,26 @@ val exampleAssetList =
             url = null,
             userNotes = null,
         ),
+    )
+
+val exampleAsset =
+    Asset(
+        id = assetid4,
+        name = "Preview Asset",
+        assetGroupId = null,
+        assetClass = AssetClass.DIGITAL_ASSET,
+        fees = 0.10,
+        priceHistory =
+            listOf(
+                PriceHistoryEntry(
+                    id = priceHistoryEntryId5,
+                    assetId = assetid4,
+                    value = 1.20,
+                    timestamp = Clock.System.now(),
+                )
+            ),
+        saleInfo = null,
+        currency = Currency.EUR,
+        url = "https://google.com",
+        userNotes = "userNotes1",
     )

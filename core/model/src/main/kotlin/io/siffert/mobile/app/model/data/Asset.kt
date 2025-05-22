@@ -11,7 +11,23 @@ data class Asset(
     val currency: Currency,
     val url: String?,
     val userNotes: String?,
-)
+) {
+    operator fun iterator(): Iterator<Pair<String, Any?>> {
+        return listOf(
+                "id" to id,
+                "name" to name,
+                "assetClass" to assetClass,
+                "assetGroupId" to assetGroupId,
+                "fees" to fees,
+                "priceHistory" to priceHistory,
+                "saleInfo" to saleInfo,
+                "currency" to currency,
+                "url" to url,
+                "userNotes" to userNotes,
+            )
+            .iterator()
+    }
+}
 
 fun Asset.isValidAsset(): Boolean {
     return name.isNotEmpty() && priceHistory.isNotEmpty()

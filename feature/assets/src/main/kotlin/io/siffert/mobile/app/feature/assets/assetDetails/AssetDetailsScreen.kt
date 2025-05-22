@@ -16,7 +16,11 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-internal fun AssetDetailsScreen(assetId: String? = null, navigateBack: () -> Unit) {
+internal fun AssetDetailsScreen(
+    assetId: String? = null,
+    navigateBack: () -> Unit,
+    onEditAssetClick: (String) -> Unit,
+) {
     val viewModel: AssetDetailsScreenViewModel = koinViewModel { parametersOf(assetId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogManager: DialogManager = koinInject()
@@ -33,7 +37,11 @@ internal fun AssetDetailsScreen(assetId: String? = null, navigateBack: () -> Uni
                 )
             )
         },
-        onEditClick = { dialogManager.enqueue(AppDialog.InformationDialog) },
+        onEditClick = {
+            if (assetId != null) {
+                onEditAssetClick(assetId)
+            }
+        },
     )
 }
 
