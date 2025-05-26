@@ -41,9 +41,7 @@ internal fun AssetEditorScreen(
     assetEditorMode: AssetEditorMode,
     navigateBack: () -> Unit,
 ) {
-    val viewModel: AssetEditorScreenViewModel = koinViewModel {
-        parametersOf(assetId, assetEditorMode)
-    }
+    val viewModel: AssetEditorScreenViewModel = koinViewModel { parametersOf(assetId) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -57,6 +55,7 @@ internal fun AssetEditorScreen(
 
     AssetEditorScreenContent(
         uiState = uiState,
+        assetEditorMode = assetEditorMode,
         onBackClick = navigateBack,
         onNameChange = viewModel::onNameChange,
         onFeesChange = viewModel::onFeesChange,
@@ -65,13 +64,14 @@ internal fun AssetEditorScreen(
         onUrlChange = viewModel::onUrlChange,
         onPriceChange = viewModel::onPriceChange,
         onCurrencyChange = viewModel::onCurrencyChange,
-        onCreateAssetClick = viewModel::createAsset,
+        onCreateAssetClick = { viewModel.createOrEditAsset(assetEditorMode = assetEditorMode) },
     )
 }
 
 @Composable
 private fun AssetEditorScreenContent(
     uiState: AssetEditorScreenUiState,
+    assetEditorMode: AssetEditorMode,
     onBackClick: () -> Unit,
     onCreateAssetClick: () -> Unit,
     onNotesChange: (String) -> Unit,
@@ -90,11 +90,13 @@ private fun AssetEditorScreenContent(
         modifier = Modifier,
         containerColor = Color.Transparent,
         topBar = {
-            AssetCreationTopBar(
+            AssetEditorTopBar(
                 onBackClick = onBackClick,
                 onCreateAssetClick = onCreateAssetClick,
                 isCreateAssetButtonEnabled =
-                    uiState.isValidAsset && uiState.assetCreationState != AssetCreationState.Loading,
+                    uiState.isValidAsset &&
+                        uiState.assetCreationState != AssetCreationState.Loading,
+                assetEditorMode = assetEditorMode,
             )
         },
     ) { paddingValues ->
@@ -149,11 +151,11 @@ private fun AssetEditorInputFields(
     AssetTextField(
         input = uiState.assetEditorInputFields.name.text,
         onInputChange = onNameChange,
-        inputLabel = stringResource(id = R.string.feature_assets_creation_name),
+        inputLabel = stringResource(id = R.string.feature_assets_editor_name),
     )
     AssetTextField(
         input = uiState.assetEditorInputFields.currentPrice.text,
-        inputLabel = stringResource(id = R.string.feature_assets_asset_creation_price),
+        inputLabel = stringResource(id = R.string.feature_assets_editor_price),
         onInputChange = onPriceChange,
         numericOnly = true,
     )
@@ -163,7 +165,7 @@ private fun AssetEditorInputFields(
         showBottomSheet = isCurrencyBottomSheetVisible,
         onItemClick = onCurrencyChange,
         enumEntries = Currency.entries.toTypedArray(),
-        label = stringResource(id = R.string.feature_assets_creation_currency),
+        label = stringResource(id = R.string.feature_assets_editor_currency),
     )
 
     AssetBottomSheetListItem(
@@ -173,7 +175,7 @@ private fun AssetEditorInputFields(
                 id = uiState.assetEditorInputFields.assetClassWithStringRes.nameResource
             ),
         showBottomSheet = isAssetClassBottomSheetVisible,
-        label = stringResource(id = R.string.feature_assets_creation_asset_class),
+        label = stringResource(id = R.string.feature_assets_editor_asset_class),
         enumEntries = AssetClassWithStringRes.entries.toTypedArray(),
         onItemClick = onAssetClassChange,
         trailingContent = {
@@ -183,26 +185,26 @@ private fun AssetEditorInputFields(
     HorizontalDivider()
     Text(
         modifier = Modifier.padding(start = 8.dp),
-        text = stringResource(id = R.string.feature_assets_creation_optional),
+        text = stringResource(id = R.string.feature_assets_editor_optional),
         fontSize = MaterialTheme.typography.labelSmall.fontSize,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Left,
     )
     AssetTextField(
         input = uiState.assetEditorInputFields.fees.text,
-        inputLabel = stringResource(id = R.string.feature_assets_creation_fees),
+        inputLabel = stringResource(id = R.string.feature_assets_editor_fees),
         onInputChange = onFeesChange,
         numericOnly = true,
     )
     AssetTextField(
         input = uiState.assetEditorInputFields.url.text,
         onInputChange = onUrlChange,
-        inputLabel = stringResource(id = R.string.feature_assets_creation_url),
+        inputLabel = stringResource(id = R.string.feature_assets_editor_url),
     )
     AssetTextField(
         input = uiState.assetEditorInputFields.notes.text,
         onInputChange = onNotesChange,
-        inputLabel = stringResource(id = R.string.feature_assets_creation_notes),
+        inputLabel = stringResource(id = R.string.feature_assets_editor_notes),
     )
 }
 
@@ -213,10 +215,10 @@ private fun AssetEditingFailedListItem() {
             Modifier.clip(RoundedCornerShape(8.dp))
                 .border(width = 1.dp, color = Color.Red, shape = RoundedCornerShape(8.dp)),
         headlineContent = {
-            Text(stringResource(id = R.string.feature_assets_creation_failed_title))
+            Text(stringResource(id = R.string.feature_assets_editor_failed_title))
         },
         supportingContent = {
-            Text(stringResource(id = R.string.feature_assets_creation_failed_subtitle))
+            Text(stringResource(id = R.string.feature_assets_editor_failed_subtitle))
         },
     )
 }

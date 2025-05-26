@@ -102,11 +102,13 @@ fun NavGraphBuilder.assetsSection(
                     AnimatedContentTransitionScope.SlideDirection.Right
                 )
             },
-        ) { asset ->
-            val assetId = asset.toRoute<AssetEditorRoute>().assetId
+        ) { backStackEntry ->
+            val assetId = backStackEntry.toRoute<AssetEditorRoute>().assetId
+            val assetEditorMode = backStackEntry.toRoute<AssetEditorRoute>().assetEditorMode
+
             AssetEditorScreen(
                 assetId = assetId,
-                assetEditorMode = AssetEditorMode.CREATE,
+                assetEditorMode = assetEditorMode,
                 navigateBack = onBackClick,
             )
         }

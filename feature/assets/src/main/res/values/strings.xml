@@ -4,19 +4,20 @@
     <string name="feature_assets_overview_empty_list_title">No assets found</string>">
     <string name="feature_assets_overview_empty_list_subtitle">Click Plus button on top to add your first asset</string>
 
-    --- Asset Creation
-    <string name="feature_assets_creation_asset_class">Asset Class</string>
-    <string name="feature_assets_creation_date">Date</string>
-    <string name="feature_assets_creation_fees">Fees</string>
-    <string name="feature_assets_creation_name">Name</string>
-    <string name="feature_assets_creation_notes">Notes</string>
-    <string name="feature_assets_creation_optional">Optional</string>
-    <string name="feature_assets_asset_creation_price">Price</string>
-    <string name="feature_assets_creation_currency">Currency</string>
-    <string name="feature_assets_creation_title">Create Asset</string>
-    <string name="feature_assets_creation_url">Url</string>
-    <string name="feature_assets_creation_failed_title">Asset creation failed</string>
-    <string name="feature_assets_creation_failed_subtitle">Please check your inputs or try again</string>
+    --- Asset Editor
+    <string name="feature_assets_editor_asset_class">Asset Class</string>
+    <string name="feature_assets_editor_date">Date</string>
+    <string name="feature_assets_editor_fees">Fees</string>
+    <string name="feature_assets_editor_name">Name</string>
+    <string name="feature_assets_editor_notes">Notes</string>
+    <string name="feature_assets_editor_optional">Optional</string>
+    <string name="feature_assets_editor_price">Price</string>
+    <string name="feature_assets_editor_currency">Currency</string>
+    <string name="feature_assets_editor_create_title">Create Asset</string>
+    <string name="feature_assets_editor_edit_title">Edit Asset</string>
+    <string name="feature_assets_editor_url">Url</string>
+    <string name="feature_assets_editor_failed_title">Asset creation failed</string>
+    <string name="feature_assets_editor_failed_subtitle">Please check your inputs or try again</string>
 
     --- Asset Editor
     <string name="feature_assets_editor_asset_name">Asset Name</string>

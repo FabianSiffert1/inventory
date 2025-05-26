@@ -22,15 +22,23 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @Composable
-internal fun AssetCreationTopBar(
+internal fun AssetEditorTopBar(
     onBackClick: () -> Unit,
     onCreateAssetClick: () -> Unit,
+    assetEditorMode: AssetEditorMode,
     modifier: Modifier = Modifier,
     isCreateAssetButtonEnabled: Boolean,
 ) {
+    val title =
+        when (assetEditorMode) {
+            AssetEditorMode.CREATE -> R.string.feature_assets_editor_create_title
+            AssetEditorMode.EDIT -> R.string.feature_assets_editor_edit_title
+        }
     CenterAlignedTopAppBar(
-        modifier = modifier.testTag("assetCreationTopBar"),
-        title = { Text(text = stringResource(id = R.string.feature_assets_creation_title)) },
+        modifier = modifier.testTag("assetEditorTopBar"),
+        title = {
+            Text(text = stringResource(id = title))
+        },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
@@ -44,8 +52,7 @@ internal fun AssetCreationTopBar(
             IconButton(onClick = onCreateAssetClick, enabled = isCreateAssetButtonEnabled) {
                 Icon(
                     imageVector = Cozy.icon.Save,
-                    contentDescription =
-                        stringResource(id = R.string.feature_assets_creation_title),
+                    contentDescription = stringResource(id = title),
                     tint =
                         if (isCreateAssetButtonEnabled) MaterialTheme.colorScheme.onSurface
                         else MaterialTheme.colorScheme.surfaceVariant,
@@ -60,10 +67,11 @@ internal fun AssetCreationTopBar(
 @Composable
 private fun Preview() = InventoryTheme {
     Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-        AssetCreationTopBar(
+        AssetEditorTopBar(
             onBackClick = {},
             onCreateAssetClick = {},
             isCreateAssetButtonEnabled = true,
+            assetEditorMode = AssetEditorMode.CREATE,
         )
     }
 }

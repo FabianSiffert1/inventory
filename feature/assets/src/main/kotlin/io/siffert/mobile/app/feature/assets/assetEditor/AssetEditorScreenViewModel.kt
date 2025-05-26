@@ -58,7 +58,6 @@ data class AssetEditorScreenUiState(
 
 class AssetEditorScreenViewModel(
     assetId: String?,
-    assetEditorMode: AssetEditorMode,
     private val createAssetUseCase: CreateAssetUseCase,
     private val assetRepository: AssetRepository,
 ) : ViewModel() {
@@ -132,7 +131,15 @@ class AssetEditorScreenViewModel(
         )
     }
 
-    fun createAsset() {
+    fun createOrEditAsset(assetEditorMode: AssetEditorMode) {
+        println(assetEditorMode)
+        when (assetEditorMode) {
+            AssetEditorMode.CREATE -> createAsset()
+            AssetEditorMode.EDIT -> updateAsset()
+        }
+    }
+
+    private fun createAsset() {
         viewModelScope.launch {
             Log.d("AssetCreationScreenViewModel", "createAsset called")
 
@@ -153,5 +160,9 @@ class AssetEditorScreenViewModel(
                 _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
             }
         }
+    }
+
+    private fun updateAsset() {
+        // todo: implement
     }
 }
