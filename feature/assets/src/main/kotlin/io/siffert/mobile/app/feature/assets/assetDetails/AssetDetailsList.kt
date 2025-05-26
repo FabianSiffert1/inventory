@@ -103,6 +103,8 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
             )
         }
 
+        // todo: fees
+
         asset.assetGroupId?.let {
             AssetDetailsListItem(
                 title = stringResource(id = R.string.feature_assets_details_group),

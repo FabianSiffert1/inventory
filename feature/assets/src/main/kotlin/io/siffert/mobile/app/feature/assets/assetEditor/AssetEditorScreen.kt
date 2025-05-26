@@ -141,19 +141,19 @@ private fun AssetEditorInputFields(
         AssetEditingFailedListItem()
     }
     AssetTextField(
-        input = uiState.nameInput.text,
+        input = uiState.assetEditorInputFields.name.text,
         onInputChange = onNameChange,
         inputLabel = stringResource(id = R.string.feature_assets_creation_name),
     )
     AssetTextField(
-        input = uiState.currentPrice.text,
+        input = uiState.assetEditorInputFields.currentPrice.text,
         inputLabel = stringResource(id = R.string.feature_assets_asset_creation_price),
         onInputChange = onPriceChange,
         numericOnly = true,
     )
     AssetBottomSheetListItem(
         toggleBottomSheet = toggleCurrencyBottomSheet,
-        currentlySelectedItemName = uiState.currency.name,
+        currentlySelectedItemName = uiState.assetEditorInputFields.currency.name,
         showBottomSheet = isCurrencyBottomSheetVisible,
         onItemClick = onCurrencyChange,
         enumEntries = Currency.entries.toTypedArray(),
@@ -163,12 +163,16 @@ private fun AssetEditorInputFields(
     AssetBottomSheetListItem(
         toggleBottomSheet = toggleAssetClassBottomSheet,
         currentlySelectedItemName =
-            stringResource(id = uiState.assetClassWithStringRes.nameResource),
+            stringResource(
+                id = uiState.assetEditorInputFields.assetClassWithStringRes.nameResource
+            ),
         showBottomSheet = isAssetClassBottomSheetVisible,
         label = stringResource(id = R.string.feature_assets_creation_asset_class),
         enumEntries = AssetClassWithStringRes.entries.toTypedArray(),
         onItemClick = onAssetClassChange,
-        trailingContent = { AssetClassIcon(uiState.assetClassWithStringRes.assetClass) },
+        trailingContent = {
+            AssetClassIcon(uiState.assetEditorInputFields.assetClassWithStringRes.assetClass)
+        },
     )
     HorizontalDivider()
     Text(
@@ -179,18 +183,18 @@ private fun AssetEditorInputFields(
         textAlign = TextAlign.Left,
     )
     AssetTextField(
-        input = uiState.feesInput.text,
+        input = uiState.assetEditorInputFields.fees.text,
         inputLabel = stringResource(id = R.string.feature_assets_creation_fees),
         onInputChange = onFeesChange,
         numericOnly = true,
     )
     AssetTextField(
-        input = uiState.urlInput.text,
+        input = uiState.assetEditorInputFields.url.text,
         onInputChange = onUrlChange,
         inputLabel = stringResource(id = R.string.feature_assets_creation_url),
     )
     AssetTextField(
-        input = uiState.notesInput.text,
+        input = uiState.assetEditorInputFields.notes.text,
         onInputChange = onNotesChange,
         inputLabel = stringResource(id = R.string.feature_assets_creation_notes),
     )
