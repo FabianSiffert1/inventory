@@ -17,6 +17,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+enum class AssetEditorMode {
+    CREATE,
+    EDIT,
+}
+
 sealed interface AssetEditorScreenUiCommand {
     data object NavigateBack : AssetEditorScreenUiCommand
 }
@@ -53,6 +58,7 @@ data class AssetEditorScreenUiState(
 
 class AssetEditorScreenViewModel(
     assetId: String?,
+    assetEditorMode: AssetEditorMode,
     private val createAssetUseCase: CreateAssetUseCase,
     private val assetRepository: AssetRepository,
 ) : ViewModel() {

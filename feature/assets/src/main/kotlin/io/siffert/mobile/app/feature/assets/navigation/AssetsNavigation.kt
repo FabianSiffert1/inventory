@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import io.siffert.mobile.app.feature.assets.AssetsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreen
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorMode
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorScreen
 import kotlinx.serialization.Serializable
 
@@ -17,7 +18,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object AssetsRoute
 
-@Serializable data class AssetEditorRoute(val assetId: String? = null)
+@Serializable
+data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode)
 
 @Serializable data class AssetDetailsRoute(val assetId: String)
 
@@ -33,8 +35,13 @@ fun NavController.navigateToAssetDetails(
 
 fun NavController.navigateToAssetEditor(
     assetId: String? = null,
+    assetEditorMode: AssetEditorMode,
     navOptions: NavOptionsBuilder.() -> Unit = {},
-) = navigate(route = AssetEditorRoute(assetId = assetId), navOptions)
+) =
+    navigate(
+        route = AssetEditorRoute(assetId = assetId, assetEditorMode = assetEditorMode),
+        navOptions,
+    )
 
 // todo: replace placeholder
 fun NavController.navigateToAssetSearch(navOptions: NavOptionsBuilder.() -> Unit = {}) =
@@ -43,7 +50,7 @@ fun NavController.navigateToAssetSearch(navOptions: NavOptionsBuilder.() -> Unit
 fun NavGraphBuilder.assetsSection(
     onAssetClick: (String) -> Unit,
     onSearchClick: () -> Unit,
-    onNavigateToAssetEditorClick: (String?) -> Unit,
+    onNavigateToAssetEditorClick: (String?, AssetEditorMode) -> Unit,
     onBackClick: () -> Unit,
 ) {
     navigation<AssetsBaseRoute>(startDestination = AssetsRoute) {
@@ -62,7 +69,7 @@ fun NavGraphBuilder.assetsSection(
             AssetsScreen(
                 onSearchClick = onSearchClick,
                 onAssetClick = onAssetClick,
-                onCreateAssetClick = { onNavigateToAssetEditorClick(null) },
+                onCreateAssetClick = { onNavigateToAssetEditorClick(null, AssetEditorMode.CREATE) },
             )
         }
         composable<AssetDetailsRoute>(
@@ -81,7 +88,7 @@ fun NavGraphBuilder.assetsSection(
             AssetDetailsScreen(
                 assetId = assetId,
                 navigateBack = onBackClick,
-                onEditAssetClick = { onNavigateToAssetEditorClick(assetId) },
+                onEditAssetClick = { onNavigateToAssetEditorClick(assetId, AssetEditorMode.EDIT) },
             )
         }
         composable<AssetEditorRoute>(
@@ -97,7 +104,11 @@ fun NavGraphBuilder.assetsSection(
             },
         ) { asset ->
             val assetId = asset.toRoute<AssetEditorRoute>().assetId
-            AssetEditorScreen(assetId = assetId, navigateBack = onBackClick)
+            AssetEditorScreen(
+                assetId = assetId,
+                assetEditorMode = AssetEditorMode.CREATE,
+                navigateBack = onBackClick,
+            )
         }
     }
 }
