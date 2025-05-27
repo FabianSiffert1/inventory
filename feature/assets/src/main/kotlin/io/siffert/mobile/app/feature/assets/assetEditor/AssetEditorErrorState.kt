@@ -1,5 +1,6 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -49,4 +50,12 @@ fun AssetEditorErrorState() {
     }
 }
 
-@Composable @PreviewLightDark private fun Preview() = InventoryTheme { AssetEditorErrorState() }
+@Composable
+@PreviewLightDark
+private fun Preview() = InventoryTheme {
+    Column(
+        modifier = Modifier.padding(8.dp).background(color = MaterialTheme.colorScheme.surface)
+    ) {
+        AssetEditorErrorState()
+    }
+}
