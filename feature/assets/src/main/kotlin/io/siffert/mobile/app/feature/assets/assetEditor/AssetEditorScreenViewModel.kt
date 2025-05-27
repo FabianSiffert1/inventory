@@ -36,7 +36,7 @@ sealed interface AssetCreationState {
     data object Failure : AssetCreationState
 }
 
-data class AssetEditorInputFields(
+data class AssetEditorInputs(
     val name: TextFieldValue = TextFieldValue("debugAsset"),
     val fees: TextFieldValue = TextFieldValue(),
     val url: TextFieldValue = TextFieldValue(),
@@ -47,17 +47,17 @@ data class AssetEditorInputFields(
 )
 
 data class AssetEditorScreenUiState(
-    val assetEditorInputFields: AssetEditorInputFields = AssetEditorInputFields(),
+    val assetEditorInputs: AssetEditorInputs = AssetEditorInputs(),
     val assetCreationState: AssetCreationState? = null,
     val assetToEditState: LoadingState<Asset>? = null,
 ) {
     private val isValidPrice =
-        assetEditorInputFields.currentPrice.text.isNotEmpty() &&
-            assetEditorInputFields.currentPrice.text.toDoubleOrNull() is Double
+        assetEditorInputs.currentPrice.text.isNotEmpty() &&
+            assetEditorInputs.currentPrice.text.toDoubleOrNull() is Double
     private val isValidFee =
-        assetEditorInputFields.fees.text.isEmpty() ||
-            assetEditorInputFields.fees.text.toDoubleOrNull() is Double
-    val isValidAsset = assetEditorInputFields.name.text.isNotEmpty() && isValidPrice && isValidFee
+        assetEditorInputs.fees.text.isEmpty() ||
+            assetEditorInputs.fees.text.toDoubleOrNull() is Double
+    val isValidAsset = assetEditorInputs.name.text.isNotEmpty() && isValidPrice && isValidFee
 }
 
 class AssetEditorScreenViewModel(
@@ -139,45 +139,34 @@ class AssetEditorScreenViewModel(
     }
 
     fun onNameChange(newName: String) = updateUiState {
-        it.copy(
-            assetEditorInputFields = it.assetEditorInputFields.copy(name = TextFieldValue(newName))
-        )
+        it.copy(assetEditorInputs = it.assetEditorInputs.copy(name = TextFieldValue(newName)))
     }
 
     fun onPriceChange(newPrice: String) = updateUiState {
         it.copy(
-            assetEditorInputFields =
-                it.assetEditorInputFields.copy(currentPrice = TextFieldValue(newPrice))
+            assetEditorInputs = it.assetEditorInputs.copy(currentPrice = TextFieldValue(newPrice))
         )
     }
 
     fun onCurrencyChange(newCurrency: Currency) = updateUiState {
-        it.copy(assetEditorInputFields = it.assetEditorInputFields.copy(currency = newCurrency))
+        it.copy(assetEditorInputs = it.assetEditorInputs.copy(currency = newCurrency))
     }
 
     fun onAssetClassChange(newAssetClass: AssetClassWithStringRes) = updateUiState {
         it.copy(
-            assetEditorInputFields =
-                it.assetEditorInputFields.copy(assetClassWithStringRes = newAssetClass)
+            assetEditorInputs = it.assetEditorInputs.copy(assetClassWithStringRes = newAssetClass)
         )
     }
 
     fun onFeesChange(newFees: String) = updateUiState {
-        it.copy(
-            assetEditorInputFields = it.assetEditorInputFields.copy(fees = TextFieldValue(newFees))
-        )
+        it.copy(assetEditorInputs = it.assetEditorInputs.copy(fees = TextFieldValue(newFees)))
     }
 
     fun onNotesChange(newNotes: String) = updateUiState {
-        it.copy(
-            assetEditorInputFields =
-                it.assetEditorInputFields.copy(notes = TextFieldValue(newNotes))
-        )
+        it.copy(assetEditorInputs = it.assetEditorInputs.copy(notes = TextFieldValue(newNotes)))
     }
 
     fun onUrlChange(newUrl: String) = updateUiState {
-        it.copy(
-            assetEditorInputFields = it.assetEditorInputFields.copy(url = TextFieldValue(newUrl))
-        )
+        it.copy(assetEditorInputs = it.assetEditorInputs.copy(url = TextFieldValue(newUrl)))
     }
 }

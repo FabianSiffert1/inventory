@@ -118,9 +118,7 @@ private fun AssetEditorScreenContent(
         ) {
             when (assetLoadingState) {
                 LoadingState.Loading -> AssetListLoadingState()
-                LoadingState.NotPresent -> {
-                    AssetEditorErrorState()
-                }
+                LoadingState.NotPresent -> AssetEditorErrorState()
                 is LoadingState.Present<Asset>,
                 null ->
                     AssetEditorInputFields(

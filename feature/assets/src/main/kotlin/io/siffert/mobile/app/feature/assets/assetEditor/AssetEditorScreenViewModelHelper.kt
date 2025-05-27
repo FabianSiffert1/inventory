@@ -6,18 +6,18 @@ import io.siffert.mobile.app.core.domain.AssetCreationData
 import io.siffert.mobile.app.core.domain.PriceHistoryEntryCreationData
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.model.data.Asset
-import kotlin.time.Duration.Companion.days
 import kotlinx.datetime.Clock
+import kotlin.time.Duration.Companion.days
 
 internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? {
 
-    val currentPrice = assetEditorInputFields.currentPrice.text.toDoubleOrNull()
+    val currentPrice = assetEditorInputs.currentPrice.text.toDoubleOrNull()
     if (!isValidAsset || currentPrice == null) return null
 
     return AssetCreationData(
-        name = assetEditorInputFields.name.text,
-        assetClass = assetEditorInputFields.assetClassWithStringRes.assetClass,
-        fees = assetEditorInputFields.fees.text.toDoubleOrNull(),
+        name = assetEditorInputs.name.text,
+        assetClass = assetEditorInputs.assetClassWithStringRes.assetClass,
+        fees = assetEditorInputs.fees.text.toDoubleOrNull(),
         priceHistory =
             listOf(
                 PriceHistoryEntryCreationData(
@@ -25,9 +25,9 @@ internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? 
                     timestamp = Clock.System.now() - 10.days,
                 )
             ),
-        currency = assetEditorInputFields.currency,
-        url = assetEditorInputFields.url.text.ifEmpty { null },
-        userNotes = assetEditorInputFields.notes.text.ifEmpty { null },
+        currency = assetEditorInputs.currency,
+        url = assetEditorInputs.url.text.ifEmpty { null },
+        userNotes = assetEditorInputs.notes.text.ifEmpty { null },
         saleData = null,
         assetGroupId = null,
     )
@@ -35,8 +35,8 @@ internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? 
 
 internal fun Asset.toAssetEditorState(): AssetEditorScreenUiState {
     return AssetEditorScreenUiState(
-        assetEditorInputFields =
-            AssetEditorInputFields(
+        assetEditorInputs =
+            AssetEditorInputs(
                 name = TextFieldValue(this.name),
                 fees = TextFieldValue(this.fees?.toString() ?: ""),
                 url = TextFieldValue(this.url ?: ""),
