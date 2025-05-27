@@ -18,6 +18,10 @@
     <string name="feature_assets_editor_url">Url</string>
     <string name="feature_assets_editor_failed_title">Asset creation failed</string>
     <string name="feature_assets_editor_failed_subtitle">Please check your inputs or try again</string>
+    <string name="feature_assets_editor_error_title">Error</string>
+    <string name="feature_assets_editor_error_subtitle">Something went wrong! Please try again.</string>
+    <string name="feature_assets_editor_error_cta">Go back</string>
+
 
     --- Asset Editor
     <string name="feature_assets_editor_asset_name">Asset Name</string>

@@ -132,7 +132,7 @@ private fun AssetEditorScreenContent(
             when (assetLoadingState) {
                 LoadingState.Loading -> AssetListLoadingState()
                 LoadingState.NotPresent -> {
-                    Text("Asset not found -> implement ui")
+                    AssetEditorErrorState()
                 }
                 is LoadingState.Present<Asset>,
                 null ->
