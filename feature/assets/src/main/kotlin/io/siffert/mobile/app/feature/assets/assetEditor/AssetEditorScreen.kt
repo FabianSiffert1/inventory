@@ -116,11 +116,8 @@ private fun AssetEditorScreenContent(
                     .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            when (assetLoadingState) {
-                LoadingState.Loading -> AssetListLoadingState()
-                LoadingState.NotPresent -> AssetEditorErrorState()
-                is LoadingState.Present<Asset>,
-                null ->
+            when (assetEditorMode) {
+                AssetEditorMode.CREATE ->
                     AssetEditorInputFields(
                         uiState = uiState,
                         onNameChange = onNameChange,
@@ -135,6 +132,27 @@ private fun AssetEditorScreenContent(
                         toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
                         toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
                     )
+                AssetEditorMode.EDIT ->
+                    when (assetLoadingState) {
+                        LoadingState.Loading -> AssetListLoadingState()
+                        LoadingState.NotPresent -> AssetEditorErrorState()
+                        is LoadingState.Present<Asset>,
+                        null ->
+                            AssetEditorInputFields(
+                                uiState = uiState,
+                                onNameChange = onNameChange,
+                                onPriceChange = onPriceChange,
+                                isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
+                                onCurrencyChange = onCurrencyChange,
+                                isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
+                                onAssetClassChange = onAssetClassChange,
+                                onFeesChange = onFeesChange,
+                                onUrlChange = onUrlChange,
+                                onNotesChange = onNotesChange,
+                                toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
+                                toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
+                            )
+                    }
             }
         }
     }
