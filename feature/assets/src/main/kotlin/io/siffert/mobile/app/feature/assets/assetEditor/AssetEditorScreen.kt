@@ -71,6 +71,8 @@ internal fun AssetEditorScreen(
         isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
         onShowAssetClassBottomSheet = viewModel::showAssetClassBottomSheet,
         onCreateAssetClick = { viewModel.createOrEditAsset(assetEditorMode = assetEditorMode) },
+        isCreateAssetButtonEnabled =
+            uiState.isValidAsset && uiState.assetCreationState != AssetCreationState.Loading,
     )
 }
 
@@ -92,6 +94,7 @@ private fun AssetEditorScreenContent(
     onShowCurrencyBottomSheet: () -> Unit,
     onShowAssetClassBottomSheet: () -> Unit,
     assetLoadingState: LoadingState<Asset>?,
+    isCreateAssetButtonEnabled: Boolean,
 ) {
 
     Scaffold(
@@ -101,9 +104,7 @@ private fun AssetEditorScreenContent(
             AssetEditorTopBar(
                 onBackClick = onBackClick,
                 onCreateAssetClick = onCreateAssetClick,
-                isCreateAssetButtonEnabled =
-                    uiState.isValidAsset &&
-                        uiState.assetCreationState != AssetCreationState.Loading,
+                isCreateAssetButtonEnabled = isCreateAssetButtonEnabled,
                 assetEditorMode = assetEditorMode,
             )
         },
