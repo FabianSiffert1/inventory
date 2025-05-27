@@ -26,11 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.core.common.flow.LoadingState
 import io.siffert.mobile.app.feature.assets.R
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetBottomSheetListItem
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetTextField
+import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -44,6 +47,8 @@ internal fun AssetEditorScreen(
     val viewModel: AssetEditorScreenViewModel = koinViewModel { parametersOf(assetId) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val assetLoadingState = uiState.assetToEditState
 
     var isCurrencyBottomSheetVisible by remember { mutableStateOf(false) }
     var isAssetClassBottomSheetVisible by remember { mutableStateOf(false) }
@@ -65,6 +70,7 @@ internal fun AssetEditorScreen(
     AssetEditorScreenContent(
         uiState = uiState,
         assetEditorMode = assetEditorMode,
+        assetLoadingState = assetLoadingState,
         onBackClick = navigateBack,
         onNameChange = viewModel::onNameChange,
         onFeesChange = viewModel::onFeesChange,
@@ -98,6 +104,7 @@ private fun AssetEditorScreenContent(
     onAssetClassChange: (AssetClassWithStringRes) -> Unit,
     onShowCurrencyBottomSheet: () -> Unit,
     onShowAssetClassBottomSheet: () -> Unit,
+    assetLoadingState: LoadingState<Asset>?,
 ) {
 
     Scaffold(
@@ -122,20 +129,28 @@ private fun AssetEditorScreenContent(
                     .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            AssetEditorInputFields(
-                uiState = uiState,
-                onNameChange = onNameChange,
-                onPriceChange = onPriceChange,
-                isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
-                onCurrencyChange = onCurrencyChange,
-                isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
-                onAssetClassChange = onAssetClassChange,
-                onFeesChange = onFeesChange,
-                onUrlChange = onUrlChange,
-                onNotesChange = onNotesChange,
-                toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
-                toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
-            )
+            when (assetLoadingState) {
+                LoadingState.Loading -> AssetListLoadingState()
+                LoadingState.NotPresent -> {
+                    Text("Asset not found -> implement ui")
+                }
+                is LoadingState.Present<Asset>,
+                null ->
+                    AssetEditorInputFields(
+                        uiState = uiState,
+                        onNameChange = onNameChange,
+                        onPriceChange = onPriceChange,
+                        isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
+                        onCurrencyChange = onCurrencyChange,
+                        isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
+                        onAssetClassChange = onAssetClassChange,
+                        onFeesChange = onFeesChange,
+                        onUrlChange = onUrlChange,
+                        onNotesChange = onNotesChange,
+                        toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
+                        toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
+                    )
+            }
         }
     }
 }
