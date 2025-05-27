@@ -91,6 +91,7 @@ internal fun <T : Enum<T>> AssetBottomSheet(
     }
 }
 
+// start interactive mode
 @Composable
 @PreviewLightDark
 private fun Preview() = InventoryTheme {

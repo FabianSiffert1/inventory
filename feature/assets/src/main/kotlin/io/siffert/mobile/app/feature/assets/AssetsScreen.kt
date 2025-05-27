@@ -102,7 +102,9 @@ internal fun Assets(
                         DebugAssetButton(
                             onButtonClick = onDebugAddExampleAssets,
                             title =
-                                stringResource(id = R.string.feature_assets_top_app_bar_add_asset),
+                                stringResource(
+                                    id = R.string.feature_assets_overview_debug_add_assets
+                                ),
                             isVisible = isDebug,
                         )
                         EmptyAssetOverviewList()

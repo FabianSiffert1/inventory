@@ -24,7 +24,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 @Composable
 internal fun AssetEditorTopBar(
     onBackClick: () -> Unit,
-    onCreateAssetClick: () -> Unit,
+    onCreateOrUpdateAssetClick: () -> Unit,
     assetEditorMode: AssetEditorMode,
     modifier: Modifier = Modifier,
     isCreateAssetButtonEnabled: Boolean,
@@ -36,9 +36,7 @@ internal fun AssetEditorTopBar(
         }
     CenterAlignedTopAppBar(
         modifier = modifier.testTag("assetEditorTopBar"),
-        title = {
-            Text(text = stringResource(id = title))
-        },
+        title = { Text(text = stringResource(id = title)) },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
@@ -49,7 +47,7 @@ internal fun AssetEditorTopBar(
             }
         },
         actions = {
-            IconButton(onClick = onCreateAssetClick, enabled = isCreateAssetButtonEnabled) {
+            IconButton(onClick = onCreateOrUpdateAssetClick, enabled = isCreateAssetButtonEnabled) {
                 Icon(
                     imageVector = Cozy.icon.Save,
                     contentDescription = stringResource(id = title),
@@ -69,7 +67,7 @@ private fun Preview() = InventoryTheme {
     Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
         AssetEditorTopBar(
             onBackClick = {},
-            onCreateAssetClick = {},
+            onCreateOrUpdateAssetClick = {},
             isCreateAssetButtonEnabled = true,
             assetEditorMode = AssetEditorMode.CREATE,
         )

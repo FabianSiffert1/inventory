@@ -31,15 +31,21 @@ import io.siffert.mobile.app.model.data.AssetClass
 
 @Composable
 internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
+
     val localContext = LocalContext.current
+    val LONG_NAME_DISPLAY_THRESHOLD = 30
+
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        AssetDetailsListItem(
-            title = stringResource(id = R.string.feature_assets_details_asset_name),
-            supportingContent = { Text(text = asset.name) },
-        )
+        if (asset.name.length > LONG_NAME_DISPLAY_THRESHOLD) {
+            AssetDetailsListItem(
+                title = stringResource(id = R.string.feature_assets_details_asset_name),
+                supportingContent = { Text(text = asset.name) },
+            )
+        }
+
         val lastPrice = asset.priceHistory.lastOrNull()?.value
         val boughtFor = asset.priceHistory.firstOrNull()?.value
         lastPrice?.let {

@@ -22,14 +22,9 @@ class AssetRepositoryImpl(private val assetDao: AssetDao) : AssetRepository {
     override fun getAssetById(assetId: String): Flow<Asset?> =
         assetDao.getAssetWithPriceHistoryAndSalesFlow(assetId).map { it?.asExternalModel() }
 
-    override suspend fun insertOrIgnoreAsset(assets: List<Asset>): List<Long> {
-        val assetEntities = assets.map { it.asEntity() }
-        return assetDao.insertOrIgnoreAssets(assetEntities)
-    }
-
-    override suspend fun upsertAssets(assets: List<Asset>): Result<Unit> {
+    override suspend fun insertAssets(assets: List<Asset>): Result<Unit> {
         return try {
-            Log.d("AssetRepository", "Upserting assets: $assets")
+            Log.d("AssetRepository", "Inserting assets: $assets")
             val assetEntities = assets.map { it.asEntity() }
             val priceHistories = assets.flatMap { it.toPriceHistoryEntities() }
             val salesEntities = assets.mapNotNull { it.toSalesEntity() }
@@ -43,6 +38,19 @@ class AssetRepositoryImpl(private val assetDao: AssetDao) : AssetRepository {
             Result.success(Unit)
         } catch (e: Exception) {
             Log.e("AssetRepository", "Failed to upsert assets", e)
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun updateAssets(assets: List<Asset>): Result<Unit> {
+        return try {
+            Log.d("AssetRepository", "Updating ${assets.size} assets")
+            val assetEntities = assets.map { it.asEntity() }
+            val updatedCount = assetDao.updateAssets(assetEntities)
+            Log.d("AssetRepository", "Updated $updatedCount of ${assetEntities.size} assets")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e("AssetRepository", "Failed to update assets", e)
             Result.failure(e)
         }
     }

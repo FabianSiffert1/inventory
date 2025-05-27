@@ -16,6 +16,7 @@ val assetKoinModule = module {
             assetId = assetId,
             createAssetUseCase = get(),
             assetRepository = get(),
+            updateAssetUseCase = get(),
         )
     }
 }

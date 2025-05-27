@@ -6,8 +6,8 @@ import io.siffert.mobile.app.core.domain.AssetCreationData
 import io.siffert.mobile.app.core.domain.PriceHistoryEntryCreationData
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.model.data.Asset
-import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
+import kotlinx.datetime.Clock
 
 internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? {
 
@@ -26,27 +26,37 @@ internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? 
                 )
             ),
         currency = assetEditorInputs.currency,
-        url = assetEditorInputs.url.text.ifEmpty { null },
-        userNotes = assetEditorInputs.notes.text.ifEmpty { null },
+        url = assetEditorInputs.url.text.takeIf { it.isNotBlank() },
+        userNotes = assetEditorInputs.notes.text.takeIf { it.isNotBlank() },
         saleData = null,
         assetGroupId = null,
     )
 }
 
-internal fun Asset.toAssetEditorState(): AssetEditorScreenUiState {
-    return AssetEditorScreenUiState(
+fun AssetEditorInputs.toUpdatedAsset(existing: Asset): Asset =
+    existing.copy(
+        name = name.text,
+        fees = fees.text.toDoubleOrNull(),
+        url = url.text.takeIf { it.isNotBlank() },
+        userNotes = notes.text.takeIf { it.isNotBlank() },
+        currency = currency,
+        assetClass = assetClassWithStringRes.assetClass,
+        // todo: implement for sales and pricehistory changes
+    )
+
+internal fun Asset.toAssetEditorState(): AssetEditorScreenUiState =
+    AssetEditorScreenUiState(
         assetEditorInputs =
             AssetEditorInputs(
-                name = TextFieldValue(this.name),
-                fees = TextFieldValue(this.fees?.toString() ?: ""),
-                url = TextFieldValue(this.url ?: ""),
-                notes = TextFieldValue(this.userNotes ?: ""),
+                name = TextFieldValue(name),
+                fees = TextFieldValue(fees?.toString().orEmpty()),
+                url = TextFieldValue(url.orEmpty()),
+                notes = TextFieldValue(userNotes.orEmpty()),
                 currentPrice =
-                    TextFieldValue(this.priceHistory.lastOrNull()?.value?.toString() ?: ""),
-                assetClassWithStringRes = AssetClassWithStringRes.from(this.assetClass),
-                currency = this.currency,
+                    TextFieldValue(priceHistory.lastOrNull()?.value?.toString().orEmpty()),
+                assetClassWithStringRes = AssetClassWithStringRes.from(assetClass),
+                currency = currency,
             ),
-        assetCreationState = null,
+        assetProcessingState = null,
         assetToEditState = LoadingState.Present(this),
     )
-}

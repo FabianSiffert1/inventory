@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import io.siffert.mobile.app.core.common.flow.LoadingState
 import io.siffert.mobile.app.core.data.repository.AssetRepository
 import io.siffert.mobile.app.core.domain.CreateAssetUseCase
+import io.siffert.mobile.app.core.domain.UpdateAssetUseCase
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
@@ -30,10 +31,10 @@ sealed interface AssetEditorScreenUiCommand {
     data object ShowAssetClassBottomSheet : AssetEditorScreenUiCommand
 }
 
-sealed interface AssetCreationState {
-    data object Loading : AssetCreationState
+sealed interface AssetProcessingState {
+    data object Loading : AssetProcessingState
 
-    data object Failure : AssetCreationState
+    data object Failure : AssetProcessingState
 }
 
 data class AssetEditorInputs(
@@ -48,7 +49,7 @@ data class AssetEditorInputs(
 
 data class AssetEditorScreenUiState(
     val assetEditorInputs: AssetEditorInputs = AssetEditorInputs(),
-    val assetCreationState: AssetCreationState? = null,
+    val assetProcessingState: AssetProcessingState? = null,
     val assetToEditState: LoadingState<Asset>? = null,
 ) {
     private val isValidPrice =
@@ -63,6 +64,7 @@ data class AssetEditorScreenUiState(
 class AssetEditorScreenViewModel(
     assetId: String?,
     private val createAssetUseCase: CreateAssetUseCase,
+    private val updateAssetUseCase: UpdateAssetUseCase,
     private val assetRepository: AssetRepository,
 ) : ViewModel() {
 
@@ -74,7 +76,6 @@ class AssetEditorScreenViewModel(
 
     init {
         if (assetId != null) {
-            // todo add ui loading state for input fields
             viewModelScope.launch {
                 updateUiState { it.copy(assetToEditState = LoadingState.Loading) }
                 assetRepository.getAssetById(assetId).collect { asset ->
@@ -100,7 +101,7 @@ class AssetEditorScreenViewModel(
         }
     }
 
-    fun createOrEditAsset(assetEditorMode: AssetEditorMode) {
+    fun createOrUpdateAsset(assetEditorMode: AssetEditorMode) {
         when (assetEditorMode) {
             AssetEditorMode.CREATE -> createAsset()
             AssetEditorMode.EDIT -> updateAsset()
@@ -109,11 +110,11 @@ class AssetEditorScreenViewModel(
 
     private fun createAsset() {
         viewModelScope.launch {
-            Log.d("AssetCreationScreenViewModel", "createAsset called")
+            Log.d("AssetEditorScreenViewModel", "createAsset called")
 
             val assetData = _uiState.value.toAssetCreationData()
             if (assetData != null) {
-                _uiState.update { it.copy(assetCreationState = AssetCreationState.Loading) }
+                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Loading) }
                 val result = createAssetUseCase.createAsset(assetData)
 
                 when {
@@ -122,16 +123,37 @@ class AssetEditorScreenViewModel(
                         _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack)
                     }
                     else ->
-                        _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
+                        _uiState.update {
+                            it.copy(assetProcessingState = AssetProcessingState.Failure)
+                        }
                 }
             } else {
-                _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
+                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Failure) }
             }
         }
     }
 
     private fun updateAsset() {
-        // todo: implement
+        viewModelScope.launch {
+            Log.d("AssetEditorScreenViewModel", "updateAsset called")
+
+            val uiState = _uiState.value
+            val assetInputs = uiState.assetEditorInputs
+
+            val existingAsset = (uiState.assetToEditState as? LoadingState.Present<Asset>)?.value
+
+            if (existingAsset != null) {
+                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Loading) }
+                val updatedAsset = assetInputs.toUpdatedAsset(existingAsset)
+                val result = updateAssetUseCase.updateAsset(updatedAsset)
+
+                if (result.isSuccess) {
+                    _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack)
+                } else {
+                    _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Failure) }
+                }
+            }
+        }
     }
 
     private fun updateUiState(update: (AssetEditorScreenUiState) -> AssetEditorScreenUiState) {

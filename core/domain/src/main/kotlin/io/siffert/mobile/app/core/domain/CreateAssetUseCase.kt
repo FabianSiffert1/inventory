@@ -42,7 +42,7 @@ class CreateAssetUseCase(private val assetRepository: AssetRepository) {
             return Result.failure(IllegalArgumentException("Invalid asset"))
         }
         Log.d("CreateAssetUseCase", "Success")
-        return assetRepository.upsertAssets(listOf(asset))
+        return assetRepository.insertAssets(listOf(asset))
     }
 }
 

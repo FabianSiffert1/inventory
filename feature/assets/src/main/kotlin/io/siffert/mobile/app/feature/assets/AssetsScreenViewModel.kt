@@ -49,7 +49,7 @@ class AssetsScreenViewModel(
     val isDebug: Boolean = appEnvironment.isDebug
 
     fun debugAddExampleAssets() {
-        viewModelScope.launch { assetRepository.upsertAssets(exampleAssetList) }
+        viewModelScope.launch { assetRepository.insertAssets(exampleAssetList) }
     }
 
     fun debugDeleteAllAssets() {

@@ -1,6 +1,5 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,7 +45,7 @@ internal fun AssetEditorInputFields(
     onUrlChange: (String) -> Unit,
     onNotesChange: (String) -> Unit,
 ) {
-    if (uiState.assetCreationState == AssetCreationState.Failure) {
+    if (uiState.assetProcessingState == AssetProcessingState.Failure) {
         AssetEditingFailedNotificationItem()
     }
     AssetTextField(
@@ -128,8 +127,7 @@ private fun Preview() = InventoryTheme {
     InventoryBackground {
         Column(
             modifier =
-                Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     .verticalScroll(rememberScrollState())
                     .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -147,7 +145,7 @@ private fun Preview() = InventoryTheme {
                                 assetClassWithStringRes = AssetClassWithStringRes.REAL_ASSET,
                                 currency = Currency.EUR,
                             ),
-                        assetCreationState = null,
+                        assetProcessingState = null,
                         assetToEditState = null,
                     ),
                 onNameChange = {},

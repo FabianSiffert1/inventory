@@ -70,9 +70,11 @@ internal fun AssetEditorScreen(
         onShowCurrencyBottomSheet = viewModel::showCurrencyBottomSheet,
         isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
         onShowAssetClassBottomSheet = viewModel::showAssetClassBottomSheet,
-        onCreateAssetClick = { viewModel.createOrEditAsset(assetEditorMode = assetEditorMode) },
+        onCreateOrUpdateAssetClick = {
+            viewModel.createOrUpdateAsset(assetEditorMode = assetEditorMode)
+        },
         isCreateAssetButtonEnabled =
-            uiState.isValidAsset && uiState.assetCreationState != AssetCreationState.Loading,
+            uiState.isValidAsset && uiState.assetProcessingState != AssetProcessingState.Loading,
     )
 }
 
@@ -81,7 +83,7 @@ private fun AssetEditorScreenContent(
     uiState: AssetEditorScreenUiState,
     assetEditorMode: AssetEditorMode,
     onBackClick: () -> Unit,
-    onCreateAssetClick: () -> Unit,
+    onCreateOrUpdateAssetClick: () -> Unit,
     onNotesChange: (String) -> Unit,
     onPriceChange: (String) -> Unit,
     onFeesChange: (String) -> Unit,
@@ -103,7 +105,7 @@ private fun AssetEditorScreenContent(
         topBar = {
             AssetEditorTopBar(
                 onBackClick = onBackClick,
-                onCreateAssetClick = onCreateAssetClick,
+                onCreateOrUpdateAssetClick = onCreateOrUpdateAssetClick,
                 isCreateAssetButtonEnabled = isCreateAssetButtonEnabled,
                 assetEditorMode = assetEditorMode,
             )

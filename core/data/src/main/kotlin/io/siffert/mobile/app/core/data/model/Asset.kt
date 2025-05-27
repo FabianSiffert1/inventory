@@ -7,7 +7,7 @@ import io.siffert.mobile.app.model.data.Asset
 
 fun Asset.asEntity() =
     AssetEntity(
-        uid = id,
+        uid = this.id,
         name = name,
         assetClass = assetClass,
         assetGroupId = assetGroupId,

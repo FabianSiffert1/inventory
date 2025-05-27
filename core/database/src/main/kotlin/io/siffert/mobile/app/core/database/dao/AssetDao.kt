@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Upsert
+import androidx.room.Update
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.AssetEntityWithPricesAndSales
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.SalesEntity
 import io.siffert.mobile.app.core.database.model.AssetEntity
@@ -14,10 +14,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AssetDao {
-
-    @Transaction
-    @Query("SELECT * FROM assets WHERE uid = :assetId")
-    suspend fun getAssetWithPriceHistoryAndSales(assetId: String): AssetEntityWithPricesAndSales?
 
     @Transaction
     @Query("SELECT * FROM assets WHERE uid = :assetId")
@@ -31,27 +27,12 @@ interface AssetDao {
     @Query("SELECT * FROM assets")
     suspend fun getAssetsWithPriceHistoryAndSales(): List<AssetEntityWithPricesAndSales>
 
-    @Query("SELECT * FROM assets WHERE uid IN (:ids)")
-    fun getAssetsWithPriceHistoryAndSalesByIds(
-        ids: Set<String>
-    ): Flow<List<AssetEntityWithPricesAndSales?>>
+    @Update suspend fun updateAssets(asset: List<AssetEntity>): Int
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun insertAsset(asset: AssetEntity)
-
-    @Insert suspend fun insertPriceHistory(history: PriceHistoryEntity)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertOrIgnoreAssets(assetEntities: List<AssetEntity>): List<Long>
-
-    @Upsert suspend fun upsertAssets(assets: List<AssetEntity>)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertAssets(assetEntities: List<AssetEntity>): List<Long>
 
     @Query("DELETE FROM assets WHERE uid in (:ids)") suspend fun deleteAssets(ids: List<String>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllPriceHistory(history: List<PriceHistoryEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllSales(sales: List<SalesEntity>)
 
     @Transaction
     suspend fun upsertAllAssetsWithHistoryAndSales(
@@ -59,8 +40,14 @@ interface AssetDao {
         priceHistories: List<PriceHistoryEntity>,
         sales: List<SalesEntity>,
     ) {
-        upsertAssets(assets)
+        insertAssets(assets)
         insertAllPriceHistory(priceHistories)
         insertAllSales(sales)
     }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllPriceHistory(history: List<PriceHistoryEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllSales(sales: List<SalesEntity>)
 }
