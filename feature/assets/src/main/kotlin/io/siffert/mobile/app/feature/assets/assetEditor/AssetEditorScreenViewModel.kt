@@ -24,6 +24,10 @@ enum class AssetEditorMode {
 
 sealed interface AssetEditorScreenUiCommand {
     data object NavigateBack : AssetEditorScreenUiCommand
+
+    data object ShowCurrencyBottomSheet : AssetEditorScreenUiCommand
+
+    data object ShowAssetClassBottomSheet : AssetEditorScreenUiCommand
 }
 
 sealed interface AssetCreationState {
@@ -84,6 +88,52 @@ class AssetEditorScreenViewModel(
         }
     }
 
+    fun showCurrencyBottomSheet() {
+        viewModelScope.launch {
+            _uiCommands.send((AssetEditorScreenUiCommand.ShowCurrencyBottomSheet))
+        }
+    }
+
+    fun showAssetClassBottomSheet() {
+        viewModelScope.launch {
+            _uiCommands.send((AssetEditorScreenUiCommand.ShowAssetClassBottomSheet))
+        }
+    }
+
+    fun createOrEditAsset(assetEditorMode: AssetEditorMode) {
+        when (assetEditorMode) {
+            AssetEditorMode.CREATE -> createAsset()
+            AssetEditorMode.EDIT -> updateAsset()
+        }
+    }
+
+    private fun createAsset() {
+        viewModelScope.launch {
+            Log.d("AssetCreationScreenViewModel", "createAsset called")
+
+            val assetData = _uiState.value.toAssetCreationData()
+            if (assetData != null) {
+                _uiState.update { it.copy(assetCreationState = AssetCreationState.Loading) }
+                val result = createAssetUseCase.createAsset(assetData)
+
+                when {
+                    result.isSuccess -> {
+                        updateUiState { AssetEditorScreenUiState() }
+                        _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack)
+                    }
+                    else ->
+                        _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
+                }
+            } else {
+                _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
+            }
+        }
+    }
+
+    private fun updateAsset() {
+        // todo: implement
+    }
+
     private fun updateUiState(update: (AssetEditorScreenUiState) -> AssetEditorScreenUiState) {
         _uiState.update(update)
     }
@@ -129,40 +179,5 @@ class AssetEditorScreenViewModel(
         it.copy(
             assetEditorInputFields = it.assetEditorInputFields.copy(url = TextFieldValue(newUrl))
         )
-    }
-
-    fun createOrEditAsset(assetEditorMode: AssetEditorMode) {
-        println(assetEditorMode)
-        when (assetEditorMode) {
-            AssetEditorMode.CREATE -> createAsset()
-            AssetEditorMode.EDIT -> updateAsset()
-        }
-    }
-
-    private fun createAsset() {
-        viewModelScope.launch {
-            Log.d("AssetCreationScreenViewModel", "createAsset called")
-
-            val assetData = _uiState.value.toAssetCreationData()
-            if (assetData != null) {
-                _uiState.update { it.copy(assetCreationState = AssetCreationState.Loading) }
-                val result = createAssetUseCase.createAsset(assetData)
-
-                when {
-                    result.isSuccess -> {
-                        updateUiState { AssetEditorScreenUiState() }
-                        _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack)
-                    }
-                    else ->
-                        _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
-                }
-            } else {
-                _uiState.update { it.copy(assetCreationState = AssetCreationState.Failure) }
-            }
-        }
-    }
-
-    private fun updateAsset() {
-        // todo: implement
     }
 }

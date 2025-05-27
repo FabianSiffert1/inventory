@@ -45,10 +45,19 @@ internal fun AssetEditorScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    var isCurrencyBottomSheetVisible by remember { mutableStateOf(false) }
+    var isAssetClassBottomSheetVisible by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.uiCommands.collect { command ->
             when (command) {
                 AssetEditorScreenUiCommand.NavigateBack -> navigateBack()
+                AssetEditorScreenUiCommand.ShowAssetClassBottomSheet -> {
+                    isAssetClassBottomSheetVisible = !isAssetClassBottomSheetVisible
+                }
+                AssetEditorScreenUiCommand.ShowCurrencyBottomSheet -> {
+                    isCurrencyBottomSheetVisible = !isCurrencyBottomSheetVisible
+                }
             }
         }
     }
@@ -64,6 +73,10 @@ internal fun AssetEditorScreen(
         onUrlChange = viewModel::onUrlChange,
         onPriceChange = viewModel::onPriceChange,
         onCurrencyChange = viewModel::onCurrencyChange,
+        isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
+        onShowCurrencyBottomSheet = viewModel::showCurrencyBottomSheet,
+        isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
+        onShowAssetClassBottomSheet = viewModel::showAssetClassBottomSheet,
         onCreateAssetClick = { viewModel.createOrEditAsset(assetEditorMode = assetEditorMode) },
     )
 }
@@ -79,12 +92,13 @@ private fun AssetEditorScreenContent(
     onFeesChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
     onUrlChange: (String) -> Unit,
+    isCurrencyBottomSheetVisible: Boolean,
+    isAssetClassBottomSheetVisible: Boolean,
     onCurrencyChange: (Currency) -> Unit,
     onAssetClassChange: (AssetClassWithStringRes) -> Unit,
+    onShowCurrencyBottomSheet: () -> Unit,
+    onShowAssetClassBottomSheet: () -> Unit,
 ) {
-
-    var isCurrencyBottomSheetVisible by remember { mutableStateOf(false) }
-    var isAssetClassBottomSheetVisible by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier,
@@ -119,12 +133,8 @@ private fun AssetEditorScreenContent(
                 onFeesChange = onFeesChange,
                 onUrlChange = onUrlChange,
                 onNotesChange = onNotesChange,
-                toggleCurrencyBottomSheet = {
-                    isCurrencyBottomSheetVisible = !isCurrencyBottomSheetVisible
-                },
-                toggleAssetClassBottomSheet = {
-                    isAssetClassBottomSheetVisible = !isAssetClassBottomSheetVisible
-                },
+                toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
+                toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
             )
         }
     }
