@@ -5,18 +5,12 @@ import io.siffert.mobile.app.core.data.model.asEntity
 import io.siffert.mobile.app.core.data.model.toPriceHistoryEntities
 import io.siffert.mobile.app.core.data.model.toSalesEntity
 import io.siffert.mobile.app.core.database.dao.AssetDao
-import io.siffert.mobile.app.core.database.dao.PriceHistoryDao
-import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.dao.SalesDao
 import io.siffert.mobile.app.core.database.io.siffert.mobile.app.core.database.model.asExternalModel
 import io.siffert.mobile.app.model.data.Asset
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class AssetRepositoryImpl(
-    private val assetDao: AssetDao,
-    private val historicalPricesDao: PriceHistoryDao,
-    private val salesDao: SalesDao,
-) : AssetRepository {
+class AssetRepositoryImpl(private val assetDao: AssetDao) : AssetRepository {
     override fun getAssetsFlow(): Flow<List<Asset>> =
         assetDao.getAssetsWithPriceHistoryAndSalesFlow().map { assetWithRelationsList ->
             assetWithRelationsList.map { it.asExternalModel() }

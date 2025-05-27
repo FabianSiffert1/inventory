@@ -4,9 +4,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -47,7 +45,8 @@ internal fun AssetsScreen(
         onAssetClick = onAssetClick,
         onCreateAssetClick = onCreateAssetClick,
         onSearchClick = onSearchClick,
-        onAddDebugAssetsClick = viewModel::addDebugAssets,
+        onDebugAddExampleAssets = viewModel::debugAddExampleAssets,
+        onDebugDeleteAllAssetsClick = viewModel::debugDeleteAllAssets,
         modifier = modifier,
     )
 }
@@ -59,7 +58,8 @@ internal fun Assets(
     onCreateAssetClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onAssetClick: (String) -> Unit = {},
-    onAddDebugAssetsClick: () -> Unit = {},
+    onDebugAddExampleAssets: () -> Unit = {},
+    onDebugDeleteAllAssetsClick: () -> Unit = {},
     isDebug: Boolean = false,
 ) =
     Scaffold(
@@ -73,12 +73,24 @@ internal fun Assets(
         },
     ) { paddingValues ->
         Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) { uiState ->
-            when (uiState) {
-                AssetsScreenUiState.Loading -> AssetListLoadingState()
-                is AssetsScreenUiState.Success -> {
-                    Column {
-                        DebugAssetButtons(
-                            onAddDebugAssets = onAddDebugAssetsClick,
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                when (uiState) {
+                    AssetsScreenUiState.Loading -> AssetListLoadingState()
+                    is AssetsScreenUiState.Success -> {
+                        DebugAssetButton(
+                            onButtonClick = onDebugAddExampleAssets,
+                            title =
+                                stringResource(
+                                    id = R.string.feature_assets_overview_debug_add_assets
+                                ),
+                            isVisible = isDebug,
+                        )
+                        DebugAssetButton(
+                            onButtonClick = onDebugDeleteAllAssetsClick,
+                            title =
+                                stringResource(
+                                    id = R.string.feature_assets_overview_debug_delete_all_assets
+                                ),
                             isVisible = isDebug,
                         )
                         AssetOverviewList(
@@ -86,11 +98,11 @@ internal fun Assets(
                             onAssetClick = onAssetClick,
                         )
                     }
-                }
-                AssetsScreenUiState.Empty -> {
-                    Column {
-                        DebugAssetButtons(
-                            onAddDebugAssets = onAddDebugAssetsClick,
+                    AssetsScreenUiState.Empty -> {
+                        DebugAssetButton(
+                            onButtonClick = onDebugAddExampleAssets,
+                            title =
+                                stringResource(id = R.string.feature_assets_top_app_bar_add_asset),
                             isVisible = isDebug,
                         )
                         EmptyAssetOverviewList()
@@ -101,7 +113,7 @@ internal fun Assets(
     }
 
 @Composable
-fun DebugAssetButtons(onAddDebugAssets: () -> Unit, isVisible: Boolean) {
+fun DebugAssetButton(title: String, onButtonClick: () -> Unit, isVisible: Boolean) {
     if (isVisible) {
         Column(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -111,20 +123,12 @@ fun DebugAssetButtons(onAddDebugAssets: () -> Unit, isVisible: Boolean) {
                 modifier =
                     Modifier.fillMaxWidth()
                         .clip(shape = RoundedCornerShape(8.dp))
-                        .clickable(enabled = true, onClick = onAddDebugAssets),
+                        .clickable(enabled = true, onClick = onButtonClick),
                 colors =
                     ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
-                leadingContent = {
-                    Icon(
-                        imageVector = Cozy.icon.Code,
-                        contentDescription =
-                            stringResource(id = R.string.feature_assets_overview_empty_list_title) +
-                                " ${stringResource(id = R.string.feature_assets_overview_empty_list_subtitle)}",
-                    )
-                },
-                headlineContent = { Text(text = "Add Debug Assets") },
+                leadingContent = { Icon(imageVector = Cozy.icon.Code, contentDescription = title) },
+                headlineContent = { Text(text = title) },
             )
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

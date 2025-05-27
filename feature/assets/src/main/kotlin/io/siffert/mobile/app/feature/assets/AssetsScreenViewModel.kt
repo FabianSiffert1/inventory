@@ -48,7 +48,15 @@ class AssetsScreenViewModel(
 
     val isDebug: Boolean = appEnvironment.isDebug
 
-    fun addDebugAssets() {
+    fun debugAddExampleAssets() {
         viewModelScope.launch { assetRepository.upsertAssets(exampleAssetList) }
+    }
+
+    fun debugDeleteAllAssets() {
+        viewModelScope.launch {
+            assetRepository.getAssetsList()?.map(Asset::id)?.let {
+                assetRepository.deleteAssets(it)
+            }
+        }
     }
 }

@@ -29,7 +29,7 @@ interface AssetDao {
 
     @Transaction
     @Query("SELECT * FROM assets")
-    fun getAssetsWithPriceHistoryAndSales(): List<AssetEntityWithPricesAndSales>
+    suspend fun getAssetsWithPriceHistoryAndSales(): List<AssetEntityWithPricesAndSales>
 
     @Query("SELECT * FROM assets WHERE uid IN (:ids)")
     fun getAssetsWithPriceHistoryAndSalesByIds(
