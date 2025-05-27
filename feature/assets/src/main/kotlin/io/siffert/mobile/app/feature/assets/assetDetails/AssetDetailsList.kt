@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
@@ -35,21 +36,21 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
         modifier = modifier.verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
+        AssetDetailsListItem(
+            title = stringResource(id = R.string.feature_assets_details_asset_name),
+            supportingContent = { Text(text = asset.name) },
+        )
         val lastPrice = asset.priceHistory.lastOrNull()?.value
         val boughtFor = asset.priceHistory.firstOrNull()?.value
         lastPrice?.let {
             AssetDetailsListItem(
                 title = stringResource(id = R.string.feature_assets_details_current_value),
                 supportingContent = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Text(text = "$lastPrice ${asset.currency.name}")
-                        asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let {
-                            Text(text = it)
-                        }
-                    }
+                    AssetDetailsPriceAndDateRow(
+                        price = lastPrice,
+                        assetCurrency = asset.currency.name,
+                        date = asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString(),
+                    )
                 },
             )
         }
@@ -89,21 +90,37 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                     )
                 },
                 supportingContent = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Text(text = "${asset.saleInfo?.value} ${asset.currency.name}")
-                        asset.priceHistory.lastOrNull()?.timestamp?.toFullDateString()?.let { it1 ->
-                            Text(text = it1)
-                        }
-                    }
+                    AssetDetailsPriceAndDateRow(
+                        price = asset.saleInfo?.value,
+                        assetCurrency = asset.currency.name,
+                        date = asset.saleInfo?.timestamp?.toFullDateString(),
+                    )
                     // todo: implement realized Gain info
                 },
             )
         }
 
-        // todo: fees
+        asset.fees?.let {
+            ListItem(
+                modifier =
+                    Modifier.clip(shape = RoundedCornerShape(8.dp)).fillMaxWidth().then(modifier),
+                headlineContent = {
+                    Text(
+                        text = stringResource(id = R.string.feature_assets_details_fees),
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                },
+                supportingContent = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(text = "${asset.fees} ${asset.currency.name}")
+                    }
+                },
+            )
+        }
 
         asset.assetGroupId?.let {
             AssetDetailsListItem(
@@ -145,6 +162,16 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
 }
 
 @Composable
+private fun AssetDetailsPriceAndDateRow(price: Double?, assetCurrency: String, date: String?) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(text = "$price $assetCurrency")
+        if (date != null) {
+            Text(text = date)
+        }
+    }
+}
+
+@Composable
 private fun AssetDetailsListItem(
     title: String,
     supportingContent: @Composable () -> Unit,
@@ -155,7 +182,9 @@ private fun AssetDetailsListItem(
         headlineContent = {
             Text(
                 text = title,
-                // todo: replace with Cozy color that supports light and dark
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                // todo: create cozy color scheme
                 fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 color = MaterialTheme.colorScheme.onSurface,
             )

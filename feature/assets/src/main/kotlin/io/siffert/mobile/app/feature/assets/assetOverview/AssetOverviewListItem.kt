@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
@@ -41,7 +42,9 @@ fun AssetOverviewListItem(
                 .clickable(enabled = true, onClick = { onAssetClick(asset.id) }),
         colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
         leadingContent = { AssetClassIcon(assetClass = asset.assetClass) },
-        headlineContent = { Text(text = asset.name) },
+        headlineContent = {
+            Text(text = asset.name, overflow = TextOverflow.Ellipsis, maxLines = 2)
+        },
         supportingContent = {
             val lastPrice = asset.priceHistory.lastOrNull()?.value
             lastPrice?.let {

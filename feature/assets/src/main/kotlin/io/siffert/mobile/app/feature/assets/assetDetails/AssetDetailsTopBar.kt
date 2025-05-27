@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
@@ -45,12 +46,11 @@ internal fun AssetDetailsTopBar(
         title = {
             if (assetName != null) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(text = assetName)
+                    Text(text = assetName, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     if (assetSaleInfo != null)
                         Icon(
                             imageVector = Cozy.icon.Gavel,
-                            contentDescription =
-                                stringResource(id = R.string.feature_assets_sold),
+                            contentDescription = stringResource(id = R.string.feature_assets_sold),
                         )
                 }
             } else {
@@ -96,18 +96,17 @@ internal fun AssetDetailsTopBar(
     )
 }
 
-
 @Composable
 @PreviewLightDark
 private fun Preview() = InventoryTheme {
     Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-    AssetDetailsTopBar(
-        onEditClick = {},
-        onDeleteAssetClick = {},
-        onBackClick = {},
-        assetName = "Test Asset",
-        assetSaleInfo = null,
-        assetDeletionState = null,
-    )
+        AssetDetailsTopBar(
+            onEditClick = {},
+            onDeleteAssetClick = {},
+            onBackClick = {},
+            assetName = "Test Asset",
+            assetSaleInfo = null,
+            assetDeletionState = null,
+        )
     }
 }
