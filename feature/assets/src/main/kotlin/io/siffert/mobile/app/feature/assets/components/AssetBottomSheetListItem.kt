@@ -56,6 +56,7 @@ internal fun <T : Enum<T>> AssetBottomSheetListItem(
     if (showBottomSheet) {
         AssetBottomSheet(
             values = enumEntries,
+            bottomSheetTitle = label,
             sheetState = bottomSheetState,
             onItemSelected = onItemClick,
             onDismiss = toggleBottomSheet,

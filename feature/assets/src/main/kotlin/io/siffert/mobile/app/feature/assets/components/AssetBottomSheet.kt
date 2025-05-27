@@ -13,13 +13,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -27,6 +30,7 @@ internal fun <T : Enum<T>> AssetBottomSheet(
     values: Array<T>,
     onItemSelected: (T) -> Unit,
     onDismiss: () -> Unit,
+    bottomSheetTitle: String,
     sheetState: SheetState,
 ) {
     val scope = rememberCoroutineScope()
@@ -35,6 +39,10 @@ internal fun <T : Enum<T>> AssetBottomSheet(
         containerColor = MaterialTheme.colorScheme.surfaceVariant,
         onDismissRequest = onDismiss,
     ) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Text(text = bottomSheetTitle, fontWeight = FontWeight.SemiBold)
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         values.forEach { item ->
             DropdownMenuItem(
                 modifier =
@@ -81,4 +89,16 @@ internal fun <T : Enum<T>> AssetBottomSheet(
             }
         }
     }
+}
+
+@Composable
+@PreviewLightDark
+private fun Preview() = InventoryTheme {
+    AssetBottomSheet(
+        values = AssetClassWithStringRes.entries.toTypedArray(),
+        onItemSelected = {},
+        onDismiss = {},
+        bottomSheetTitle = "Asset Class",
+        sheetState = rememberModalBottomSheetState(),
+    )
 }
