@@ -98,11 +98,13 @@ internal fun AssetEditorInputFields(
         input = uiState.assetEditorInputs.url.text,
         onInputChange = onUrlChange,
         inputLabel = stringResource(id = R.string.feature_assets_editor_url),
+        isNoteBlock = true,
     )
     AssetTextField(
         input = uiState.assetEditorInputs.notes.text,
         onInputChange = onNotesChange,
         inputLabel = stringResource(id = R.string.feature_assets_editor_notes),
+        isNoteBlock = true,
     )
 }
 
