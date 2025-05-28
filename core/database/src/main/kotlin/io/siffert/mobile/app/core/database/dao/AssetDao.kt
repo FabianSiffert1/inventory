@@ -27,7 +27,22 @@ interface AssetDao {
     @Query("SELECT * FROM assets")
     suspend fun getAssetsWithPriceHistoryAndSales(): List<AssetEntityWithPricesAndSales>
 
+    @Transaction
+    suspend fun updateAssetsWithHistoryAndSales(
+        assets: List<AssetEntity>,
+        priceHistories: List<PriceHistoryEntity>,
+        sales: List<SalesEntity>,
+    ) {
+        updateAssets(assets)
+        updatePriceHistory(priceHistories)
+        updateSales(sales)
+    }
+
     @Update suspend fun updateAssets(asset: List<AssetEntity>): Int
+
+    @Update suspend fun updatePriceHistory(priceHistory: List<PriceHistoryEntity>): Int
+
+    @Update suspend fun updateSales(sales: List<SalesEntity>): Int
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAssets(assetEntities: List<AssetEntity>): List<Long>
@@ -35,7 +50,7 @@ interface AssetDao {
     @Query("DELETE FROM assets WHERE uid in (:ids)") suspend fun deleteAssets(ids: List<String>)
 
     @Transaction
-    suspend fun upsertAllAssetsWithHistoryAndSales(
+    suspend fun insertAssetsWithHistoryAndSales(
         assets: List<AssetEntity>,
         priceHistories: List<PriceHistoryEntity>,
         sales: List<SalesEntity>,

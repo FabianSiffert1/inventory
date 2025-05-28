@@ -52,6 +52,7 @@ internal fun AssetEditorInputFields(
         input = uiState.assetEditorInputs.name.text,
         onInputChange = onNameChange,
         inputLabel = stringResource(id = R.string.feature_assets_editor_name),
+        isNoteBlock = true,
     )
     AssetTextField(
         input = uiState.assetEditorInputs.currentPrice.text,

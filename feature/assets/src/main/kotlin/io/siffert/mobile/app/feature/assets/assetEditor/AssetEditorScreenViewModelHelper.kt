@@ -6,8 +6,9 @@ import io.siffert.mobile.app.core.domain.AssetCreationData
 import io.siffert.mobile.app.core.domain.PriceHistoryEntryCreationData
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.model.data.Asset
-import kotlin.time.Duration.Companion.days
+import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import kotlinx.datetime.Clock
+import kotlin.time.Duration.Companion.days
 
 internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? {
 
@@ -41,6 +42,17 @@ fun AssetEditorInputs.toUpdatedAsset(existing: Asset): Asset =
         userNotes = notes.text.takeIf { it.isNotBlank() },
         currency = currency,
         assetClass = assetClassWithStringRes.assetClass,
+        priceHistory =
+            listOf(
+                PriceHistoryEntry(
+                    assetId = existing.id,
+                    value = currentPrice.text.toDouble(),
+                    timestamp = Clock.System.now(),
+                    id = existing.priceHistory.last().id,
+                )
+            ),
+        // todo: the price is simply overwritten as of now. its a poc
+        // todo: add another screen for price edits?
         // todo: implement for sales and pricehistory changes
     )
 

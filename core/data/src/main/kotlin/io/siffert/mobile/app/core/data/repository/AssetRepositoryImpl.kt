@@ -29,7 +29,7 @@ class AssetRepositoryImpl(private val assetDao: AssetDao) : AssetRepository {
             val priceHistories = assets.flatMap { it.toPriceHistoryEntities() }
             val salesEntities = assets.mapNotNull { it.toSalesEntity() }
 
-            assetDao.upsertAllAssetsWithHistoryAndSales(
+            assetDao.insertAssetsWithHistoryAndSales(
                 assets = assetEntities,
                 priceHistories = priceHistories,
                 sales = salesEntities,
@@ -46,7 +46,14 @@ class AssetRepositoryImpl(private val assetDao: AssetDao) : AssetRepository {
         return try {
             Log.d("AssetRepository", "Updating ${assets.size} assets")
             val assetEntities = assets.map { it.asEntity() }
-            val updatedCount = assetDao.updateAssets(assetEntities)
+            val priceHistories = assets.flatMap { it.toPriceHistoryEntities() }
+            val salesEntities = assets.mapNotNull { it.toSalesEntity() }
+            val updatedCount =
+                assetDao.updateAssetsWithHistoryAndSales(
+                    assets = assetEntities,
+                    priceHistories = priceHistories,
+                    sales = salesEntities,
+                )
             Log.d("AssetRepository", "Updated $updatedCount of ${assetEntities.size} assets")
             Result.success(Unit)
         } catch (e: Exception) {
