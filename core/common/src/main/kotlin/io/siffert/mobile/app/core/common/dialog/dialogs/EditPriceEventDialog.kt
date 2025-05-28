@@ -22,18 +22,18 @@ import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 
 @Composable
-fun EditPriceDialog(
+fun EditPriceEventDialog(
     title: String,
-    message: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    message: String? = null,
 ) =
     Column(
         modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(28.dp))
-            .padding(24.dp)
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
+            .padding(16.dp)
     ) {
         Text(
             text = title,
@@ -43,7 +43,13 @@ fun EditPriceDialog(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-
+        message?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(
@@ -53,7 +59,9 @@ fun EditPriceDialog(
                         color = MaterialTheme.colorScheme.onSurface,
                         shape = RoundedCornerShape(8.dp),
                     ),
-                onClick = onConfirm, shape = RoundedCornerShape(16.dp)) {
+                onClick = onConfirm,
+                shape = RoundedCornerShape(16.dp),
+            ) {
                 Text(
                     text = stringResource(id = R.string.dialogs_confirm),
                     style = MaterialTheme.typography.titleMedium,
@@ -70,9 +78,11 @@ private fun Preview() = InventoryTheme {
         modifier = Modifier.background(color = MaterialTheme.colorScheme.onSurface).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        EditPriceDialog(
-            title = "Edit Asset Preview",
-            message = "This dialog lets users enter/edit a price/date combination",
+        EditPriceEventDialog(title = "Edit Price Event Preview", onDismiss = {}, onConfirm = {})
+        EditPriceEventDialog(
+            title = "Edit Price Event Preview",
+            message =
+                "Optional message: This dialog lets users enter/edit a price/date combination",
             onDismiss = {},
             onConfirm = {},
         )

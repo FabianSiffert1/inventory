@@ -26,7 +26,7 @@ fun InformationDialog(title: String, dismiss: () -> Unit, modifier: Modifier = M
     Column(
         modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(28.dp))
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)
     ) {
         Text(
@@ -65,7 +65,7 @@ fun InformationDialog(
     Column(
         modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(28.dp))
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)
     ) {
         Text(

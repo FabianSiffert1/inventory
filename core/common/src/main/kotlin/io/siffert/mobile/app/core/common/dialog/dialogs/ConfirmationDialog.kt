@@ -37,8 +37,8 @@ fun ConfirmationDialog(
     Column(
         modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(28.dp))
-            .padding(24.dp)
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
+            .padding(16.dp)
     ) {
         Text(
             text = title,
