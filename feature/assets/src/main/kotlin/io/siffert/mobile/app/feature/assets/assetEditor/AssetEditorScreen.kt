@@ -3,7 +3,9 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -100,7 +102,7 @@ private fun AssetEditorScreenContent(
 ) {
 
     Scaffold(
-        modifier = Modifier,
+        modifier = Modifier.safeDrawingPadding().imePadding(),
         containerColor = Color.Transparent,
         topBar = {
             AssetEditorTopBar(
