@@ -6,6 +6,7 @@ import androidx.compose.ui.res.stringResource
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.core.common.dialog.dialogs.ConfirmationDialog
 import io.siffert.mobile.app.core.common.dialog.dialogs.InformationDialog
+import io.siffert.mobile.app.model.data.Asset
 
 sealed interface AppDialog {
     val dismissibleByUser: Boolean
@@ -21,6 +22,13 @@ sealed interface AppDialog {
                 message = "Long, informative message",
                 dismiss = onDismiss,
             )
+        }
+    }
+
+    data class EditPriceDialog(val asset: Asset) : AppDialog {
+        @Composable
+        override fun Dialog(onDismiss: () -> Unit) {
+
         }
     }
 

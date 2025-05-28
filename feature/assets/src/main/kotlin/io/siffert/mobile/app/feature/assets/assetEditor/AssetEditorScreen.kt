@@ -19,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.siffert.mobile.app.core.common.dialog.AppDialog
+import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
 import io.siffert.mobile.app.core.common.flow.LoadingState
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -34,10 +37,9 @@ internal fun AssetEditorScreen(
     navigateBack: () -> Unit,
 ) {
     val viewModel: AssetEditorScreenViewModel = koinViewModel { parametersOf(assetId) }
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val assetLoadingState = uiState.assetToEditState
+    val dialogManager: DialogManager = koinInject()
 
     var isCurrencyBottomSheetVisible by remember { mutableStateOf(false) }
     var isAssetClassBottomSheetVisible by remember { mutableStateOf(false) }
@@ -52,6 +54,9 @@ internal fun AssetEditorScreen(
                 AssetEditorScreenUiCommand.ShowCurrencyBottomSheet -> {
                     isCurrencyBottomSheetVisible = !isCurrencyBottomSheetVisible
                 }
+
+                AssetEditorScreenUiCommand.ShowPriceEntryDialog ->
+                    dialogManager.enqueue(AppDialog.InformationDialog)
             }
         }
     }
@@ -59,7 +64,7 @@ internal fun AssetEditorScreen(
     AssetEditorScreenContent(
         uiState = uiState,
         assetEditorMode = assetEditorMode,
-        assetLoadingState = assetLoadingState,
+        assetLoadingState = uiState.assetToEditState,
         onBackClick = navigateBack,
         onNameChange = viewModel::onNameChange,
         onFeesChange = viewModel::onFeesChange,
@@ -69,9 +74,9 @@ internal fun AssetEditorScreen(
         onPriceChange = viewModel::onPriceChange,
         onCurrencyChange = viewModel::onCurrencyChange,
         isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
-        onShowCurrencyBottomSheet = viewModel::showCurrencyBottomSheet,
+        onToggleCurrencyBottomSheet = viewModel::showCurrencyBottomSheet,
         isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
-        onShowAssetClassBottomSheet = viewModel::showAssetClassBottomSheet,
+        onToggleAssetClassBottomSheet = viewModel::showAssetClassBottomSheet,
         onCreateOrUpdateAssetClick = {
             viewModel.createOrUpdateAsset(assetEditorMode = assetEditorMode)
         },
@@ -95,8 +100,8 @@ private fun AssetEditorScreenContent(
     isAssetClassBottomSheetVisible: Boolean,
     onCurrencyChange: (Currency) -> Unit,
     onAssetClassChange: (AssetClassWithStringRes) -> Unit,
-    onShowCurrencyBottomSheet: () -> Unit,
-    onShowAssetClassBottomSheet: () -> Unit,
+    onToggleCurrencyBottomSheet: () -> Unit,
+    onToggleAssetClassBottomSheet: () -> Unit,
     assetLoadingState: LoadingState<Asset>?,
     isCreateAssetButtonEnabled: Boolean,
 ) {
@@ -127,15 +132,15 @@ private fun AssetEditorScreenContent(
                         uiState = uiState,
                         onNameChange = onNameChange,
                         onPriceChange = onPriceChange,
-                        isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
                         onCurrencyChange = onCurrencyChange,
-                        isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
-                        onAssetClassChange = onAssetClassChange,
                         onFeesChange = onFeesChange,
+                        onAssetClassChange = onAssetClassChange,
                         onUrlChange = onUrlChange,
                         onNotesChange = onNotesChange,
-                        toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
-                        toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
+                        isCurrencyBottomSheetVisible = isCurrencyBottomSheetVisible,
+                        isAssetClassBottomSheetVisible = isAssetClassBottomSheetVisible,
+                        toggleCurrencyBottomSheet = onToggleCurrencyBottomSheet,
+                        toggleAssetClassBottomSheet = onToggleAssetClassBottomSheet,
                     )
                 AssetEditorMode.EDIT ->
                     when (assetLoadingState) {
@@ -154,8 +159,8 @@ private fun AssetEditorScreenContent(
                                 onFeesChange = onFeesChange,
                                 onUrlChange = onUrlChange,
                                 onNotesChange = onNotesChange,
-                                toggleCurrencyBottomSheet = onShowCurrencyBottomSheet,
-                                toggleAssetClassBottomSheet = onShowAssetClassBottomSheet,
+                                toggleCurrencyBottomSheet = onToggleCurrencyBottomSheet,
+                                toggleAssetClassBottomSheet = onToggleAssetClassBottomSheet,
                             )
                     }
             }

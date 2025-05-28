@@ -1,6 +1,7 @@
 package io.siffert.mobile.app.core.common.dialog.dialogs
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +27,7 @@ fun InformationDialog(title: String, dismiss: () -> Unit, modifier: Modifier = M
         modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(28.dp))
-            .padding(24.dp)
+            .padding(16.dp)
     ) {
         Text(
             text = title,
@@ -37,9 +38,14 @@ fun InformationDialog(title: String, dismiss: () -> Unit, modifier: Modifier = M
         Spacer(modifier = Modifier.height(12.dp))
 
         TextButton(
-            modifier = Modifier.align(Alignment.End),
+            modifier =
+                Modifier.align(Alignment.End)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        shape = RoundedCornerShape(8.dp),
+                    ),
             onClick = dismiss,
-            shape = RoundedCornerShape(16.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.dialogs_confirm),
@@ -60,7 +66,7 @@ fun InformationDialog(
         modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(28.dp))
-            .padding(24.dp)
+            .padding(16.dp)
     ) {
         Text(
             text = title,
@@ -77,9 +83,14 @@ fun InformationDialog(
         )
 
         TextButton(
-            modifier = Modifier.align(Alignment.End),
+            modifier =
+                Modifier.align(Alignment.End)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        shape = RoundedCornerShape(8.dp),
+                    ),
             onClick = dismiss,
-            shape = RoundedCornerShape(16.dp),
         ) {
             Text(
                 text = stringResource(R.string.dialogs_confirm),
@@ -93,13 +104,11 @@ fun InformationDialog(
 @PreviewLightDark
 private fun Preview() = InventoryTheme {
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.background).padding(16.dp),
+        modifier =
+            Modifier.background(color = MaterialTheme.colorScheme.surfaceVariant).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        InformationDialog(
-            title = "This is an important message the user has to acknowledge!",
-            dismiss = {},
-        )
+        InformationDialog(title = "This Dialog doesnt have a message", dismiss = {})
         InformationDialog(
             title = "Title",
             message = "This is an important message the user has to acknowledge!",

@@ -26,6 +26,8 @@ enum class AssetEditorMode {
 sealed interface AssetEditorScreenUiCommand {
     data object NavigateBack : AssetEditorScreenUiCommand
 
+    data object ShowPriceEntryDialog : AssetEditorScreenUiCommand
+
     data object ShowCurrencyBottomSheet : AssetEditorScreenUiCommand
 
     data object ShowAssetClassBottomSheet : AssetEditorScreenUiCommand
@@ -86,6 +88,12 @@ class AssetEditorScreenViewModel(
                     }
                 }
             }
+        }
+    }
+
+    fun showPriceEntryDialog() {
+        viewModelScope.launch {
+            _uiCommands.send((AssetEditorScreenUiCommand.ShowPriceEntryDialog))
         }
     }
 

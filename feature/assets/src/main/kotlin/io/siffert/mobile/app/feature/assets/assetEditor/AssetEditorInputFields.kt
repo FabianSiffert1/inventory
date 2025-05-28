@@ -35,15 +35,15 @@ internal fun AssetEditorInputFields(
     uiState: AssetEditorScreenUiState,
     onNameChange: (String) -> Unit,
     onPriceChange: (String) -> Unit,
+    onAssetClassChange: (AssetClassWithStringRes) -> Unit,
+    onFeesChange: (String) -> Unit,
+    onUrlChange: (String) -> Unit,
+    onNotesChange: (String) -> Unit,
     isCurrencyBottomSheetVisible: Boolean,
     toggleCurrencyBottomSheet: () -> Unit,
     toggleAssetClassBottomSheet: () -> Unit,
     onCurrencyChange: (Currency) -> Unit,
     isAssetClassBottomSheetVisible: Boolean,
-    onAssetClassChange: (AssetClassWithStringRes) -> Unit,
-    onFeesChange: (String) -> Unit,
-    onUrlChange: (String) -> Unit,
-    onNotesChange: (String) -> Unit,
 ) {
     if (uiState.assetProcessingState == AssetProcessingState.Failure) {
         AssetEditingFailedNotificationItem()
