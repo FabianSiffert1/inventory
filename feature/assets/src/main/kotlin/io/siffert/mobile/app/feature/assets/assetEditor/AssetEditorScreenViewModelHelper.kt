@@ -7,8 +7,8 @@ import io.siffert.mobile.app.core.domain.PriceHistoryEntryCreationData
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
-import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
+import kotlinx.datetime.Clock
 
 internal fun AssetEditorScreenUiState.toAssetCreationData(): AssetCreationData? {
 
@@ -69,6 +69,5 @@ internal fun Asset.toAssetEditorState(): AssetEditorScreenUiState =
                 assetClassWithStringRes = AssetClassWithStringRes.from(assetClass),
                 currency = currency,
             ),
-        assetProcessingState = null,
         assetToEditState = LoadingState.Present(this),
     )

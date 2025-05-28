@@ -7,9 +7,9 @@ import io.siffert.mobile.app.model.data.AssetClass
 import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import io.siffert.mobile.app.model.data.SaleEntry
+import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.uuid.ExperimentalUuidApi
-import kotlinx.datetime.Clock
 
 private val assetid1 = "assetid1"
 private val assetid2 = "assetid2"
@@ -93,7 +93,7 @@ val exampleAssetList =
                     PriceHistoryEntry(
                         id = priceHistoryEntryId4,
                         assetId = assetid3,
-                        value = 2000999991931823981293812839128398129881239812398.12,
+                        value = 200099931823988.12,
                         timestamp = Clock.System.now(),
                     ),
                 ),
