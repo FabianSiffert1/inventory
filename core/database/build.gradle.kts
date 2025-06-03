@@ -1,12 +1,20 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.inventory.android.room)
     alias(libs.plugins.inventory.android.library)
     alias(libs.plugins.inventory.android.defaultConventionPlugin)
 }
 
-android { namespace = "io.siffert.mobile.app.core.database" }
+android {
+    namespace = "io.siffert.mobile.app.core.database"
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.generateKotlin", "true")
+    }
+}
 
 dependencies {
     implementation(project(":core:common"))
