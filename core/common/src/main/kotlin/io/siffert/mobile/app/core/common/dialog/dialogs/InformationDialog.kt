@@ -1,7 +1,6 @@
 package io.siffert.mobile.app.core.common.dialog.dialogs
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,12 +38,7 @@ fun InformationDialog(title: String, dismiss: () -> Unit, modifier: Modifier = M
 
         TextButton(
             modifier =
-                Modifier.align(Alignment.End)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = RoundedCornerShape(8.dp),
-                    ),
+                Modifier.align(Alignment.End),
             onClick = dismiss,
         ) {
             Text(
@@ -82,16 +76,7 @@ fun InformationDialog(
             color = MaterialTheme.colorScheme.onSurface,
         )
 
-        TextButton(
-            modifier =
-                Modifier.align(Alignment.End)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = RoundedCornerShape(8.dp),
-                    ),
-            onClick = dismiss,
-        ) {
+        TextButton(modifier = Modifier.align(Alignment.End), onClick = dismiss) {
             Text(
                 text = stringResource(R.string.dialogs_confirm),
                 style = MaterialTheme.typography.titleMedium,

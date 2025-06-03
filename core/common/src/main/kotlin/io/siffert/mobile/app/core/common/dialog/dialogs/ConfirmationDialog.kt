@@ -56,12 +56,6 @@ fun ConfirmationDialog(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(
-                modifier =
-                    Modifier.border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = RoundedCornerShape(8.dp),
-                    ),
                 onClick = onDismiss,
                 shape = RoundedCornerShape(16.dp),
             ) {
@@ -71,14 +65,7 @@ fun ConfirmationDialog(
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
             TextButton(
-                modifier =
-                    Modifier.border(
-                        width = 1.dp,
-                        color = confirmationButtonTextColor,
-                        shape = RoundedCornerShape(8.dp),
-                    ),
                 onClick = onConfirm,
             ) {
                 Text(

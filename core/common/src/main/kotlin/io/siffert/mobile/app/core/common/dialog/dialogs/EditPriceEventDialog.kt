@@ -53,12 +53,6 @@ fun EditPriceEventDialog(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(
-                modifier =
-                    Modifier.border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = RoundedCornerShape(8.dp),
-                    ),
                 onClick = onConfirm,
                 shape = RoundedCornerShape(16.dp),
             ) {
