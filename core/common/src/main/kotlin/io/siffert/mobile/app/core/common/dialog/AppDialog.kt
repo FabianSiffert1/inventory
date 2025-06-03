@@ -5,8 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.core.common.dialog.dialogs.ConfirmationDialog
+import io.siffert.mobile.app.core.common.dialog.dialogs.EditPriceEventDialog
 import io.siffert.mobile.app.core.common.dialog.dialogs.InformationDialog
-import io.siffert.mobile.app.model.data.Asset
+import io.siffert.mobile.app.model.data.PriceHistoryEntry
 
 sealed interface AppDialog {
     val dismissibleByUser: Boolean
@@ -25,10 +26,10 @@ sealed interface AppDialog {
         }
     }
 
-    data class EditPriceDialog(val asset: Asset) : AppDialog {
+    data class EditPriceDialog(val asset: PriceHistoryEntry?) : AppDialog {
         @Composable
         override fun Dialog(onDismiss: () -> Unit) {
-
+            EditPriceEventDialog(onDismiss = onDismiss, title = "EditPrice", onConfirm = {})
         }
     }
 

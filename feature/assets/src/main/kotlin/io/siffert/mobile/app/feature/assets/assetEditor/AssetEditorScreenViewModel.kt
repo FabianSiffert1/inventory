@@ -26,7 +26,7 @@ enum class AssetEditorMode {
 sealed interface AssetEditorScreenUiCommand {
     data object NavigateBack : AssetEditorScreenUiCommand
 
-    data object ShowPriceEntryDialog : AssetEditorScreenUiCommand
+    data object ShowCurrentPriceEditEntryDialog : AssetEditorScreenUiCommand
 
     data object ShowCurrencyBottomSheet : AssetEditorScreenUiCommand
 
@@ -91,9 +91,9 @@ class AssetEditorScreenViewModel(
         }
     }
 
-    fun showPriceEntryDialog() {
+    fun showEditPriceEntryDialog() {
         viewModelScope.launch {
-            _uiCommands.send((AssetEditorScreenUiCommand.ShowPriceEntryDialog))
+            _uiCommands.send((AssetEditorScreenUiCommand.ShowCurrentPriceEditEntryDialog))
         }
     }
 
@@ -143,24 +143,28 @@ class AssetEditorScreenViewModel(
 
     private fun updateAsset() {
         viewModelScope.launch {
-            Log.d("AssetEditorScreenViewModel", "updateAsset called")
+            Log.d("AssetEditorScreenViewModel", "createAsset called")
 
-            val uiState = _uiState.value
-            val assetInputs = uiState.assetEditorInputs
+            val assetData = _uiState.value.toAssetCreationData()
+            if (assetData == null) {
+                Log.w("AssetEditorScreenViewModel", "Asset creation data is null")
+                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Failure) }
+                return@launch
+            }
 
-            val existingAsset = (uiState.assetToEditState as? LoadingState.Present<Asset>)?.value
+            _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Loading) }
 
-            if (existingAsset != null) {
-                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Loading) }
-                val updatedAsset = assetInputs.toUpdatedAsset(existingAsset)
-                val result = updateAssetUseCase.updateAsset(updatedAsset)
+            val result = runCatching { createAssetUseCase.createAsset(assetData) }
 
-                if (result.isSuccess) {
+            result
+                .onSuccess {
+                    updateUiState { AssetEditorScreenUiState() }
                     _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack)
-                } else {
+                }
+                .onFailure { error ->
+                    Log.e("AssetEditorScreenViewModel", "Failed to create asset", error)
                     _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Failure) }
                 }
-            }
         }
     }
 

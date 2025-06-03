@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.core.common.dialog.AppDialog
 import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
 import io.siffert.mobile.app.core.common.flow.LoadingState
+import io.siffert.mobile.app.core.common.flow.LoadingState.Present
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassWithStringRes
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.model.data.Asset
@@ -55,8 +58,21 @@ internal fun AssetEditorScreen(
                     isCurrencyBottomSheetVisible = !isCurrencyBottomSheetVisible
                 }
 
-                AssetEditorScreenUiCommand.ShowPriceEntryDialog ->
-                    dialogManager.enqueue(AppDialog.InformationDialog)
+                AssetEditorScreenUiCommand.ShowCurrentPriceEditEntryDialog ->
+                    dialogManager.enqueue(
+                        AppDialog.EditPriceDialog(
+                            when (uiState.assetToEditState) {
+                                is Present<Asset> -> {
+                                    (uiState.assetToEditState as Present<Asset>)
+                                        .value
+                                        .priceHistory
+                                        .last()
+                                }
+                                else -> null
+                            // todo: handle LoadingState.NotPresent -> Error!
+                            }
+                        )
+                    )
             }
         }
     }
@@ -82,6 +98,7 @@ internal fun AssetEditorScreen(
         },
         isCreateAssetButtonEnabled =
             uiState.isValidAsset && uiState.assetProcessingState != AssetProcessingState.Loading,
+        onClickPriceEditButton = viewModel::showEditPriceEntryDialog,
     )
 }
 
@@ -104,6 +121,7 @@ private fun AssetEditorScreenContent(
     onToggleAssetClassBottomSheet: () -> Unit,
     assetLoadingState: LoadingState<Asset>?,
     isCreateAssetButtonEnabled: Boolean,
+    onClickPriceEditButton: () -> Unit,
 ) {
 
     Scaffold(
@@ -126,6 +144,7 @@ private fun AssetEditorScreenContent(
                     .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            TextButton(onClick = onClickPriceEditButton) { Text("Debug Edit Price Dialog Button") }
             when (assetEditorMode) {
                 AssetEditorMode.CREATE ->
                     AssetEditorInputFields(
@@ -146,7 +165,7 @@ private fun AssetEditorScreenContent(
                     when (assetLoadingState) {
                         LoadingState.Loading -> AssetListLoadingState()
                         LoadingState.NotPresent -> AssetEditorErrorState()
-                        is LoadingState.Present<Asset>,
+                        is Present<Asset>,
                         null ->
                             AssetEditorInputFields(
                                 uiState = uiState,
