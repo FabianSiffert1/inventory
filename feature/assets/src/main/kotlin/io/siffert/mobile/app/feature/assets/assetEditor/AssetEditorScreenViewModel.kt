@@ -143,26 +143,32 @@ class AssetEditorScreenViewModel(
 
     private fun updateAsset() {
         viewModelScope.launch {
-            Log.d("AssetEditorScreenViewModel", "createAsset called")
+            Log.d("AssetEditorScreenViewModel", "updateAsset called")
 
-            val assetData = _uiState.value.toAssetCreationData()
-            if (assetData == null) {
-                Log.w("AssetEditorScreenViewModel", "Asset creation data is null")
-                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Failure) }
-                return@launch
+            val currentState = _uiState.value
+            val assetInputs = currentState.assetEditorInputs
+            val existingAsset =
+                (currentState.assetToEditState as? LoadingState.Present<Asset>)?.value
+
+            existingAsset?.let { asset ->
+                _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Loading) }
+                val updatedAsset = assetInputs.toUpdatedAsset(asset)
+
+                updateAssetUseCase
+                    .updateAsset(updatedAsset)
+                    .onSuccess { _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack) }
+                    .onFailure { failedAsset ->
+                        Log.e("AssetEditorScreenViewModel", "Failed to update asset", failedAsset)
+                        _uiState.update {
+                            it.copy(assetProcessingState = AssetProcessingState.Failure)
+                        }
+                    }
             }
-
-            _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Loading) }
-
-            val result = runCatching { createAssetUseCase.createAsset(assetData) }
-
-            result
-                .onSuccess {
-                    updateUiState { AssetEditorScreenUiState() }
-                    _uiCommands.send(AssetEditorScreenUiCommand.NavigateBack)
-                }
-                .onFailure { error ->
-                    Log.e("AssetEditorScreenViewModel", "Failed to create asset", error)
+                ?: run {
+                    Log.w(
+                        "AssetEditorScreenViewModel",
+                        "Cannot update asset: No existing asset found.",
+                    )
                     _uiState.update { it.copy(assetProcessingState = AssetProcessingState.Failure) }
                 }
         }
