@@ -9,19 +9,19 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-const val TARGET_SDK = 35
-const val MIN_SDK  = 28
+const val TARGET_SDK = 36
+const val MIN_SDK = 28
 val JAVA_VERSION = JavaVersion.VERSION_17
 
-internal fun Project.configureAndroidAndCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun Project.configureAndroidAndCompose(
+    commonExtension: CommonExtension<*, *, *, *, *, *>
+) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
     commonExtension.apply {
         compileSdk = TARGET_SDK
 
-        defaultConfig {
-            minSdk = MIN_SDK
-        }
+        defaultConfig { minSdk = MIN_SDK }
 
         when (defaultConfig) {
             is ApplicationDefaultConfig -> {
@@ -37,23 +37,18 @@ internal fun Project.configureAndroidAndCompose(commonExtension: CommonExtension
             targetCompatibility = JAVA_VERSION
         }
 
-        buildFeatures {
-            compose = true
-        }
-
+        buildFeatures { compose = true }
 
         composeOptions {
             kotlinCompilerExtensionVersion =
                 libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
-
         dependencies {
             val bom = libs.findLibrary("androidx-compose-bom").get()
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
         }
-
     }
 }
 

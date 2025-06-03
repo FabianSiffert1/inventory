@@ -28,7 +28,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryBack
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryNavigationSuiteScaffold
 import io.siffert.mobile.app.inventory.core.designsystem.theme.LocalGradientColors
-import io.siffert.mobile.app.inventory.navigation.InventoryNavHost
+import io.siffert.mobile.app.inventory.navigation.InventoryAppNavigator
 import kotlin.reflect.KClass
 
 @Composable
@@ -87,7 +87,8 @@ internal fun InventoryAppLayout(
                     )
             ) {
                 DialogHost(dialogManager = appState.dialogManager, paddingValues = padding)
-                InventoryNavHost(appState = appState)
+                // InventoryNavHost(appState = appState)
+                InventoryAppNavigator(appState = appState)
             }
         }
     }

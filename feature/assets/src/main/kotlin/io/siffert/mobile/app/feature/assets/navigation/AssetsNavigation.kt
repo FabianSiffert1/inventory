@@ -16,12 +16,24 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object AssetsBaseRoute
 
+// temp
+data object Nav3AssetsBaseRoute
+
 @Serializable data object AssetsRoute
 
 @Serializable
 data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode)
 
 @Serializable data class AssetDetailsRoute(val assetId: String)
+
+// todo implement
+/*
+fun assetsNavEntry(): NavEntry<Any> =
+    NavEntry(Nav3AssetsBaseRoute) {
+        AssetsScreen(onAssetClick = {}, onCreateAssetClick = {}, onSearchClick = {})
+    }
+
+ */
 
 fun NavController.navigateToAssets(navOptions: NavOptions) =
     navigate(route = AssetsRoute, navOptions)
