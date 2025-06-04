@@ -26,6 +26,7 @@ serialization = "1.8.1"
 uiTooling = "1.8.1"
 uiToolingPreviewAndroid = "1.8.1"
 navigation3Core = "1.0.0-alpha02"
+lifecycleViewmodelNav3 = "1.0.0-alpha01"
 
 # temp
 navigationCompose = "2.9.0"
@@ -60,6 +61,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 # Navigation 3
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3Core" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3Core" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
 # temp
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
@@ -91,5 +93,5 @@ inventory-android-library = { id = "inventory.android.library" }
 inventory-android-room = { id = "inventory.android.room" }
 
 [bundles]
-navigation = ["androidx-navigation3-runtime", "androidx-navigation3-ui"]
+navigation = ["androidx-navigation3-runtime", "androidx-navigation3-ui", "androidx-lifecycle-viewmodel-navigation3"]
 

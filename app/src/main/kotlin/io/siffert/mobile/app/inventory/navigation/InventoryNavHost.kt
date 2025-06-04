@@ -6,7 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import io.siffert.mobile.app.feature.assets.AssetsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorMode
@@ -54,11 +57,17 @@ fun InventoryAppNavigator(appState: InventoryAppState, modifier: Modifier = Modi
         modifier = modifier,
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
+        entryDecorators = listOf(
+            rememberSceneSetupNavEntryDecorator(),
+            rememberSavedStateNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
         entryProvider =  entryProvider {
             entry<AssetsRoute> {
                 AssetsScreen(
                     onAssetClick ={
                         assetId ->
+                        println(assetId)
                         backStack.add(AssetDetailsRoute(
                         assetId = assetId
                     ))},
@@ -83,7 +92,7 @@ fun InventoryAppNavigator(appState: InventoryAppState, modifier: Modifier = Modi
                     assetId = key.assetId,
                     assetEditorMode = key.assetEditorMode,
                     navigateBack = {backStack.removeLastOrNull()}
-                )
+                ).also { println(key.assetId) }
             }
             entry<BalanceBaseRoute> {
                 BalanceScreen()
