@@ -1,5 +1,12 @@
 package io.siffert.mobile.app.inventory.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -56,6 +63,14 @@ fun InventoryAppNavigator(appState: InventoryAppState, modifier: Modifier = Modi
     NavDisplay(
         modifier = modifier,
         backStack = backStack,
+        transitionSpec = {
+            slideInHorizontally(animationSpec = tween(300)) + fadeIn() togetherWith
+                    scaleOut(targetScale = .9f, animationSpec = tween(300)) + fadeOut()
+        },
+        popTransitionSpec = {
+            slideInHorizontally(animationSpec = tween(300)) + fadeIn() togetherWith
+                    slideOutHorizontally(animationSpec = tween(300)) + fadeOut()
+        },
         onBack = { backStack.removeLastOrNull() },
         entryDecorators = listOf(
             rememberSceneSetupNavEntryDecorator(),
