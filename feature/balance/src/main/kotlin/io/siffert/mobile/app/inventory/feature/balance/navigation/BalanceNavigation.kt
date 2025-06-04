@@ -13,7 +13,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object BalanceRoute // route to Balance screen
 
-data class Nav3BalanceBaseRoute(val id: String)
 
 @Serializable
 data object BalanceBaseRoute // route to base navigation graph
@@ -39,6 +38,3 @@ fun NavGraphBuilder.balanceSection() {
         }
     }
 }
-
-fun balanceNavEntry(): NavEntry<Any> =
-    NavEntry(Nav3BalanceBaseRoute("assetId1")) { BalanceScreen() }

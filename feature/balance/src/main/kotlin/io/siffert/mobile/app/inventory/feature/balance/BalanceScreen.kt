@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.material3.Text
 
 @Composable
-internal fun BalanceScreen(){
+fun BalanceScreen(){
 BalanceScreen(title = "Balance")
 }
 

@@ -8,32 +8,22 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.feature.assets.AssetsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorMode
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorScreen
 import kotlinx.serialization.Serializable
 
-@Serializable data object AssetsBaseRoute
+@Serializable data object AssetsBaseRoute : NavKey
 
-// temp
-data object Nav3AssetsBaseRoute
-
-@Serializable data object AssetsRoute
+@Serializable data object AssetsRoute :NavKey
 
 @Serializable
-data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode)
+data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode) : NavKey
 
-@Serializable data class AssetDetailsRoute(val assetId: String)
+@Serializable data class AssetDetailsRoute(val assetId: String) : NavKey
 
-// todo implement
-/*
-fun assetsNavEntry(): NavEntry<Any> =
-    NavEntry(Nav3AssetsBaseRoute) {
-        AssetsScreen(onAssetClick = {}, onCreateAssetClick = {}, onSearchClick = {})
-    }
-
- */
 
 fun NavController.navigateToAssets(navOptions: NavOptions) =
     navigate(route = AssetsRoute, navOptions)

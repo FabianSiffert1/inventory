@@ -30,7 +30,7 @@ import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun AssetsScreen(
+fun AssetsScreen(
     onAssetClick: (String) -> Unit,
     onCreateAssetClick: () -> Unit,
     onSearchClick: () -> Unit,
