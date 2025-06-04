@@ -34,7 +34,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun AssetEditorScreen(
+internal fun AssetEditorScreen(
     assetId: String?,
     assetEditorMode: AssetEditorMode,
     navigateBack: () -> Unit,

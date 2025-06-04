@@ -1,21 +1,14 @@
 package io.siffert.mobile.app.feature.assets.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderBuilder
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
 import io.siffert.mobile.app.feature.assets.AssetsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreen
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorMode
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorScreen
 import kotlinx.serialization.Serializable
-
-@Serializable data object AssetsBaseRoute : NavKey
 
 @Serializable data object AssetsRoute :NavKey
 
@@ -24,95 +17,52 @@ data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: As
 
 @Serializable data class AssetDetailsRoute(val assetId: String) : NavKey
 
+fun NavBackStack.navigateToAssets() =
+    add(AssetsRoute)
 
-fun NavController.navigateToAssets(navOptions: NavOptions) =
-    navigate(route = AssetsRoute, navOptions)
-
-fun NavController.navigateToAssetDetails(
+fun NavBackStack.navigateToAssetDetails(
     assetId: String,
-    navOptions: NavOptionsBuilder.() -> Unit = {},
 ) {
-    navigate(route = AssetDetailsRoute(assetId = assetId), navOptions)
+    add(AssetDetailsRoute(assetId = assetId))
 }
 
-fun NavController.navigateToAssetEditor(
+fun NavBackStack.navigateToAssetEditor(
     assetId: String? = null,
     assetEditorMode: AssetEditorMode,
-    navOptions: NavOptionsBuilder.() -> Unit = {},
 ) =
-    navigate(
-        route = AssetEditorRoute(assetId = assetId, assetEditorMode = assetEditorMode),
-        navOptions,
+    add(
+  AssetEditorRoute(assetId = assetId, assetEditorMode = assetEditorMode),
     )
 
-// todo: replace placeholder
-fun NavController.navigateToAssetSearch(navOptions: NavOptionsBuilder.() -> Unit = {}) =
-    navigate(route = AssetsRoute, navOptions)
+fun NavBackStack.navigateToAssetSearch() =
+    add( AssetsRoute)
 
-fun NavGraphBuilder.assetsSection(
+fun EntryProviderBuilder<NavKey>.assetsSection(
     onAssetClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onNavigateToAssetEditorClick: (String?, AssetEditorMode) -> Unit,
     onBackClick: () -> Unit,
 ) {
-    navigation<AssetsBaseRoute>(startDestination = AssetsRoute) {
-        composable<AssetsRoute>(
-            enterTransition = {
-                return@composable slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left
-                )
-            },
-            exitTransition = {
-                return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right
-                )
-            },
-        ) {
+        entry<AssetsRoute>{
             AssetsScreen(
                 onSearchClick = onSearchClick,
                 onAssetClick = onAssetClick,
                 onCreateAssetClick = { onNavigateToAssetEditorClick(null, AssetEditorMode.CREATE) },
             )
         }
-        composable<AssetDetailsRoute>(
-            enterTransition = {
-                return@composable slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left
-                )
-            },
-            exitTransition = {
-                return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right
-                )
-            },
-        ) { asset ->
-            val assetId = asset.toRoute<AssetDetailsRoute>().assetId
+        entry<AssetDetailsRoute>{ backStackEntry ->
             AssetDetailsScreen(
-                assetId = assetId,
+                assetId = backStackEntry.assetId,
                 navigateBack = onBackClick,
-                onEditAssetClick = { onNavigateToAssetEditorClick(assetId, AssetEditorMode.EDIT) },
+                onEditAssetClick = { onNavigateToAssetEditorClick(backStackEntry.assetId, AssetEditorMode.EDIT) },
             )
         }
-        composable<AssetEditorRoute>(
-            enterTransition = {
-                return@composable slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left
-                )
-            },
-            exitTransition = {
-                return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right
-                )
-            },
-        ) { backStackEntry ->
-            val assetId = backStackEntry.toRoute<AssetEditorRoute>().assetId
-            val assetEditorMode = backStackEntry.toRoute<AssetEditorRoute>().assetEditorMode
+        entry<AssetEditorRoute>{ backStackEntry ->
 
             AssetEditorScreen(
-                assetId = assetId,
-                assetEditorMode = assetEditorMode,
+                assetId = backStackEntry.assetId,
+                assetEditorMode = backStackEntry.assetEditorMode,
                 navigateBack = onBackClick,
             )
         }
     }
-}

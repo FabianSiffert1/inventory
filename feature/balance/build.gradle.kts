@@ -3,9 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-android {
-    namespace = "io.siffert.mobile.app.feature.balance"
-}
+android { namespace = "io.siffert.mobile.app.feature.balance" }
+
 dependencies {
     implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)

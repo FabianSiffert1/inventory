@@ -1,41 +1,20 @@
 package io.siffert.mobile.app.inventory.feature.balance.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
-import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.EntryProviderBuilder
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
 import io.siffert.mobile.app.inventory.feature.balance.BalanceScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
 data object BalanceRoute : NavKey
 
+fun NavBackStack.navigateToBalance() =
+    add(BalanceRoute)
 
-@Serializable
-data object BalanceBaseRoute
-
-fun NavController.navigateToBalance(navOptions: NavOptions) =
-    navigate(route = BalanceRoute, navOptions)
-
-fun NavGraphBuilder.balanceSection() {
-    navigation<BalanceBaseRoute>(startDestination = BalanceRoute) {
-        composable<BalanceRoute>(
-            enterTransition = {
-                return@composable slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Right
-                )
-            },
-            exitTransition = {
-                return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Left
-                )
-            },
-        ) {
+fun EntryProviderBuilder<NavKey>.balanceSection() {
+        entry<BalanceRoute>{
             BalanceScreen()
         }
-    }
 }

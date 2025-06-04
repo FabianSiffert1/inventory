@@ -66,7 +66,4 @@ dependencies {
 
     debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(libs.androidx.ui.tooling)
-
-    // temp
-    implementation(libs.navigation.compose)
 }

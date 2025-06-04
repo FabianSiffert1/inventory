@@ -16,7 +16,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun AssetDetailsScreen(
+internal fun AssetDetailsScreen(
     assetId: String? = null,
     navigateBack: () -> Unit,
     onEditAssetClick: (String) -> Unit,
