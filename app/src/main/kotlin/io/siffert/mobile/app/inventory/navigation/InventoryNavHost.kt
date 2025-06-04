@@ -31,6 +31,7 @@ import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetEditor
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetSearch
 import io.siffert.mobile.app.inventory.feature.balance.BalanceScreen
 import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceBaseRoute
+import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceRoute
 import io.siffert.mobile.app.inventory.feature.balance.navigation.balanceSection
 import io.siffert.mobile.app.inventory.ui.InventoryAppState
 
@@ -82,14 +83,13 @@ fun InventoryAppNavigator(appState: InventoryAppState, modifier: Modifier = Modi
                 AssetsScreen(
                     onAssetClick ={
                         assetId ->
-                        println(assetId)
                         backStack.add(AssetDetailsRoute(
                         assetId = assetId
                     ))},
                     onCreateAssetClick = {
                         backStack.add(AssetEditorRoute(assetEditorMode = AssetEditorMode.CREATE))
                     },
-                    onSearchClick = {},
+                    onSearchClick = {backStack.add(BalanceRoute)},
                 )
             }
             entry<AssetDetailsRoute> {
@@ -107,9 +107,9 @@ fun InventoryAppNavigator(appState: InventoryAppState, modifier: Modifier = Modi
                     assetId = key.assetId,
                     assetEditorMode = key.assetEditorMode,
                     navigateBack = {backStack.removeLastOrNull()}
-                ).also { println(key.assetId) }
+                )
             }
-            entry<BalanceBaseRoute> {
+            entry<BalanceRoute> {
                 BalanceScreen()
             }
         },

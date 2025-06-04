@@ -7,15 +7,16 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.inventory.feature.balance.BalanceScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object BalanceRoute // route to Balance screen
+data object BalanceRoute : NavKey
 
 
 @Serializable
-data object BalanceBaseRoute // route to base navigation graph
+data object BalanceBaseRoute
 
 fun NavController.navigateToBalance(navOptions: NavOptions) =
     navigate(route = BalanceRoute, navOptions)
