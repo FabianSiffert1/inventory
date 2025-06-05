@@ -53,14 +53,6 @@ internal fun BalanceSection(modifier: Modifier = Modifier) {
     NavDisplay(
         modifier = modifier,
         backStack = backStack,
-        transitionSpec = {
-            slideInHorizontally(animationSpec = tween(300)) + fadeIn() togetherWith
-                    scaleOut(targetScale = .9f, animationSpec = tween(300)) + fadeOut()
-        },
-        popTransitionSpec = {
-            slideInHorizontally(animationSpec = tween(300)) + fadeIn() togetherWith
-                    slideOutHorizontally(animationSpec = tween(300)) + fadeOut()
-        },
         onBack = { backStack.removeLastOrNull() },
         entryDecorators =
             listOf(

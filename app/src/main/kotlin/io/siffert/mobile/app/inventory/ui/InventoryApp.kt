@@ -88,7 +88,7 @@ internal fun InventoryAppLayout(
                     )
             ) {
                 DialogHost(dialogManager = appState.dialogManager, paddingValues = padding)
-                InventoryAppNavigator(backStack = topLevelBackStack.backStack)
+                InventoryAppNavigator(topLevelBackStack = topLevelBackStack)
             }
         }
     }
