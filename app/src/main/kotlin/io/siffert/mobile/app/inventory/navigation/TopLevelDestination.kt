@@ -7,8 +7,7 @@ import io.siffert.mobile.app.feature.assets.navigation.AssetsRoute
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Chart
 import io.siffert.mobile.app.inventory.core.designsystem.icons.PiggyBank
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
-import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceRoute
-import kotlin.reflect.KClass
+import io.siffert.mobile.app.inventory.feature.balance.navigation.BalanceTopLevelRoute
 import io.siffert.mobile.app.feature.assets.R as assetsResource
 import io.siffert.mobile.app.feature.balance.R as balanceResource
 
@@ -25,7 +24,7 @@ enum class TopLevelDestination(
         unselectedIcon = Cozy.icon.Chart,
         iconTextId = balanceResource.string.feature_balance_title,
         titleTextId = balanceResource.string.feature_balance_title,
-        route = BalanceRoute,
+        route = BalanceTopLevelRoute,
     ),
     ASSETS(
         selectedIcon = Cozy.icon.PiggyBank,

@@ -6,6 +6,7 @@ plugins {
 android { namespace = "io.siffert.mobile.app.feature.balance" }
 
 dependencies {
+    implementation(libs.bundles.navigation)
     implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
