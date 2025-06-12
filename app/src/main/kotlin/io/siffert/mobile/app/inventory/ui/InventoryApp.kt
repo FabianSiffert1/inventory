@@ -37,11 +37,11 @@ fun InventoryApp(
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
 ) {
-    InventoryBackground(modifier = modifier) {
-        InventoryGradientBackground(gradientColors = LocalGradientColors.current) {
-            InventoryAppLayout(appState = appState, windowAdaptiveInfo = windowAdaptiveInfo)
-        }
+  InventoryBackground(modifier = modifier) {
+    InventoryGradientBackground(gradientColors = LocalGradientColors.current) {
+      InventoryAppLayout(appState = appState, windowAdaptiveInfo = windowAdaptiveInfo)
     }
+  }
 }
 
 @Composable
@@ -50,46 +50,41 @@ internal fun InventoryAppLayout(
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
 ) {
-    val topLevelBackStack = remember{ TopLevelBackStack<NavKey>(AssetsRoute)}
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
+  val topLevelBackStack = remember { TopLevelBackStack<NavKey>(AssetsRoute) }
+  val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
-    InventoryNavigationSuiteScaffold(
-        navigationSuiteItems = {
-            topLevelDestinations.forEach { destination ->
-                val isSelected = destination.route == topLevelBackStack.topLevelKey
-                item(
-                    selected = isSelected,
-                    onClick = { topLevelBackStack.addTopLevel(destination.route) },
-                    icon = {
-                        Icon(imageVector = destination.unselectedIcon, contentDescription = null)
-                    },
-                    selectedIcon = {
-                        Icon(imageVector = destination.selectedIcon, contentDescription = null)
-                    },
-                    label = { Text(stringResource(destination.iconTextId)) },
-                    modifier = Modifier.testTag("InventoryNavItem").then(Modifier),
-                )
-            }
-        },
-        windowAdaptiveInfo = windowAdaptiveInfo,
-    ) {
-        Scaffold(
-            modifier = modifier,
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        ) { padding ->
-            Column(
-                Modifier.fillMaxSize()
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
-                    )
-            ) {
-                DialogHost(dialogManager = appState.dialogManager, paddingValues = padding)
-                InventoryAppNavigator(topLevelBackStack = topLevelBackStack)
-            }
+  InventoryNavigationSuiteScaffold(
+      navigationSuiteItems = {
+        topLevelDestinations.forEach { destination ->
+          val isSelected = destination.route == topLevelBackStack.topLevelKey
+          item(
+              selected = isSelected,
+              onClick = { topLevelBackStack.addTopLevel(destination.route) },
+              icon = { Icon(imageVector = destination.unselectedIcon, contentDescription = null) },
+              selectedIcon = {
+                Icon(imageVector = destination.selectedIcon, contentDescription = null)
+              },
+              label = { Text(stringResource(destination.iconTextId)) },
+              modifier = Modifier.testTag("InventoryNavItem").then(Modifier),
+          )
         }
+      },
+      windowAdaptiveInfo = windowAdaptiveInfo,
+  ) {
+    Scaffold(
+        modifier = modifier,
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+    ) { padding ->
+      Column(
+          Modifier.fillMaxSize()
+              .padding(padding)
+              .consumeWindowInsets(padding)
+              .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))) {
+            DialogHost(dialogManager = appState.dialogManager, paddingValues = padding)
+            InventoryAppNavigator(topLevelBackStack = topLevelBackStack)
+          }
     }
+  }
 }

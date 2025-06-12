@@ -17,20 +17,20 @@ import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetEditor.AssetEditorScreen
 import kotlinx.serialization.Serializable
 
-@Serializable data object AssetsRoute :NavKey
+@Serializable data object AssetsRoute : NavKey
 
 @Serializable
-data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode) : NavKey
+data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode) :
+    NavKey
 
 @Serializable data class AssetDetailsRoute(val assetId: String) : NavKey
 
-fun NavBackStack.navigateToAssets() =
-    add(AssetsRoute)
+fun NavBackStack.navigateToAssets() = add(AssetsRoute)
 
 fun NavBackStack.navigateToAssetDetails(
     assetId: String,
 ) {
-    add(AssetDetailsRoute(assetId = assetId))
+  add(AssetDetailsRoute(assetId = assetId))
 }
 
 fun NavBackStack.navigateToAssetEditor(
@@ -38,11 +38,10 @@ fun NavBackStack.navigateToAssetEditor(
     assetEditorMode: AssetEditorMode,
 ) =
     add(
-  AssetEditorRoute(assetId = assetId, assetEditorMode = assetEditorMode),
+        AssetEditorRoute(assetId = assetId, assetEditorMode = assetEditorMode),
     )
 
-fun NavBackStack.navigateToAssetSearch() =
-    add( AssetsRoute)
+fun NavBackStack.navigateToAssetSearch() = add(AssetsRoute)
 
 fun EntryProviderBuilder<NavKey>.assetsSection(
     onAssetClick: (String) -> Unit,
@@ -50,48 +49,40 @@ fun EntryProviderBuilder<NavKey>.assetsSection(
     onNavigateToAssetEditorClick: (String?, AssetEditorMode) -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val assetAnimations = NavDisplay.transitionSpec {
-        slideInVertically(
-            initialOffsetY = { it },
-            animationSpec = tween(1000)
-        ) togetherWith ExitTransition.KeepUntilTransitionsFinished
-    } + NavDisplay.popTransitionSpec {
-        EnterTransition.None togetherWith
-                slideOutVertically(
-                    targetOffsetY = { it },
-                    animationSpec = tween(1000)
-                )
-    } + NavDisplay.predictivePopTransitionSpec {
-        EnterTransition.None togetherWith
-                slideOutVertically(
-                    targetOffsetY = { it },
-                    animationSpec = tween(1000)
-                )
-    }
-        entry<AssetsRoute>(
-            metadata = assetAnimations
-        ){
-            AssetsScreen(
-                onSearchClick = onSearchClick,
-                onAssetClick = onAssetClick,
-                onCreateAssetClick = { onNavigateToAssetEditorClick(null, AssetEditorMode.CREATE) },
-            )
-        }
-        entry<AssetDetailsRoute>(
-            metadata = assetAnimations
-        ){ backStackEntry ->
-            AssetDetailsScreen(
-                assetId = backStackEntry.assetId,
-                navigateBack = onBackClick,
-                onEditAssetClick = { onNavigateToAssetEditorClick(backStackEntry.assetId, AssetEditorMode.EDIT) },
-            )
-        }
-        entry<AssetEditorRoute>{ backStackEntry ->
-
-            AssetEditorScreen(
-                assetId = backStackEntry.assetId,
-                assetEditorMode = backStackEntry.assetEditorMode,
-                navigateBack = onBackClick,
-            )
-        }
-    }
+  val assetAnimations =
+      NavDisplay.transitionSpec {
+        slideInVertically(initialOffsetY = { it }, animationSpec = tween(1000)) togetherWith
+            ExitTransition.KeepUntilTransitionsFinished
+      } +
+          NavDisplay.popTransitionSpec {
+            EnterTransition.None togetherWith
+                slideOutVertically(targetOffsetY = { it }, animationSpec = tween(1000))
+          } +
+          NavDisplay.predictivePopTransitionSpec {
+            EnterTransition.None togetherWith
+                slideOutVertically(targetOffsetY = { it }, animationSpec = tween(1000))
+          }
+  entry<AssetsRoute>(metadata = assetAnimations) {
+    AssetsScreen(
+        onSearchClick = onSearchClick,
+        onAssetClick = onAssetClick,
+        onCreateAssetClick = { onNavigateToAssetEditorClick(null, AssetEditorMode.CREATE) },
+    )
+  }
+  entry<AssetDetailsRoute>(metadata = assetAnimations) { backStackEntry ->
+    AssetDetailsScreen(
+        assetId = backStackEntry.assetId,
+        navigateBack = onBackClick,
+        onEditAssetClick = {
+          onNavigateToAssetEditorClick(backStackEntry.assetId, AssetEditorMode.EDIT)
+        },
+    )
+  }
+  entry<AssetEditorRoute>(metadata = assetAnimations) { backStackEntry ->
+    AssetEditorScreen(
+        assetId = backStackEntry.assetId,
+        assetEditorMode = backStackEntry.assetEditorMode,
+        navigateBack = onBackClick,
+    )
+  }
+}
