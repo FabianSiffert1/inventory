@@ -1,10 +1,7 @@
 package io.siffert.mobile.app.feature.assets.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.navigation3.runtime.EntryProviderBuilder
 import androidx.navigation3.runtime.NavBackStack
@@ -51,16 +48,16 @@ fun EntryProviderBuilder<NavKey>.assetsSection(
 ) {
   val assetAnimations =
       NavDisplay.transitionSpec {
-        slideInVertically(initialOffsetY = { it }, animationSpec = tween(1000)) togetherWith
-            ExitTransition.KeepUntilTransitionsFinished
+        slideInHorizontally(initialOffsetX = { it }) togetherWith
+            slideOutHorizontally(targetOffsetX = { -it })
       } +
           NavDisplay.popTransitionSpec {
-            EnterTransition.None togetherWith
-                slideOutVertically(targetOffsetY = { it }, animationSpec = tween(1000))
+            slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                slideOutHorizontally(targetOffsetX = { it })
           } +
           NavDisplay.predictivePopTransitionSpec {
-            EnterTransition.None togetherWith
-                slideOutVertically(targetOffsetY = { it }, animationSpec = tween(1000))
+            slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                slideOutHorizontally(targetOffsetX = { it })
           }
   entry<AssetsRoute>(metadata = assetAnimations) {
     AssetsScreen(
