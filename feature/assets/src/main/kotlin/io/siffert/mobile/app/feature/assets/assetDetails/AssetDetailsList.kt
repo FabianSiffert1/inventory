@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.priceChart.PriceChart
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetClassIcon
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.toFullDateString
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.mapper.getDisplayName
@@ -83,6 +84,7 @@ internal fun AssetDetailsList(asset: Asset, modifier: Modifier = Modifier) {
                 },
             )
         }
+        // PriceChart()
 
         asset.saleInfo?.let {
             ListItem(
