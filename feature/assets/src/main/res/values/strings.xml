@@ -48,6 +48,7 @@
     --- Price Overview
     <string name="feature_asset_price_overview_price_history">Asset Price History</string>
     <string name="feature_asset_price_overview_add_price_description">Add Price History Event</string>
+    <string name="feature_asset_price_overview_asset_name">Asset Name</string>
 
     --- Asset Class
     <string name="feature_assets_class_digital_asset">Digital Asset</string>
@@ -56,6 +57,7 @@
 
     --- Various
     <string name="feature_assets_title">Assets</string>
+    <string name="feature_assets_loading">Loading…</string>
     <string name="feature_assets_top_app_bar_add_asset">Add Asset</string>
     <string name="feature_assets_top_app_bar_asset_details_title">Asset Details</string>
     <string name="feature_assets_top_app_bar_search">Search</string>

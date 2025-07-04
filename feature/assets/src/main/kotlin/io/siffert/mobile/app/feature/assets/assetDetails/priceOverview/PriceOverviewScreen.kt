@@ -19,12 +19,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.core.common.dialog.AppDialog
 import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
+import io.siffert.mobile.app.feature.assets.R
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.toFullDateString
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Code
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
@@ -75,8 +78,10 @@ private fun PriceOverviewScreenContent(
         PriceOverviewTopBar(
             assetName =
                 when (uiState) {
-                  PriceOverviewScreenUiState.Empty,
-                  PriceOverviewScreenUiState.Loading -> "Implement States"
+                  PriceOverviewScreenUiState.Loading ->
+                      stringResource(id = R.string.feature_assets_loading)
+                  PriceOverviewScreenUiState.Empty ->
+                      stringResource(id = R.string.feature_asset_price_overview_asset_name)
                   is PriceOverviewScreenUiState.Success -> uiState.assetName
                 },
             assetSaleInfo = null,
@@ -86,8 +91,9 @@ private fun PriceOverviewScreenContent(
   ) { paddingValues ->
     Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) {
       when (it) {
-        PriceOverviewScreenUiState.Empty -> Text("TODO: empty state")
-        PriceOverviewScreenUiState.Loading -> Text("TODO: LoadingState")
+          // Empty should never occur
+        PriceOverviewScreenUiState.Empty,
+        PriceOverviewScreenUiState.Loading -> AssetListLoadingState()
         is PriceOverviewScreenUiState.Success ->
             PriceOverviewList(
                 assetPriceList = it.assetList,
