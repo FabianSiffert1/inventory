@@ -13,5 +13,7 @@
     <string name="dialogs_price_history_editor_create">Add Price Event</string>
     <string name="dialogs_price_history_editor_edit">Edit Price Event</string>
     <string name="dialogs_price_history_editor_price">Price:</string>
+    <string name="dialogs_price_history_editor_date">Date:</string>
+    <string name="dialogs_price_history_editor_date_description">Select date</string>
 
 </resources>
