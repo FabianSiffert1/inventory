@@ -29,7 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import java.text.SimpleDateFormat
@@ -44,61 +46,87 @@ fun EditPriceEventDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     message: String? = null,
-) =
-    Column(
-        modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)) {
-          val title =
-              if (priceHistoryEntry == null)
-                  stringResource(id = R.string.dialogs_price_history_editor_create)
-              else stringResource(id = R.string.dialogs_price_history_editor_edit)
+) {
+  val viewModel: EditPriceEventDialogViewModel = remember {
+    EditPriceEventDialogViewModel(priceHistoryEntry = priceHistoryEntry)
+  }
+  val price by viewModel.price.collectAsStateWithLifecycle()
+
+  EditPriceEventDialogContent(
+      modifier = modifier,
+      priceHistoryEntry = priceHistoryEntry,
+      message = message,
+      onDismiss = onDismiss,
+      onConfirm = onConfirm,
+      price = price,
+      onPriceInputChange = { viewModel::onPriceChange })
+}
+
+@Composable
+private fun EditPriceEventDialogContent(
+    modifier: Modifier,
+    priceHistoryEntry: PriceHistoryEntry?,
+    message: String?,
+    onPriceInputChange: () -> Unit,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+    price: TextFieldValue,
+) {
+  Column(
+      modifier
+          .fillMaxWidth()
+          .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
+          .padding(16.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        val title =
+            if (priceHistoryEntry == null)
+                stringResource(id = R.string.dialogs_price_history_editor_create)
+            else stringResource(id = R.string.dialogs_price_history_editor_edit)
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+
+        EditPriceEventTextField(
+            input = price,
+            inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
+            onInputChange = { onPriceInputChange })
+
+        DatePickerFieldToModal(selectedDate = priceHistoryEntry?.timestamp?.toEpochMilliseconds())
+
+        message?.let {
           Text(
-              text = title,
-              style = MaterialTheme.typography.titleMedium,
+              text = it,
+              style = MaterialTheme.typography.bodyMedium,
               color = MaterialTheme.colorScheme.onSurface,
           )
+        }
 
-          EditPriceEventTextField(
-              input = priceHistoryEntry?.value?.toString() ?: "0",
-              inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
-              onInputChange = {})
-
-          DatePickerFieldToModal(selectedDate = priceHistoryEntry?.timestamp?.toEpochMilliseconds())
-
-          message?.let {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+          TextButton(
+              onClick = onDismiss,
+              shape = RoundedCornerShape(16.dp),
+          ) {
             Text(
-                text = it,
-                style = MaterialTheme.typography.bodyMedium,
+                text = stringResource(id = R.string.dialogs_cancel),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            )
+          }
+          TextButton(
+              onClick = onConfirm,
+              shape = RoundedCornerShape(16.dp),
+          ) {
+            Text(
+                text = stringResource(id = R.string.dialogs_confirm),
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
           }
-
-          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-              TextButton(
-                  onClick = onDismiss,
-                  shape = RoundedCornerShape(16.dp),
-              ) {
-                  Text(
-                      text = stringResource(id = R.string.dialogs_cancel),
-                      style = MaterialTheme.typography.titleMedium,
-                      color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                  )
-              }
-            TextButton(
-                onClick = onConfirm,
-                shape = RoundedCornerShape(16.dp),
-            ) {
-              Text(
-                  text = stringResource(id = R.string.dialogs_confirm),
-                  style = MaterialTheme.typography.titleMedium,
-                  color = MaterialTheme.colorScheme.onSurface,
-              )
-            }
-          }
         }
+      }
+}
 
 @Composable
 fun DatePickerFieldToModal(selectedDate: Long?, modifier: Modifier = Modifier) {

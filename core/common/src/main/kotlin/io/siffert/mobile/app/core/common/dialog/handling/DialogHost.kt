@@ -12,7 +12,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun DialogHost(
     dialogManager: DialogManager,
     paddingValues: PaddingValues,
-    modifier: Modifier = Modifier,
 ) {
     val currentDialog = dialogManager.currentDialog.collectAsStateWithLifecycle(null).value
 

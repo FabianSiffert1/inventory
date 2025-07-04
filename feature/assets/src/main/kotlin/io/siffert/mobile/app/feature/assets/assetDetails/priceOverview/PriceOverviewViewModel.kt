@@ -15,7 +15,7 @@ import kotlinx.datetime.Clock
 sealed interface PriceOverviewScreenUiState {
   data object Loading : PriceOverviewScreenUiState
 
-  data object Empty : PriceOverviewScreenUiState
+  data object Failure : PriceOverviewScreenUiState
 
   data class Success(
       val assetList: List<PriceHistoryEntry>,
@@ -35,7 +35,7 @@ class PriceOverviewViewModel(assetId: String, private val assetRepository: Asset
               asset != null ->
                   PriceOverviewScreenUiState.Success(
                       assetList = testData, assetName = asset.name, assetCurrency = asset.currency)
-              else -> PriceOverviewScreenUiState.Empty
+              else -> PriceOverviewScreenUiState.Failure
             }
       }
     }
@@ -46,7 +46,7 @@ class PriceOverviewViewModel(assetId: String, private val assetRepository: Asset
           PriceHistoryEntry(
               id = "entryId1",
               assetId = "assetId1",
-              value = 1.12312312312321321321312,
+              value =6.50,
               timestamp = Clock.System.now(),
           ),
           PriceHistoryEntry(

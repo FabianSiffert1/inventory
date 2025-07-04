@@ -80,7 +80,7 @@ private fun PriceOverviewScreenContent(
                 when (uiState) {
                   PriceOverviewScreenUiState.Loading ->
                       stringResource(id = R.string.feature_assets_loading)
-                  PriceOverviewScreenUiState.Empty ->
+                  PriceOverviewScreenUiState.Failure ->
                       stringResource(id = R.string.feature_asset_price_overview_asset_name)
                   is PriceOverviewScreenUiState.Success -> uiState.assetName
                 },
@@ -91,9 +91,8 @@ private fun PriceOverviewScreenContent(
   ) { paddingValues ->
     Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) {
       when (it) {
-          // Empty should never occur
-        PriceOverviewScreenUiState.Empty,
         PriceOverviewScreenUiState.Loading -> AssetListLoadingState()
+        PriceOverviewScreenUiState.Failure -> Text("Implement: Error State")
         is PriceOverviewScreenUiState.Success ->
             PriceOverviewList(
                 assetPriceList = it.assetList,

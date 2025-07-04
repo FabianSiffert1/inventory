@@ -2,7 +2,6 @@ package io.siffert.mobile.app.core.common.dialog.dialogs
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,7 +15,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -28,78 +26,71 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.core.common.R
 
-
 @Composable
 internal fun EditPriceEventTextField(
-    input: String,
+    input: TextFieldValue,
     inputLabel: String,
     onInputChange: (String) -> Unit,
     onComplete: (String) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
-    val focusRequester = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
+  val focusRequester = remember { FocusRequester() }
+  val keyboardController = LocalSoftwareKeyboardController.current
 
-    val onCompleteExplicitlyTriggered = {
-        keyboardController?.hide()
-        onComplete(input)
-    }
+  val onCompleteExplicitlyTriggered = {
+    keyboardController?.hide()
+    onComplete(input.text)
+  }
 
-    Box(modifier = Modifier.fillMaxWidth()) {
-        TextField(
-            colors =
-                TextFieldDefaults.colors(
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                ),
-            label = { Text(text = inputLabel) },
-            trailingIcon = {
-                if (input.isNotEmpty()) {
-                    IconButton(onClick = { onInputChange("") }) {
-                        Icon(
-                            imageVector = Icons.Filled.Clear,
-                            contentDescription = stringResource(id = R.string.dialogs_clear_text_field),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
+  Box(modifier = Modifier.fillMaxWidth()) {
+    TextField(
+        colors =
+            TextFieldDefaults.colors(
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+            ),
+        label = { Text(text = inputLabel) },
+        trailingIcon = {
+          if (input.text.isNotEmpty()) {
+            IconButton(onClick = { onInputChange("") }) {
+              Icon(
+                  imageVector = Icons.Filled.Clear,
+                  contentDescription = stringResource(id = R.string.dialogs_clear_text_field),
+                  tint = MaterialTheme.colorScheme.onSurface,
+              )
+            }
+          }
+        },
+        onValueChange = { newValue ->
+          if ("\n" in newValue.text) return@TextField
+
+          val filteredValue = newValue.text.filter { it.isDigit() || it == '.' }
+
+          onInputChange(filteredValue)
+        },
+        modifier =
+            Modifier.fillMaxWidth()
+                .focusRequester(focusRequester)
+                .onKeyEvent {
+                  if (it.key == Key.Enter) {
+                    if (input.text.isBlank()) return@onKeyEvent false
+                    onCompleteExplicitlyTriggered()
+                    true
+                  } else false
                 }
-            },
-            onValueChange = { newValue ->
-                if ("\n" in newValue) return@TextField
-
-                val filteredValue = newValue.filter { it.isDigit() || it == '.' }
-
-                onInputChange(filteredValue)
-            },
-            modifier =
-                Modifier.fillMaxWidth()
-                    .focusRequester(focusRequester)
-                    .onKeyEvent {
-                        if (it.key == Key.Enter) {
-                            if (input.isBlank()) return@onKeyEvent false
-                            onCompleteExplicitlyTriggered()
-                            true
-                        } else false
-                    }
-                    .testTag("editPriceEventTextField"),
-            shape = RoundedCornerShape(4.dp),
-            value = input,
-            keyboardOptions =
-                    keyboardOptions.copy(keyboardType = KeyboardType.Number)
-,
-            keyboardActions =
-                KeyboardActions(
-                    onSearch = {
-                            onCompleteExplicitlyTriggered()
-                    }
-                ),
-            singleLine = true,
-            maxLines =  1,
-        )
-    }
+                .testTag("editPriceEventTextField"),
+        shape = RoundedCornerShape(4.dp),
+        value = input,
+        keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
+        keyboardActions = KeyboardActions(onSearch = { onCompleteExplicitlyTriggered() }),
+        singleLine = true,
+        maxLines = 1,
+    )
+  }
 }
