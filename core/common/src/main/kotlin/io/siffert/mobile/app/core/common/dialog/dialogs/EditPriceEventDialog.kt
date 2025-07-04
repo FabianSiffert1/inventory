@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,16 +28,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.core.common.R
-import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlinx.datetime.Clock
 
 @Composable
 fun EditPriceEventDialog(
@@ -65,7 +62,7 @@ fun EditPriceEventDialog(
           )
 
           EditPriceEventTextField(
-              input = priceHistoryEntry?.value.toString(),
+              input = priceHistoryEntry?.value?.toString() ?: "",
               inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
               onInputChange = {})
 
@@ -80,6 +77,16 @@ fun EditPriceEventDialog(
           }
 
           Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+              TextButton(
+                  onClick = onDismiss,
+                  shape = RoundedCornerShape(16.dp),
+              ) {
+                  Text(
+                      text = stringResource(id = R.string.dialogs_cancel),
+                      style = MaterialTheme.typography.titleMedium,
+                      color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                  )
+              }
             TextButton(
                 onClick = onConfirm,
                 shape = RoundedCornerShape(16.dp),
@@ -94,10 +101,9 @@ fun EditPriceEventDialog(
         }
 
 @Composable
-fun DatePickerFieldToModal(
-    selectedDate: Long?,
-    modifier: Modifier = Modifier) {
-  var selectedDate by remember { mutableStateOf<Long?>(selectedDate) }
+fun DatePickerFieldToModal(selectedDate: Long?, modifier: Modifier = Modifier) {
+  val dateToDisplay = selectedDate ?: Clock.System.now().toEpochMilliseconds()
+  var selectedDate by remember { mutableStateOf<Long?>(dateToDisplay) }
   var showModal by remember { mutableStateOf(false) }
 
   OutlinedTextField(
