@@ -21,6 +21,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.feature.assets.R
+import io.siffert.mobile.app.inventory.core.designsystem.icons.AddCircle
+import io.siffert.mobile.app.inventory.core.designsystem.icons.Delete
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Gavel
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
@@ -32,6 +34,7 @@ internal fun PriceOverviewTopBar(
     modifier: Modifier = Modifier,
     assetName: String?,
     assetSaleInfo: SaleEntry?,
+    onAddPriceHistoryEntryClick: () -> Unit,
 ) {
   CenterAlignedTopAppBar(
       title = {
@@ -57,7 +60,15 @@ internal fun PriceOverviewTopBar(
           )
         }
       },
-      actions = {},
+      actions = {
+          IconButton(onClick = onAddPriceHistoryEntryClick) {
+              Icon(
+                  imageVector = Cozy.icon.AddCircle,
+                  contentDescription =
+                      stringResource(id = R.string.feature_asset_price_overview_add_price_description),
+              )
+          }
+      },
       colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
       modifier = modifier.testTag("priceOverviewTopBar"),
   )

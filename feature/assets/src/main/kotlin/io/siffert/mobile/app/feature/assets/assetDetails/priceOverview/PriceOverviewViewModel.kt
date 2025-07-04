@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.Clock
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
 
 sealed interface PriceOverviewScreenUiState {
@@ -34,7 +35,13 @@ class PriceOverviewViewModel(assetId : String) : ViewModel() {
                 id = "priceHistoryEntryId2",
                 assetId = "assetid2",
                 value = 132919.12,
-                timestamp = Clock.System.now(),
+                timestamp = Clock.System.now().minus(2.days),
+            ),
+            PriceHistoryEntry(
+                id = "priceHistoryEntryId3",
+                assetId = "assetid3",
+                value = 132.12,
+                timestamp = Clock.System.now().minus(1.days),
             )
         )
     )
