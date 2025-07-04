@@ -20,7 +20,7 @@ val assetKoinModule = module {
             updateAssetUseCase = get(),
         )
     }
-    viewModel {
-        PriceOverviewViewModel()
+    viewModel { (assetId : String ) ->
+        PriceOverviewViewModel(assetId = assetId)
     }
 }

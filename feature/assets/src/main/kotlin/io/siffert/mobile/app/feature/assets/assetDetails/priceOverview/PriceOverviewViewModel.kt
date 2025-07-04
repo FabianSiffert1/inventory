@@ -20,7 +20,7 @@ sealed interface PriceOverviewScreenUiState {
 }
 
 
-class PriceOverviewViewModel : ViewModel() {
+class PriceOverviewViewModel(assetId : String) : ViewModel() {
 
     val testData = PriceOverviewScreenUiState.Success(
         listOf(

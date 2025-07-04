@@ -1,8 +1,7 @@
 package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.priceOverview
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,15 +11,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsList
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreenUiState
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreenViewModel
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsTopBar
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.ErrorAssetDetailsListItem
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.toFullDateString
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Code
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
@@ -29,6 +36,7 @@ import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Serializable data class PriceOverviewRoute(val assetId: String) : NavKey
 
@@ -37,22 +45,38 @@ fun PriceOverviewScreen(
     assetId: String?,
     navigateBack: () -> Unit,
 ) {
-  val viewModel: PriceOverviewViewModel = koinViewModel()
+  val viewModel: PriceOverviewViewModel = koinViewModel{ parametersOf(assetId)}
+
   val uiState: PriceOverviewScreenUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-  PriceOverviewScreenContent(uiState = uiState)
+  PriceOverviewScreenContent(uiState = uiState, navigateBack = navigateBack)
 }
 
 @Composable
-private fun PriceOverviewScreenContent(uiState: PriceOverviewScreenUiState) {
+private fun PriceOverviewScreenContent(
+    uiState: PriceOverviewScreenUiState,
+    navigateBack: () -> Unit,
+) {
 
-  Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-    when (uiState) {
-      PriceOverviewScreenUiState.Empty -> Text("TODO: empty state")
-      PriceOverviewScreenUiState.Loading -> Text("TODO: LoadingState")
-      is PriceOverviewScreenUiState.Success -> PriceOverviewList(assetPriceList = uiState.assetList)
+    Scaffold(
+        modifier = Modifier,
+        containerColor = Color.Transparent,
+        topBar = {
+            PriceOverviewTopBar(
+                assetName = "Placeholder",
+                assetSaleInfo = null,
+                onBackClick = navigateBack
+            )
+        },
+    ) { paddingValues ->
+        Crossfade(modifier = Modifier.padding(paddingValues), targetState = uiState) {
+            when (it) {
+                PriceOverviewScreenUiState.Empty -> Text("TODO: empty state")
+                PriceOverviewScreenUiState.Loading -> Text("TODO: LoadingState")
+                is PriceOverviewScreenUiState.Success -> PriceOverviewList(assetPriceList = it.assetList)
+            }
+        }
     }
-  }
 }
 
 @Composable
