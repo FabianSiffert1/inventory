@@ -15,8 +15,4 @@ class EditPriceEventDialogViewModel(priceHistoryEntry: PriceHistoryEntry?) : Vie
   fun onPriceChange(newValue: TextFieldValue) {
     _price.value = newValue
   }
-
-    fun savePriceEvent(){
-        println(price)
-    }
 }

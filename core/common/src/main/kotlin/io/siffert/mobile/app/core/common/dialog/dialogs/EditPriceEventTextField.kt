@@ -37,7 +37,6 @@ internal fun EditPriceEventTextField(
     input: TextFieldValue,
     inputLabel: String,
     onInputChange: (TextFieldValue) -> Unit,
-    onComplete: (String) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     val focusManager = LocalFocusManager.current

@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
+import kotlinx.datetime.Clock
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlinx.datetime.Clock
 
 @Composable
 fun EditPriceEventDialog(
@@ -59,7 +59,7 @@ fun EditPriceEventDialog(
       onDismiss = onDismiss,
       onConfirm = onConfirm,
       price = price,
-      onPriceInputChange = viewModel::onPriceChange )
+      onPriceInputChange = viewModel::onPriceChange)
 }
 
 @Composable
@@ -91,7 +91,7 @@ private fun EditPriceEventDialogContent(
         EditPriceEventTextField(
             input = price,
             inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
-            onInputChange =  onPriceInputChange )
+            onInputChange = onPriceInputChange)
 
         DatePickerFieldToModal(selectedDate = priceHistoryEntry?.timestamp?.toEpochMilliseconds())
 
