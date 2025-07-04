@@ -5,13 +5,9 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,7 +15,6 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -30,17 +25,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
@@ -61,8 +51,7 @@ fun EditPriceEventDialog(
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
             .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        verticalArrangement = Arrangement.spacedBy(12.dp)) {
           val title =
               if (priceHistoryEntry == null)
                   stringResource(id = R.string.dialogs_price_history_editor_create)
@@ -73,14 +62,12 @@ fun EditPriceEventDialog(
               color = MaterialTheme.colorScheme.onSurface,
           )
 
-        EditPriceEventTextField(
-            input = priceHistoryEntry?.value.toString(),
-            inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
-            onInputChange = {}
-        )
+          EditPriceEventTextField(
+              input = priceHistoryEntry?.value.toString(),
+              inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
+              onInputChange = {})
 
-        DatePickerFieldToModal()
-
+          DatePickerFieldToModal()
 
           message?.let {
             Text(
@@ -89,8 +76,6 @@ fun EditPriceEventDialog(
                 color = MaterialTheme.colorScheme.onSurface,
             )
           }
-
-
 
           Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(
@@ -106,77 +91,67 @@ fun EditPriceEventDialog(
           }
         }
 
-
 @Composable
 fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
-    var selectedDate by remember { mutableStateOf<Long?>(null) }
-    var showModal by remember { mutableStateOf(false) }
+  var selectedDate by remember { mutableStateOf<Long?>(null) }
+  var showModal by remember { mutableStateOf(false) }
 
-    OutlinedTextField(
-        value = selectedDate?.let { convertMillisToDate(it) } ?: "",
-        onValueChange = { },
-        label = { Text(stringResource(id = R.string.dialogs_price_history_editor_date)) },
-        placeholder = { Text("DD/MM/YYYY") },
-        trailingIcon = {
-            Icon(Icons.Default.DateRange, contentDescription = stringResource(id = R.string.dialogs_price_history_editor_date_description))
-        },
-        modifier = modifier
-            .fillMaxWidth()
-            .pointerInput(selectedDate) {
-                awaitEachGesture {
-                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                    // in the Initial pass to observe events before the text field consumes them
-                    // in the Main pass.
-                    awaitFirstDown(pass = PointerEventPass.Initial)
-                    val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                    if (upEvent != null) {
-                        showModal = true
-                    }
-                }
+  OutlinedTextField(
+      value = selectedDate?.let { convertMillisToDate(it) } ?: "",
+      onValueChange = {},
+      label = { Text(stringResource(id = R.string.dialogs_price_history_editor_date)) },
+      placeholder = { Text("DD/MM/YYYY") },
+      trailingIcon = {
+        Icon(
+            Icons.Default.DateRange,
+            contentDescription =
+                stringResource(id = R.string.dialogs_price_history_editor_date_description))
+      },
+      modifier =
+          modifier.fillMaxWidth().pointerInput(selectedDate) {
+            awaitEachGesture {
+              // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
+              // in the Initial pass to observe events before the text field consumes them
+              // in the Main pass.
+              awaitFirstDown(pass = PointerEventPass.Initial)
+              val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+              if (upEvent != null) {
+                showModal = true
+              }
             }
-    )
+          })
 
-    if (showModal) {
-        DatePickerModal(
-            onDateSelected = { selectedDate = it },
-            onDismiss = { showModal = false }
-        )
-    }
+  if (showModal) {
+    DatePickerModal(onDateSelected = { selectedDate = it }, onDismiss = { showModal = false })
+  }
 }
 
 @Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
+fun DatePickerModal(onDateSelected: (Long?) -> Unit, onDismiss: () -> Unit) {
+  val datePickerState = rememberDatePickerState()
 
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
+  DatePickerDialog(
+      onDismissRequest = onDismiss,
+      confirmButton = {
+        TextButton(
+            onClick = {
+              onDateSelected(datePickerState.selectedDateMillis)
+              onDismiss()
             }) {
-                Text( stringResource(id = R.string.dialogs_confirm))
+              Text(stringResource(id = R.string.dialogs_confirm))
             }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text( stringResource(id = R.string.dialogs_cancel))
-            }
-        }
-    ) {
+      },
+      dismissButton = {
+        TextButton(onClick = onDismiss) { Text(stringResource(id = R.string.dialogs_cancel)) }
+      }) {
         DatePicker(state = datePickerState)
-    }
+      }
 }
-
 
 fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
+  val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+  return formatter.format(Date(millis))
 }
-
 
 @Composable
 @PreviewLightDark
