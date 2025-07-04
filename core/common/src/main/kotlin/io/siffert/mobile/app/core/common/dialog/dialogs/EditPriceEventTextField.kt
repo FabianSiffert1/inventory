@@ -34,7 +34,7 @@ import io.siffert.mobile.app.core.common.R
 internal fun EditPriceEventTextField(
     input: TextFieldValue,
     inputLabel: String,
-    onInputChange: (String) -> Unit,
+    onInputChange: (TextFieldValue) -> Unit,
     onComplete: (String) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
@@ -58,7 +58,7 @@ internal fun EditPriceEventTextField(
         label = { Text(text = inputLabel) },
         trailingIcon = {
           if (input.text.isNotEmpty()) {
-            IconButton(onClick = { onInputChange("") }) {
+            IconButton(onClick = { onInputChange(TextFieldValue()) }) {
               Icon(
                   imageVector = Icons.Filled.Clear,
                   contentDescription = stringResource(id = R.string.dialogs_clear_text_field),
@@ -68,11 +68,9 @@ internal fun EditPriceEventTextField(
           }
         },
         onValueChange = { newValue ->
-          if ("\n" in newValue.text) return@TextField
-
           val filteredValue = newValue.text.filter { it.isDigit() || it == '.' }
 
-          onInputChange(filteredValue)
+          onInputChange(TextFieldValue(filteredValue))
         },
         modifier =
             Modifier.fillMaxWidth()

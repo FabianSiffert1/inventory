@@ -59,7 +59,7 @@ fun EditPriceEventDialog(
       onDismiss = onDismiss,
       onConfirm = onConfirm,
       price = price,
-      onPriceInputChange = { viewModel::onPriceChange })
+      onPriceInputChange = viewModel::onPriceChange )
 }
 
 @Composable
@@ -67,7 +67,7 @@ private fun EditPriceEventDialogContent(
     modifier: Modifier,
     priceHistoryEntry: PriceHistoryEntry?,
     message: String?,
-    onPriceInputChange: () -> Unit,
+    onPriceInputChange: (TextFieldValue) -> Unit,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
     price: TextFieldValue,
@@ -91,7 +91,7 @@ private fun EditPriceEventDialogContent(
         EditPriceEventTextField(
             input = price,
             inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
-            onInputChange = { onPriceInputChange })
+            onInputChange =  onPriceInputChange )
 
         DatePickerFieldToModal(selectedDate = priceHistoryEntry?.timestamp?.toEpochMilliseconds())
 

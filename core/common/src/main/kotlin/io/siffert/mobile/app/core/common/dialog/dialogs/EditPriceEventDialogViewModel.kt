@@ -7,14 +7,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class EditPriceEventDialogViewModel(priceHistoryEntry: PriceHistoryEntry?) : ViewModel() {
-
   private val _price =
       MutableStateFlow(
-          if (priceHistoryEntry?.value != null) TextFieldValue(priceHistoryEntry.value.toString())
-          else TextFieldValue())
+          priceHistoryEntry?.value?.toString()?.let { TextFieldValue(it) } ?: TextFieldValue())
   val price = _price.asStateFlow()
 
   fun onPriceChange(newValue: TextFieldValue) {
     _price.value = newValue
   }
+
+    fun savePriceEvent(){
+        println(price)
+    }
 }
