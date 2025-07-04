@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,8 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
@@ -151,20 +153,4 @@ fun DatePickerModal(onDateSelected: (Long?) -> Unit, onDismiss: () -> Unit) {
 fun convertMillisToDate(millis: Long): String {
   val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
   return formatter.format(Date(millis))
-}
-
-@Composable
-@PreviewLightDark
-private fun Preview() = InventoryTheme {
-  Column(
-      modifier = Modifier.background(color = MaterialTheme.colorScheme.onSurface).padding(16.dp),
-      verticalArrangement = Arrangement.spacedBy(16.dp),
-  ) {
-    EditPriceEventDialog(priceHistoryEntry = null, onDismiss = {}, onConfirm = {})
-    EditPriceEventDialog(
-        message = "Optional message: This dialog lets users enter/edit a price/date combination",
-        onDismiss = {},
-        onConfirm = {},
-        priceHistoryEntry = null)
-  }
 }
