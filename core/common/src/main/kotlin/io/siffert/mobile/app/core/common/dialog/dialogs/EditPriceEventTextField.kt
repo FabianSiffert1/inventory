@@ -22,9 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -38,13 +40,7 @@ internal fun EditPriceEventTextField(
     onComplete: (String) -> Unit = {},
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
-  val focusRequester = remember { FocusRequester() }
-  val keyboardController = LocalSoftwareKeyboardController.current
-
-  val onCompleteExplicitlyTriggered = {
-    keyboardController?.hide()
-    onComplete(input.text)
-  }
+    val focusManager = LocalFocusManager.current
 
   Box(modifier = Modifier.fillMaxWidth()) {
     TextField(
@@ -68,25 +64,17 @@ internal fun EditPriceEventTextField(
           }
         },
         onValueChange = { newValue ->
-          val filteredValue = newValue.text.filter { it.isDigit() || it == '.' }
-
-          onInputChange(TextFieldValue(filteredValue))
+            val filtered = newValue.text.filter { it.isDigit() || it == '.' }
+            val adjusted = newValue.copy(text = filtered)
+            onInputChange(adjusted)
         },
         modifier =
             Modifier.fillMaxWidth()
-                .focusRequester(focusRequester)
-                .onKeyEvent {
-                  if (it.key == Key.Enter) {
-                    if (input.text.isBlank()) return@onKeyEvent false
-                    onCompleteExplicitlyTriggered()
-                    true
-                  } else false
-                }
                 .testTag("editPriceEventTextField"),
         shape = RoundedCornerShape(4.dp),
         value = input,
         keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
-        keyboardActions = KeyboardActions(onSearch = { onCompleteExplicitlyTriggered() }),
+        keyboardActions = KeyboardActions { focusManager.clearFocus() },
         singleLine = true,
         maxLines = 1,
     )
