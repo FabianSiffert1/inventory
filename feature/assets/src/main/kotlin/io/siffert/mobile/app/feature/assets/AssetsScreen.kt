@@ -21,14 +21,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.AssetsScreenTopBar
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverview.EmptyAssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetOverviewList.AssetOverviewList
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Code
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
+import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 
+@Serializable data object AssetsRoute : NavKey
 @Composable
 internal fun AssetsScreen(
     onAssetClick: (String) -> Unit,

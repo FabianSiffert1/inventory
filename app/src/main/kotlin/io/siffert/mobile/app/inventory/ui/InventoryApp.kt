@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.core.common.dialog.handling.DialogHost
-import io.siffert.mobile.app.feature.assets.navigation.AssetsRoute
+import io.siffert.mobile.app.feature.assets.AssetsRoute
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryGradientBackground
 import io.siffert.mobile.app.inventory.core.designsystem.component.InventoryNavigationSuiteScaffold

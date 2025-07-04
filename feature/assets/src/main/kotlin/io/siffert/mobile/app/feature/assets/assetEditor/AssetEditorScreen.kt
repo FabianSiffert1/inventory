@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.core.common.dialog.AppDialog
 import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
 import io.siffert.mobile.app.core.common.flow.LoadingState
@@ -29,10 +30,14 @@ import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.AssetListLoadingState
 import io.siffert.mobile.app.model.data.Asset
 import io.siffert.mobile.app.model.data.Currency
+import kotlinx.serialization.Serializable
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
+@Serializable
+data class AssetEditorRoute(val assetId: String? = null, val assetEditorMode: AssetEditorMode) :
+    NavKey
 @Composable
 internal fun AssetEditorScreen(
     assetId: String?,

@@ -26,13 +26,6 @@ class AssetsScreenViewModel(
     private val assetRepository: AssetRepository,
     private val appEnvironment: AppEnvironment,
 ) : ViewModel() {
-
-    /*
-    init {
-        viewModelScope.launch { assetRepository.upsertAssets(exampleAssetList) }
-    }
-     */
-
     val uiState: StateFlow<AssetsScreenUiState> =
         assetRepository
             .getAssetsFlow()

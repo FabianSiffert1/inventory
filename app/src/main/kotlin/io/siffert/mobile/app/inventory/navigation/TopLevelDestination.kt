@@ -3,8 +3,8 @@ package io.siffert.mobile.app.inventory.navigation
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
+import io.siffert.mobile.app.feature.assets.AssetsRoute
 import io.siffert.mobile.app.feature.assets.R as assetsResource
-import io.siffert.mobile.app.feature.assets.navigation.AssetsRoute
 import io.siffert.mobile.app.feature.balance.R as balanceResource
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Chart
 import io.siffert.mobile.app.inventory.core.designsystem.icons.PiggyBank

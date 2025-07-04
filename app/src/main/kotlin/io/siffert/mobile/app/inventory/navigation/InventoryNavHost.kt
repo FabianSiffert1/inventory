@@ -14,6 +14,7 @@ import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import io.siffert.mobile.app.feature.assets.navigation.assetsSection
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetDetails
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetEditor
+import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetPriceOverview
 import io.siffert.mobile.app.feature.assets.navigation.navigateToAssetSearch
 import io.siffert.mobile.app.inventory.feature.balance.navigation.balanceSection
 import io.siffert.mobile.app.inventory.ui.TopLevelBackStack
@@ -55,6 +56,9 @@ fun InventoryAppNavigator(
                 onNavigateToAssetEditorClick = { assetId, assetEditorMode ->
                   backStack.navigateToAssetEditor(
                       assetId = assetId, assetEditorMode = assetEditorMode)
+                },
+                onNavigateToPriceOverviewClick = { assetId ->
+                  backStack.navigateToAssetPriceOverview(assetId = assetId)
                 },
                 onBackClick = { backStack.removeLastOrNull() },
             )
