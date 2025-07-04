@@ -2,9 +2,16 @@
 <resources>
     <string name="dialogs_confirm">Confirm</string>
     <string name="dialogs_cancel">Cancel</string>
+    <string name="dialogs_clear_text_field">Clear text field</string>
 
     -- Asset Deletion
     <string name="dialogs_asset_deletion_title">Delete Asset</string>
     <string name="dialogs_asset_deletion_subtitle">Are you sure you want to delete this asset? The data will be permanently removed and cannot be recovered.</string>
     <string name="dialogs_asset_deletion_button_confirm">Delete</string>
+
+    -- Price History Editor
+    <string name="dialogs_price_history_editor_create">Add Price Event</string>
+    <string name="dialogs_price_history_editor_edit">Edit Price Event</string>
+    <string name="dialogs_price_history_editor_price">Price:</string>
+
 </resources>

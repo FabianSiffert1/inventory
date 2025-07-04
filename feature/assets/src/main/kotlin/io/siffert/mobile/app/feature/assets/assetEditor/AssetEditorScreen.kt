@@ -47,8 +47,6 @@ internal fun AssetEditorScreen(
     val viewModel: AssetEditorScreenViewModel = koinViewModel { parametersOf(assetId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val dialogManager: DialogManager = koinInject()
-
     var isCurrencyBottomSheetVisible by remember { mutableStateOf(false) }
     var isAssetClassBottomSheetVisible by remember { mutableStateOf(false) }
 
@@ -62,22 +60,6 @@ internal fun AssetEditorScreen(
                 AssetEditorScreenUiCommand.ShowCurrencyBottomSheet -> {
                     isCurrencyBottomSheetVisible = !isCurrencyBottomSheetVisible
                 }
-
-                AssetEditorScreenUiCommand.ShowCurrentPriceEditEntryDialog ->
-                    dialogManager.enqueue(
-                        AppDialog.EditPriceDialog(
-                            when (uiState.assetToEditState) {
-                                is Present<Asset> -> {
-                                    (uiState.assetToEditState as Present<Asset>)
-                                        .value
-                                        .priceHistory
-                                        .last()
-                                }
-                                else -> null
-                            // todo: handle LoadingState.NotPresent -> Error!
-                            }
-                        )
-                    )
             }
         }
     }
@@ -103,7 +85,6 @@ internal fun AssetEditorScreen(
         },
         isCreateAssetButtonEnabled =
             uiState.isValidAsset && uiState.assetProcessingState != AssetProcessingState.Loading,
-        onClickPriceEditButton = viewModel::showEditPriceEntryDialog,
     )
 }
 
@@ -126,7 +107,6 @@ private fun AssetEditorScreenContent(
     onToggleAssetClassBottomSheet: () -> Unit,
     assetLoadingState: LoadingState<Asset>?,
     isCreateAssetButtonEnabled: Boolean,
-    onClickPriceEditButton: () -> Unit,
 ) {
 
     Scaffold(
@@ -149,7 +129,6 @@ private fun AssetEditorScreenContent(
                     .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            TextButton(onClick = onClickPriceEditButton) { Text("Debug Edit Price Dialog Button") }
             when (assetEditorMode) {
                 AssetEditorMode.CREATE ->
                     AssetEditorInputFields(

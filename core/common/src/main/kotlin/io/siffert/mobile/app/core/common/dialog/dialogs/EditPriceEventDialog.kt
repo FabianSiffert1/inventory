@@ -1,7 +1,6 @@
 package io.siffert.mobile.app.core.common.dialog.dialogs
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +19,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import io.siffert.mobile.app.core.common.R
 import io.siffert.mobile.app.inventory.core.designsystem.theme.InventoryTheme
+import io.siffert.mobile.app.model.data.PriceHistoryEntry
 
 @Composable
 fun EditPriceEventDialog(
-    title: String,
+    priceHistoryEntry: PriceHistoryEntry?,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
@@ -33,52 +33,64 @@ fun EditPriceEventDialog(
         modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp)
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+          val title =
+              if (priceHistoryEntry == null)
+                  stringResource(id = R.string.dialogs_price_history_editor_create)
+              else stringResource(id = R.string.dialogs_price_history_editor_edit)
+          Text(
+              text = title,
+              style = MaterialTheme.typography.titleMedium,
+              color = MaterialTheme.colorScheme.onSurface,
+          )
+
+        EditPriceEventTextField(
+            input = priceHistoryEntry?.value.toString(),
+            inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
+            onInputChange = {}
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
 
-        message?.let {
+          message?.let {
             Text(
                 text = it,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-        }
+          }
 
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+
+
+          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             TextButton(
                 onClick = onConfirm,
                 shape = RoundedCornerShape(16.dp),
             ) {
-                Text(
-                    text = stringResource(id = R.string.dialogs_confirm),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
+              Text(
+                  text = stringResource(id = R.string.dialogs_confirm),
+                  style = MaterialTheme.typography.titleMedium,
+                  color = MaterialTheme.colorScheme.onSurface,
+              )
             }
+          }
         }
-    }
+
+
 
 @Composable
 @PreviewLightDark
 private fun Preview() = InventoryTheme {
-    Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.onSurface).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        EditPriceEventDialog(title = "Edit Price Event Preview", onDismiss = {}, onConfirm = {})
-        EditPriceEventDialog(
-            title = "Edit Price Event Preview",
-            message =
-                "Optional message: This dialog lets users enter/edit a price/date combination",
-            onDismiss = {},
-            onConfirm = {},
-        )
-    }
+  Column(
+      modifier = Modifier.background(color = MaterialTheme.colorScheme.onSurface).padding(16.dp),
+      verticalArrangement = Arrangement.spacedBy(16.dp),
+  ) {
+    EditPriceEventDialog(priceHistoryEntry = null, onDismiss = {}, onConfirm = {})
+    EditPriceEventDialog(
+        message = "Optional message: This dialog lets users enter/edit a price/date combination",
+        onDismiss = {},
+        onConfirm = {},
+        priceHistoryEntry = null)
+  }
 }

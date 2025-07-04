@@ -51,7 +51,9 @@ fun PriceOverviewScreen(
       uiState = uiState,
       navigateBack = navigateBack,
       navigateToPriceEditorDialog = {
-        dialogManager.enqueue(AppDialog.EditPriceDialog(asset = null))
+        dialogManager.enqueue(AppDialog.EditPriceDialog(priceHistoryEntry = null, onConfirm = {
+            // todo: implement
+        }))
       })
 }
 
