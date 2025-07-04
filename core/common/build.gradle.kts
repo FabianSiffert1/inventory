@@ -13,6 +13,7 @@ dependencies {
 
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.material3.android)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.core)

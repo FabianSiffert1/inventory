@@ -69,7 +69,7 @@ fun EditPriceEventDialog(
               inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
               onInputChange = {})
 
-          DatePickerFieldToModal()
+          DatePickerFieldToModal(selectedDate = priceHistoryEntry?.timestamp?.toEpochMilliseconds())
 
           message?.let {
             Text(
@@ -94,8 +94,10 @@ fun EditPriceEventDialog(
         }
 
 @Composable
-fun DatePickerFieldToModal(modifier: Modifier = Modifier) {
-  var selectedDate by remember { mutableStateOf<Long?>(null) }
+fun DatePickerFieldToModal(
+    selectedDate: Long?,
+    modifier: Modifier = Modifier) {
+  var selectedDate by remember { mutableStateOf<Long?>(selectedDate) }
   var showModal by remember { mutableStateOf(false) }
 
   OutlinedTextField(

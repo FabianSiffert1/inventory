@@ -18,12 +18,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import io.siffert.mobile.app.core.common.dialog.AppDialog
 import io.siffert.mobile.app.core.common.dialog.handling.DialogManager
+import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.assetDetails.AssetDetailsScreenUiState
 import io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.assets.components.toFullDateString
 import io.siffert.mobile.app.inventory.core.designsystem.icons.Code
 import io.siffert.mobile.app.inventory.core.designsystem.theme.Cozy
@@ -51,7 +53,7 @@ fun PriceOverviewScreen(
       uiState = uiState,
       navigateBack = navigateBack,
       navigateToPriceEditorDialog = {
-        dialogManager.enqueue(AppDialog.EditPriceDialog(priceHistoryEntry = null, onConfirm = {
+        dialogManager.enqueue(AppDialog.EditPriceDialog(priceHistoryEntry = it, onConfirm = {
             // todo: implement
         }))
       })
@@ -69,7 +71,13 @@ private fun PriceOverviewScreenContent(
       containerColor = Color.Transparent,
       topBar = {
         PriceOverviewTopBar(
-            assetName = "Placeholder",
+            assetName =
+                when (uiState) {
+                    PriceOverviewScreenUiState.Empty,
+                    PriceOverviewScreenUiState.Loading -> "Implement States"
+                    is PriceOverviewScreenUiState.Success -> uiState.assetName
+                }
+            ,
             assetSaleInfo = null,
             onBackClick = navigateBack,
             onAddPriceHistoryEntryClick = { navigateToPriceEditorDialog(null) })
@@ -99,10 +107,12 @@ private fun PriceOverviewList(
     items(items = assetPriceList) { priceHistoryEntry ->
       ListItem(
           modifier =
-              Modifier.fillMaxWidth()
+              Modifier
+                  .fillMaxWidth()
                   .clip(shape = RoundedCornerShape(8.dp))
                   .clickable(
-                      enabled = true, onClick = { navigateToPriceEditorDialog(priceHistoryEntry) }),
+                      enabled = true, onClick = {
+                          navigateToPriceEditorDialog(priceHistoryEntry) }),
           colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
           leadingContent = {
             // todo: replace with arrow up, down sideways?
