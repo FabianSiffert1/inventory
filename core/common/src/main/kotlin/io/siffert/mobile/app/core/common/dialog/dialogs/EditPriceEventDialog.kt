@@ -62,7 +62,7 @@ fun EditPriceEventDialog(
           )
 
           EditPriceEventTextField(
-              input = priceHistoryEntry?.value?.toString() ?: "",
+              input = priceHistoryEntry?.value?.toString() ?: "0",
               inputLabel = stringResource(id = R.string.dialogs_price_history_editor_price),
               onInputChange = {})
 

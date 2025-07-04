@@ -90,7 +90,7 @@ private fun PriceOverviewScreenContent(
         is PriceOverviewScreenUiState.Success ->
             PriceOverviewList(
                 assetPriceList = it.assetList,
-                assetCurrency = Currency.EUR,
+                assetCurrency = it.assetCurrency,
                 navigateToPriceEditorDialog = navigateToPriceEditorDialog)
       }
     }

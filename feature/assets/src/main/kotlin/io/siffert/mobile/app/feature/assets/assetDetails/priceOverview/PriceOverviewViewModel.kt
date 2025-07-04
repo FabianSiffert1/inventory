@@ -2,14 +2,14 @@ package io.siffert.mobile.app.feature.assets.io.siffert.mobile.app.feature.asset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.siffert.mobile.app.core.data.repository.AssetRepository
+import io.siffert.mobile.app.model.data.Currency
 import io.siffert.mobile.app.model.data.PriceHistoryEntry
 import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.seconds
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 
 sealed interface PriceOverviewScreenUiState {
@@ -17,41 +17,52 @@ sealed interface PriceOverviewScreenUiState {
 
   data object Empty : PriceOverviewScreenUiState
 
-  data class Success(val assetList: List<PriceHistoryEntry>, val assetName: String) :
-      PriceOverviewScreenUiState
+  data class Success(
+      val assetList: List<PriceHistoryEntry>,
+      val assetName: String,
+      val assetCurrency: Currency
+  ) : PriceOverviewScreenUiState
 }
 
-class PriceOverviewViewModel(assetId: String) : ViewModel() {
+class PriceOverviewViewModel(assetId: String, private val assetRepository: AssetRepository) :
+    ViewModel() {
+
+  init {
+    viewModelScope.launch {
+      assetRepository.getAssetById(assetId).collect { asset ->
+        _uiState.value =
+            when {
+              asset != null ->
+                  PriceOverviewScreenUiState.Success(
+                      assetList = testData, assetName = asset.name, assetCurrency = asset.currency)
+              else -> PriceOverviewScreenUiState.Empty
+            }
+      }
+    }
+  }
 
   val testData =
-      PriceOverviewScreenUiState.Success(
-          assetList =
-              listOf(
-                  PriceHistoryEntry(
-                      id = "entryId1",
-                      assetId = "assetId1",
-                      value = 1.12312312312321321321312,
-                      timestamp = Clock.System.now(),
-                  ),
-                  PriceHistoryEntry(
-                      id = "priceHistoryEntryId2",
-                      assetId = "assetid2",
-                      value = 132919.12,
-                      timestamp = Clock.System.now().minus(2.days),
-                  ),
-                  PriceHistoryEntry(
-                      id = "priceHistoryEntryId3",
-                      assetId = "assetid3",
-                      value = 132.12,
-                      timestamp = Clock.System.now().minus(1.days),
-                  )),
-          assetName = "assetNamePlaceholder")
+      listOf(
+          PriceHistoryEntry(
+              id = "entryId1",
+              assetId = "assetId1",
+              value = 1.12312312312321321321312,
+              timestamp = Clock.System.now(),
+          ),
+          PriceHistoryEntry(
+              id = "priceHistoryEntryId2",
+              assetId = "assetid2",
+              value = 132919.12,
+              timestamp = Clock.System.now().minus(2.days),
+          ),
+          PriceHistoryEntry(
+              id = "priceHistoryEntryId3",
+              assetId = "assetid3",
+              value = 132.12,
+              timestamp = Clock.System.now().minus(1.days),
+          ))
 
-  val uiState: StateFlow<PriceOverviewScreenUiState> =
-      flowOf(testData)
-          .stateIn(
-              scope = viewModelScope,
-              started = SharingStarted.WhileSubscribed(5.seconds),
-              initialValue = PriceOverviewScreenUiState.Loading,
-          )
+  private val _uiState =
+      MutableStateFlow<PriceOverviewScreenUiState>(PriceOverviewScreenUiState.Loading)
+  val uiState: StateFlow<PriceOverviewScreenUiState> = _uiState.asStateFlow()
 }

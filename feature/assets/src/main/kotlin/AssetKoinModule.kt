@@ -21,6 +21,8 @@ val assetKoinModule = module {
         )
     }
     viewModel { (assetId : String ) ->
-        PriceOverviewViewModel(assetId = assetId)
+        PriceOverviewViewModel(assetId = assetId,
+                assetRepository = get(),
+            )
     }
 }
